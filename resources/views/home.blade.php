@@ -1,5 +1,23 @@
 @extends('layouts.app')
 
+@section('scripts')
+
+    <script>
+
+        $(document).ready(function(){
+
+            cargando("sk-folding-cube",'Guardando...');
+
+            HoldOn.close();
+
+        });
+
+
+
+    </script>
+
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">

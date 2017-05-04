@@ -12,13 +12,38 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}"></script>
+    {!! Html::script('js/jquery.js') !!}
+    {!! Html::script('js/vue.js') !!}
+    {!! Html::script('js/bootstrap.min.js') !!}
+    {!! Html::script('js/HoldOn.js') !!}
+    {!! Html::script('js/jquery.mask.js') !!}
+    {!! Html::style('css/HoldOn.css', array('media' => 'screen')) !!}
+    {!! Html::style('css/font-awesome.css', array('media' => 'screen')) !!}
 
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+
+        /*
+         Possible types: "sk-cube-grid", "sk-bounce", "sk-folding-cube","sk-circle","sk-dot","sk-falding-circle"
+         "sk-cube-grid", "custom"
+         */
+        function cargando(type,message){
+            HoldOn.open({
+                theme: type,
+                message:"<h4>"+message+"</h4>"
+            });
+
+            setTimeout(function(){
+                HoldOn.close();
+            },300000);
+        }
+
     </script>
+    @yield('scripts')
 </head>
 <body>
     <div id="app">
@@ -81,6 +106,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>
