@@ -43,7 +43,9 @@
         }
 
     </script>
-    @yield('scripts')
+
+
+
 </head>
 <body>
     <div id="app">
@@ -68,7 +70,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -102,10 +104,18 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container" id="main">
+            @yield('content')
+        </div>
     </div>
 
     <!-- Scripts -->
-
+    <script>
+        cargando("sk-folding-cube",'');
+    </script>
+    @yield('scripts')
+    <script>
+        HoldOn.close();
+    </script>
 </body>
 </html>
