@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Snowcone\Repositories\RepoUser;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    private $repoUser;
+
+    public function __construct(RepoUser $repoUser)
+    {
+        $this->repoUser = $repoUser;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +44,23 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,$this->getRules($request->get('id')));
+        $this->repoUser->createOrUpdateUser($request->toArray());
+
+        return \Response()->json(['success' => true],200);
+//        if($request->get('id'))
+//        {
+//            $this->repoUser->createOrUpdateUser($request->toArray());
+//        }
+//        else
+//        {
+//            $user = $this->repoUser->createUser($request->toArray());
+//            $this->repoUsersXNegocio->getModel()->firstOrCreate(['user_creador_id' => $user->id,'negocio_id' => auth()->user()->usersxnegocio->negocio_id]);
+//            $mail = new ShelterMailer();
+//            $mail->sendMailWelcome($user);
+
+//        }
+//        return redirect(route('usersxnegocio'))->with('alert','Guardado correctamente');
     }
 
     /**
@@ -82,5 +106,29 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function getRules($id)
+    {
+        if($id)
+        {
+            return [
+                'nombre' => 'required|max:255',
+                'apellido' => 'required|max:255',
+                'tipo_usuario_id' => 'required',
+                'dni' => 'required|max:255|unique:users,dni,'.$id.",id"
+            ];
+        }
+        else
+        {
+            return [
+                'nombre' => 'required|max:255',
+                'apellido' => 'required|max:255',
+                'tipo_usuario_id' => 'required',
+                'dni' => 'required|max:255|unique:users,dni,'.$id.",id",
+                'password' => 'required|min:6|confirmed'
+            ];
+
+        }
     }
 }

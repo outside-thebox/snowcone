@@ -13,6 +13,7 @@
                     apellido: '',
                     dni: '',
                     password: '',
+                    password_confirmation: '',
                     telefono: '',
                     tipo_usuario_id: ''
                 },
@@ -24,7 +25,6 @@
             },
             methods:{
                 createUser: function(){
-                    $(".form-control").removeClass("marcarError");
                     cargando("sk-folding-cube",'Guardando...');
                     var user = this.user;
                     user._token = this.token;
@@ -38,12 +38,13 @@
                             location.href = "{{ Route('master',1) }}";
                         },
                         error: function (jqXHR) {
-                            vm.errors = [];
-                            $.each(jqXHR.responseJSON,function(code,obj){
-                                $("#"+code).addClass("marcarError");
-                                vm.errors.push({ 'descripcion':  obj });
-                                HoldOn.close();
+                            var mensaje = "";
+                            $.each(JSON.parse(jqXHR.responseText),function(code,obj){
+                                mensaje += "<li>"+obj[0]+"</li><br>";
                             });
+                            $("#contenido-modal-1").html(mensaje);
+                            $("#confirmacion-1").modal(function(){show:true});
+                            HoldOn.close();
                         }
                     });
 
@@ -90,42 +91,9 @@
             vm.cargarDatos();
         @endif
 
-            $(document).ready(function(){
+        $(document).ready(function(){
 
-            /*$("#frmUsers").on("submit", function(e){
-
-                e.preventDefault();
-                var formData = new FormData(document.getElementById("frmUsers"));
-                var destino = "{{ Route('users.store') }}";
-                cargando("sk-folding-cube",'Guardando...');
-                $.ajax({
-                    type: "Post",
-                    url: destino,
-                    data: formData,
-                    assync: true,
-                    dataType: "html",
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(){
-                        location.href = "{{ Route('master',4) }}";
-                        HoldOn.close();
-                    },
-                    error: function(result) {
-                        var mensaje = "";
-                        $.each(JSON.parse(result.responseText),function(code,obj){
-                            mensaje += "<li>"+obj[0]+"</li><br>";
-                        });
-                        $("#contenido-modal-").html(mensaje);
-                        $("#confirmacion-").modal(function(){show:true});
-                        HoldOn.close();
-                    }
-
-
-                });
-
-
-            });*/
+            $("input:text[name=dni]").mask("00000000");
         });
     </script>
 
@@ -138,26 +106,44 @@
     <input type="hidden" name="id" value="" v-model="user.id">
 
     <div class="col-md-6">
-        {!! Field::text('nombre',null,['v-model' => 'user.nombre']) !!}
+        {!! Field::text('nombre',null,['v-model' => 'user.nombre', 'autofocus', 'required']) !!}
     </div>
     <div class="col-md-6">
-        {!! Field::text('apellido',null,['v-model' => 'user.apellido']) !!}
+        {!! Field::text('apellido',null,['v-model' => 'user.apellido', 'required']) !!}
     </div>
     <div class="col-md-6">
-        {!! Field::text('dni',null,['v-model' => 'user.dni']) !!}
+        {!! Field::text('dni',null,['v-model' => 'user.dni', 'required','placeholder']) !!}
     </div>
     <div class="col-md-6">
         {!! Field::text('telefono',null,['v-model' => 'user.telefono']) !!}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12 form-group">
         <div class="form-group">
             <label for="tipo_usuario_id" class="control-label">Tipo de usuario</label>
 
-            <select class="form-control" name="tipo_usuario_id" v-model="user.tipo_usuario_id_id">
+            <select class="form-control" name="tipo_usuario_id" v-model="user.tipo_usuario_id" required="required">
                 <option v-for="tipo_usuario in tipos_usuarios" value="@{{ tipo_usuario.id }}" >@{{ tipo_usuario.descripcion }}</option>
             </select>
         </div>
     </div>
+    @if(!isset($user))
+        <div class="col-md-6">
+            <label for="password" class="control-label">Password</label>
+            {{ Form::password('password',['class' => 'form-control','required','autofocus','v-model' => 'user.password']) }}
+        </div>
+        <div class="col-md-6">
+            <label for="password-confirmation" class="control-label">Repetir Password</label>
+            {{ Form::password('password_confirmation',['class' => 'form-control','required','v-model' => 'user.password_confirmation']) }}
+        </div>
+    @endif
+
+    <div class="col-md-12">
+        {!! Form::button("Guardar", ['type' => 'submit', 'class' => 'btn btn-primary pull-right', '@click' => 'createUser()']) !!}
+        <a href="{!! route('users.index') !!}" class="btn btn-success pull-right" style="margin-right: 10px">Cancelar</a>
+    </div>
+
+
+    @include('components.modal',['id' => 1,'accion' => 'Guardar'])
 
     <pre> @{{ $data | json }} </pre>
 
