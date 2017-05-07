@@ -31,4 +31,6 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post("users/desactivar",array('as' => 'users.desactivar','uses'  => 'UsersController@desactivar'));
     Route::resource('users','UsersController');
 
+    Route::resource('sucursales','SucursalesController');
+
 });
