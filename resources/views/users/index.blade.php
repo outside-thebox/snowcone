@@ -92,6 +92,19 @@
     @include('components.message-confirmation')
 
 
+    <table class="table responsive table-bordered table-hover table-striped" >
+        <thead>
+        <tr>
+            <th>Usuario</th>
+        </tr>
+        </thead>
+        <tbody id="table">
+        <tr>
+        <th><i class='glyphicon glyphicon-remove' ></th>
+        </tr>
+        </tbody>
+    </table>
+
     @include('components.modal',['accion' => 'Desactivar','id' => 1])
 
     @include('components.modal',['accion' => 'Activar','id' => 2])

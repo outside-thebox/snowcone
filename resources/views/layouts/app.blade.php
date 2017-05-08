@@ -11,15 +11,15 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}"></script>
     {!! Html::script('js/jquery.js') !!}
     {!! Html::script('js/vue.js') !!}
     {!! Html::script('js/bootstrap.min.js') !!}
     {!! Html::script('js/HoldOn.js') !!}
     {!! Html::script('js/jquery.mask.js') !!}
-    {!! Html::style('css/HoldOn.css', array('media' => 'screen')) !!}
-    {!! Html::style('css/font-awesome.css', array('media' => 'screen')) !!}
+    {!! Html::style('assets/css/HoldOn.css', array('media' => 'screen')) !!}
+    {!! Html::style('assets/css/font-awesome.css', array('media' => 'screen')) !!}
 
     <!-- Scripts -->
     <script>
