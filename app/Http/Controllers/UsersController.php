@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
@@ -22,6 +23,11 @@ class UsersController extends Controller
     public function index()
     {
         return View('users.index');
+    }
+
+    public function buscar()
+    {
+        return $this->repoUser->findAndPaginate(Input::all());
     }
 
     /**

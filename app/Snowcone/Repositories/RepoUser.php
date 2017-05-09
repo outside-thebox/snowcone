@@ -48,4 +48,22 @@ class RepoUser extends Repo {
         return $user;
     }
 
+    public function findAndPaginate(array $datos)
+    {
+//        dd($datos);
+        $model = $this->getModel();
+
+        if(isset($datos['nombre']))
+            $model = $model->where('nombre','like','%'.$datos['nombre'].'%');
+        if(isset($datos['apellido']))
+            $model = $model->where('apellido','like','%'.$datos['apellido'].'%');
+        if(isset($datos['dni']))
+            $model = $model->where('dni','like','%'.$datos['dni'].'%');
+
+        $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
+    }
+
 }
