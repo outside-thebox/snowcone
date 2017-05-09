@@ -11,15 +11,20 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}"></script>
-    {!! Html::script('js/jquery.js') !!}
-    {!! Html::script('js/vue.js') !!}
-    {!! Html::script('js/bootstrap.min.js') !!}
-    {!! Html::script('js/HoldOn.js') !!}
-    {!! Html::script('js/jquery.mask.js') !!}
-    {!! Html::style('css/HoldOn.css', array('media' => 'screen')) !!}
-    {!! Html::style('css/font-awesome.css', array('media' => 'screen')) !!}
+    <link href="assets/css/app.css" rel="stylesheet">
+    {{--<script src="{{ asset('js/app.js') }}"></script>--}}
+    {{--<script src="{{ asset('js/jquery.js') }}"></script>--}}
+    {{--<script src="{{ asset('js/vue.js') }}"></script>--}}
+    {{--<script src="{{ asset('js/bootstrap.min.js') }}"></script>--}}
+    {{--<script src="{{ asset('js/HoldOn.js') }}"></script>--}}
+    {{--<script src="{{ asset('js/jquery.mask.js') }}"></script>--}}
+    {!! Html::script('assets/js/jquery.js') !!}
+    {!! Html::script('assets/js/vue.js') !!}
+    {!! Html::script('assets/js/bootstrap.min.js') !!}
+    {!! Html::script('assets/js/HoldOn.js') !!}
+    {!! Html::script('assets/js/jquery.mask.js') !!}
+    {!! Html::style('assets/css/HoldOn.css', array('media' => 'screen')) !!}
+    {!! Html::style('assets/css/font-awesome.css', array('media' => 'screen')) !!}
 
     <!-- Scripts -->
     <script>

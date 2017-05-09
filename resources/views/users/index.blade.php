@@ -147,6 +147,7 @@
     {{--<pre> @{{ $data | json }} </pre>--}}
 
 
+
     @include('components.modal',['accion' => 'Desactivar','id' => 1])
 
     @include('components.modal',['accion' => 'Activar','id' => 2])
