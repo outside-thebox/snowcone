@@ -86,9 +86,16 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($user_id)
     {
-        //
+        $titulo = "Editar";
+        return View("users.formulario",compact('titulo','user_id'));
+    }
+
+    public function getDataUser()
+    {
+        $grupo = $this->repoUser->find(Input::get("user_id"));
+        return $grupo;
     }
 
     /**

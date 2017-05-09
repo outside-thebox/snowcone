@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('master/{id}',['uses' => 'Controller@redirect','as' => 'master']);
 
+    Route::get('tipos_usuarios.getTiposUsuariosWithAdmin',['uses' => 'TiposUsuariosController@getTiposUsuariosWithAdmin','as' => 'tipos_usuarios.getTiposUsuariosWithAdmin']);
     Route::get('tipos_usuarios.getTiposUsuariosWithoutAdmin',['uses' => 'TiposUsuariosController@getTiposUsuariosWithoutAdmin','as' => 'tipos_usuarios.getTiposUsuariosWithoutAdmin']);
     Route::get('tipos_usuarios.all',['uses' => 'TiposUsuariosController@all','as' => 'tipos_usuarios.all']);
 

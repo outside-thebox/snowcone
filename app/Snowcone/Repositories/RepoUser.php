@@ -37,13 +37,20 @@ class RepoUser extends Repo {
     public function createOrUpdateUser($data)
     {
         $user = $this->getModel()->firstOrNew(['id' => $data['id']]);
+//        dd($user);
         if($data['id'] == "")
         {
             $data['password'] = bcrypt($data['password']);
+            $user->fill($data);
+        }
+        else
+        {
+            $password = $user->password;
+            $user->fill($data);
+            $user->password = $password;
         }
 //        dd($user);
 
-        $user->fill($data);
         $user->save();
         return $user;
     }

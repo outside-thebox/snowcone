@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class UsersSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
+
         User::create([
             'nombre' => 'Usuario',
             'apellido' => 'Administrador',
@@ -20,6 +23,19 @@ class UsersSeeder extends Seeder
             'telefono' => '',
             'tipo_usuario_id' => 1,
         ]);
+
+        for($i = 1;$i < 1000;$i++)
+        {
+            User::create([
+                'nombre' => $faker->name,
+                'apellido' => $faker->lastName,
+                'dni' => $faker->unique()->userName,
+                'password' => bcrypt('123456'),
+                'telefono' => $faker->tollFreePhoneNumber,
+                'tipo_usuario_id' => $faker->randomElement([2,3,4,5])
+            ]);
+        }
+
 
     }
 }

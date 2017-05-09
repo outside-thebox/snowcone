@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="assets/css/app.css" rel="stylesheet">
+    {{--<link href="assets/css/app.css" rel="stylesheet">--}}
     {{--<script src="{{ asset('js/app.js') }}"></script>--}}
     {{--<script src="{{ asset('js/jquery.js') }}"></script>--}}
     {{--<script src="{{ asset('js/vue.js') }}"></script>--}}
@@ -23,6 +23,7 @@
     {!! Html::script('assets/js/bootstrap.min.js') !!}
     {!! Html::script('assets/js/HoldOn.js') !!}
     {!! Html::script('assets/js/jquery.mask.js') !!}
+    {!! Html::style('assets/css/app.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/HoldOn.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/font-awesome.css', array('media' => 'screen')) !!}
 

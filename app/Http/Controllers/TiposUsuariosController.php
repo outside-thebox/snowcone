@@ -22,4 +22,10 @@ class TiposUsuariosController extends Controller
     {
         return $this->repoTiposUsuarios->getTiposUsuariosWithoutAdmin();
     }
+
+    public function getTiposUsuariosWithAdmin()
+    {
+        return $this->repoTiposUsuarios->getTiposUsuariosWithAdmin();
+    }
+
 }

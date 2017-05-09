@@ -59,8 +59,8 @@
                             vm.lista = data.data;
                             vm.first = "{{route('users.buscar')}}" + "?page=1";
                             vm.next = data.next_page_url;
-
-                            if(data.total < "{{ env('APP_CANT_PAGINATE',10) }}")
+//                            console.log(data.next_page_url);
+                            if(data.next_page_url == null)
                             {
                                 $("#next").addClass("hidden");
                                 $("#first").addClass("hidden");
@@ -96,11 +96,11 @@
 
 @section('content')
 
-    <h1>Usuarios
+    <h1 >Usuarios
         <a href="{!! route('users.create')!!}"><button class="btn btn-success pull-right" >Agregar</button></a>
     </h1>
 
-    <div class="form-inline">
+    <div class="form-inline" style="margin-bottom: 10px">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
 
         {{ method_field('PUT') }}
@@ -120,7 +120,7 @@
     <div v-show="lista.length > 0">
         {{ Form::button('Primera',['id' => 'first','class' => 'btn btn-success',''=>'', '@click.prevent'=>'buscar(first)']) }}
         {{ Form::button('Anterior',['id' => 'prev','class' => 'btn btn-success', '@click.prevent'=>'buscar(prev)']) }}
-        {{ Form::button('Última',['id' => 'last','class' => 'btn btn-success pull-right', '@click.prevent'=>'buscar(last)']) }}
+        {{ Form::button('Última',['id' => 'last','class' => 'btn btn-success pull-right','style' => 'margin-left: 5px', '@click.prevent'=>'buscar(last)']) }}
         {{ Form::button('Siguiente',['id' => 'next','class' => 'btn btn-success pull-right', '@click.prevent'=>'buscar(next)']) }}
         <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
             <thead>
