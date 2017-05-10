@@ -144,4 +144,23 @@ class UsersController extends Controller
 
         }
     }
+
+    public function desactivar(Request $request)
+    {
+        $user = $this->repoUser->find($request->get('id'));
+        $user->delete();
+        return \Response()->json(['success' => true],200);
+    }
+
+    public function activar(Request $request)
+    {
+        $this->repoUser->activar($request->get('id'));
+        return \Response()->json(['success' => true],200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $this->repoUser->resetPassword($request->get('id'));
+        return \Response()->json(['success' => true],200);
+    }
 }
