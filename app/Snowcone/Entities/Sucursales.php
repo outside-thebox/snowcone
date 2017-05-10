@@ -10,12 +10,14 @@ namespace App\Snowcone\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\AuditingTrait;
 
 
 Class Sucursales extends Model{
 
     use Notifiable;
     use SoftDeletes;
+    use AuditingTrait;
     protected $table = 'sucursales';
     protected $fillable = ['nombre','direccion','telefono','email','deleted_at','created_at','updated_at'];
 
