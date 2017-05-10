@@ -79,7 +79,9 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                     </ul>
-
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ route('sucursales.index') }}">Sucursales</a></li>
+                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
