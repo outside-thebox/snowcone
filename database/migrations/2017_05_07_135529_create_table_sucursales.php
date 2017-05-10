@@ -18,7 +18,7 @@ class CreateTableSucursales extends Migration
             $table->string('nombre');
             $table->string('direccion');
             $table->string('telefono');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

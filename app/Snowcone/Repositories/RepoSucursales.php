@@ -25,4 +25,23 @@ class RepoSucursales extends Repo {
         $sucursal->save();
         return $sucursal;
     }
+
+    public function findAndPaginate(array $datos)
+    {
+        $model = $this->getModel();
+
+        if(isset($datos['nombre']))
+            $model = $model->where('nombre','like','%'.$datos['nombre'].'%');
+        if(isset($datos['direccion']))
+            $model = $model->where('direccion','like','%'.$datos['direccion'].'%');
+
+        $model = $model->withTrashed()->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
+    }
+    public function activar($id)
+    {
+        $this->getModel()->withTrashed()->find($id)->update(['deleted_at' => null]);
+    }
 }

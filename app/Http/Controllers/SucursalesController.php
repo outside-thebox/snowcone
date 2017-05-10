@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoSucursales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class SucursalesController extends Controller
 {
@@ -38,19 +39,40 @@ class SucursalesController extends Controller
     }
     public function show($id)
     {
-       //
+        //
     }
 
-    public function edit($id)
+    public function edit($sucursal_id)
     {
-        $sucursal = $this->repoSucursales->find($id);
+        //$sucursal = $this->repoSucursales->find($id);
         $titulo = "Editar";
-        return View('sucursales.formulario',compact('titulo','sucursal'));
+        return View('sucursales.formulario',compact('titulo','sucursal_id'));
     }
 
     public function destroy($id)
     {
         //
+    }
+    public function getData()
+    {
+        $sucursal = $this->repoSucursales->find(Input::get("sucursal_id"));
+        return $sucursal;
+    }
+    public function buscar()
+    {
+        return $this->repoSucursales->findAndPaginate(Input::all());
+    }
+    public function desactivar(Request $request)
+    {
+        $sucursal = $this->repoSucursales->find($request->get('id'));
+        $sucursal->delete();
+        return \Response()->json(['success' => true],200);
+    }
+
+    public function activar(Request $request)
+    {
+        $this->repoSucursales->activar($request->get('id'));
+        return \Response()->json(['success' => true],200);
     }
 
     protected function getRules($id)
@@ -60,7 +82,8 @@ class SucursalesController extends Controller
             return [
                 'nombre' => 'required|max:255',
                 'direccion' => 'required|max:255',
-                'telefono' => 'required'
+                'telefono' => 'required',
+                'email' => 'email|nullable'
             ];
         }
         else
@@ -68,7 +91,8 @@ class SucursalesController extends Controller
             return [
                 'nombre' => 'required|max:255',
                 'direccion' => 'required|max:255',
-                'telefono' => 'required'
+                'telefono' => 'required',
+                'email' => 'email|nullable'
             ];
 
         }

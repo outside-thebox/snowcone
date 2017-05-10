@@ -27,13 +27,18 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('tipos_usuarios.getTiposUsuariosWithoutAdmin',['uses' => 'TiposUsuariosController@getTiposUsuariosWithoutAdmin','as' => 'tipos_usuarios.getTiposUsuariosWithoutAdmin']);
     Route::get('tipos_usuarios.all',['uses' => 'TiposUsuariosController@all','as' => 'tipos_usuarios.all']);
 
-    Route::get('buscar',['uses' => 'UsersController@buscar','as' => 'users.buscar']);
+    Route::get('users.buscar',['uses' => 'UsersController@buscar','as' => 'users.buscar']);
     Route::get('users.getDataUser',['uses' => 'UsersController@getDataUser','as' => 'users.getDataUser']);
     Route::post("users/activar",array('as' => 'users.activar','uses'  => 'UsersController@activar'));
     Route::post("users/reset_password",array('as' => 'users.reset_password','uses'  => 'UsersController@resetPassword'));
     Route::post("users/desactivar",array('as' => 'users.desactivar','uses'  => 'UsersController@desactivar'));
     Route::resource('users','UsersController');
 
+    Route::get('sucursales.buscar',['uses' => 'SucursalesController@buscar','as' => 'sucursales.buscar']);
+    Route::get('sucursal.getData',['uses' => 'SucursalesController@getData','as' => 'sucursal.getData']);
+    Route::post("sucursal/activar",array('as' => 'sucursal.activar','uses'  => 'SucursalesController@activar'));
+    Route::post("sucursal/desactivar",array('as' => 'sucursal.desactivar','uses'  => 'SucursalesController@desactivar'));
     Route::resource('sucursales','SucursalesController');
+
 
 });
