@@ -37,15 +37,40 @@ class RepoUser extends Repo {
     public function createOrUpdateUser($data)
     {
         $user = $this->getModel()->firstOrNew(['id' => $data['id']]);
+//        dd($user);
         if($data['id'] == "")
         {
             $data['password'] = bcrypt($data['password']);
+            $user->fill($data);
+        }
+        else
+        {
+            $password = $user->password;
+            $user->fill($data);
+            $user->password = $password;
         }
 //        dd($user);
 
-        $user->fill($data);
         $user->save();
         return $user;
+    }
+
+    public function findAndPaginate(array $datos)
+    {
+//        dd($datos);
+        $model = $this->getModel();
+
+        if(isset($datos['nombre']))
+            $model = $model->where('nombre','like','%'.$datos['nombre'].'%');
+        if(isset($datos['apellido']))
+            $model = $model->where('apellido','like','%'.$datos['apellido'].'%');
+        if(isset($datos['dni']))
+            $model = $model->where('dni','like','%'.$datos['dni'].'%');
+
+        $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
     }
 
 }

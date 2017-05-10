@@ -51,8 +51,13 @@
                 },
                 cargarTiposUsuarios: function()
                 {
+                    if(vm.user.tipo_usuario_id == 1)
+                        var url = "{{ Route('tipos_usuarios.getTiposUsuariosWithAdmin') }}";
+                    else
+                        var url = "{{ Route('tipos_usuarios.getTiposUsuariosWithoutAdmin') }}";
+
                     $.ajax({
-                        url: "{{ Route('tipos_usuarios.getTiposUsuariosWithoutAdmin') }}",
+                        url: url,
                         method: 'get',
                         dataType: 'json',
                         success: function (data) {
@@ -75,8 +80,9 @@
                             vm.user.nombre = data.nombre;
                             vm.user.apellido = data.apellido;
                             vm.user.dni = data.dni;
-                            vm.user.telefono = data.web;
+                            vm.user.telefono = data.telefono;
                             vm.user.tipo_usuario_id = data.tipo_usuario_id;
+                            vm.cargarTiposUsuarios();
                             HoldOn.close();
                         }
                     });
@@ -86,10 +92,12 @@
             }
         });
 
-        vm.cargarTiposUsuarios();
         @if($user_id)
             vm.cargarDatos();
+        @else
+            vm.cargarTiposUsuarios();
         @endif
+
 
         $(document).ready(function(){
 
@@ -126,7 +134,7 @@
             </select>
         </div>
     </div>
-    @if(!isset($user))
+    @if(!isset($user_id))
         <div class="col-md-6">
             <label for="password" class="control-label">Password</label>
             {{ Form::password('password',['class' => 'form-control','required','autofocus','v-model' => 'user.password']) }}

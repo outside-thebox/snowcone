@@ -22,4 +22,9 @@ class RepoTiposUsuarios extends Repo {
     {
         return $this->getModel()->where('id','<>',1)->get(['id','descripcion']);
     }
+
+    public function getTiposUsuariosWithAdmin()
+    {
+        return $this->getModel()->get(['id','descripcion']);
+    }
 }
