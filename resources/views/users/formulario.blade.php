@@ -76,12 +76,7 @@
                         dataType: 'json',
                         data: "user_id={!! $user_id !!}",
                         success: function (data) {
-                            vm.user.id = data.id;
-                            vm.user.nombre = data.nombre;
-                            vm.user.apellido = data.apellido;
-                            vm.user.dni = data.dni;
-                            vm.user.telefono = data.telefono;
-                            vm.user.tipo_usuario_id = data.tipo_usuario_id;
+                            vm.user = data;
                             vm.cargarTiposUsuarios();
                             HoldOn.close();
                         }

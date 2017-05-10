@@ -13,7 +13,7 @@ abstract class Repo {
 
     public function find($id)
     {
-        return $this->getModel()->find($id);
+        return $this->getModel()->withTrashed()->find($id);
     }
 
     public function all()
