@@ -42,15 +42,10 @@
                             HoldOn.close();
                         }
                     });
-
                 },
-
             }
         });
-
-
         $(document).ready(function(){
-
         });
     </script>
 
@@ -68,10 +63,10 @@
         {!! Field::text('direccion',null,['v-model' => 'sucursal.direccion', 'required']) !!}
     </div>
     <div class="col-md-6">
-        {!! Field::text('telefono',null,['v-model' => 'sucursal.telefono', 'required','placeholder']) !!}
+        {!! Field::text('telefono',null,['v-model' => 'sucursal.telefono', 'required']) !!}
     </div>
     <div class="col-md-6">
-        {!! Field::text('email',null,['v-model' => 'sucursal.email']) !!}
+        {!! Field::text('email','',['v-model' => 'sucursal.email']) !!}
     </div>
 
     <div class="col-md-12">

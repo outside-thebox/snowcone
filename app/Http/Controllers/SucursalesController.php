@@ -38,17 +38,16 @@ class SucursalesController extends Controller
     }
     public function show($id)
     {
-        //
+       //
     }
 
     public function edit($id)
     {
-        //
+        $sucursal = $this->repoSucursales->find($id);
+        $titulo = "Editar";
+        return View('sucursales.formulario',compact('titulo','sucursal'));
     }
-    public function update(Request $request, $id)
-    {
-        //
-    }
+
     public function destroy($id)
     {
         //
