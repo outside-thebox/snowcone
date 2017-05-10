@@ -12,6 +12,8 @@ use App\User;
 
 class RepoUser extends Repo {
 
+
+
     function getModel()
     {
         return new User();
@@ -57,7 +59,6 @@ class RepoUser extends Repo {
 
     public function findAndPaginate(array $datos)
     {
-//        dd($datos);
         $model = $this->getModel();
 
         if(isset($datos['nombre']))
@@ -67,10 +68,15 @@ class RepoUser extends Repo {
         if(isset($datos['dni']))
             $model = $model->where('dni','like','%'.$datos['dni'].'%');
 
-        $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->withTrashed()->paginate(env('APP_CANT_PAGINATE',10));
 
         return $model;
 
+    }
+
+    public function resetPassword($id)
+    {
+        $this->getModel()->withTrashed()->find($id)->update(['password' => bcrypt(123456)]);
     }
 
 }

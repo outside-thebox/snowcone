@@ -120,7 +120,7 @@
         {!! Field::text('apellido',null,['v-model' => 'user.apellido', 'required']) !!}
     </div>
     <div class="col-md-6">
-        {!! Field::text('dni',null,['v-model' => 'user.dni', 'required','placeholder']) !!}
+        {!! Field::text('dni',null,['v-model' => 'user.dni', 'required']) !!}
     </div>
     <div class="col-md-6">
         {!! Field::text('telefono',null,['v-model' => 'user.telefono']) !!}
@@ -145,15 +145,14 @@
         </div>
     @endif
 
-    <div class="col-md-12">
+    <div class="col-md-12" style="margin-top: 10px">
         {!! Form::button("Guardar", ['type' => 'submit', 'class' => 'btn btn-primary pull-right', '@click' => 'createUser()']) !!}
-        <a href="{!! route('users.index') !!}" class="btn btn-success pull-right" style="margin-right: 10px">Cancelar</a>
+        <a href="{!! route('users.index') !!}" class="btn btn-danger pull-right" style="margin-right: 10px">Cancelar</a>
     </div>
 
 
     @include('components.modal',['id' => 1,'accion' => 'Guardar'])
 
-    <pre> @{{ $data | json }} </pre>
 
 @endsection
 

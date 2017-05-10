@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('buscar',['uses' => 'UsersController@buscar','as' => 'users.buscar']);
     Route::get('users.getDataUser',['uses' => 'UsersController@getDataUser','as' => 'users.getDataUser']);
     Route::post("users/activar",array('as' => 'users.activar','uses'  => 'UsersController@activar'));
+    Route::post("users/reset_password",array('as' => 'users.reset_password','uses'  => 'UsersController@resetPassword'));
     Route::post("users/desactivar",array('as' => 'users.desactivar','uses'  => 'UsersController@desactivar'));
     Route::resource('users','UsersController');
 

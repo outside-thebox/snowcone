@@ -26,6 +26,7 @@
     {!! Html::style('assets/css/app.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/HoldOn.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/font-awesome.css', array('media' => 'screen')) !!}
+    {!! Html::style('assets/css/style.css', array('media' => 'screen')) !!}
 
     <!-- Scripts -->
     <script>
