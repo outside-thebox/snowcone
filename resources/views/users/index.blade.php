@@ -2,8 +2,6 @@
 
 @section('scripts')
 
-
-
     <script>
 
         vm = new Vue({
@@ -24,6 +22,11 @@
                 id_seleccionado: 0,
                 token: ''
 
+            },
+            watch:{
+                lista:function(){
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
             },
             methods:{
                 desactivar: function(id,username)
@@ -77,7 +80,7 @@
                             vm.lista = data.data;
                             vm.first = "{{route('users.buscar')}}" + "?page=1";
                             vm.next = data.next_page_url;
-                            if(data.next_page_url == null)
+                            if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
                             {
                                 $("#next").addClass("hidden");
                                 $("#first").addClass("hidden");
@@ -108,7 +111,7 @@
         $(document).ready(function(){
 
             $("input:text[name=telefono]").mask("00000000000000000000");
-
+            $('[data-toggle="tooltip"]').tooltip();
 
             $("#eliminar-1").click(function(){
                 var id = $("input:hidden[name=id_seleccionado]").val();
@@ -197,7 +200,7 @@
 
         {{ Form::text('usuario',null,['class' => 'form-control','placeholder' => 'Usuario','v-model' => 'user.dni','autofocus']) }}
 
-        {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus']) }}
+        {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 
     </div>
 
@@ -230,10 +233,11 @@
                     Activo
                 </td>
                 <td>
-                    <a title='Editar' href="{{route('users.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
-                    <a v-show="!registro.deleted_at" title='Desactivar' style="cursor: pointer" @click='desactivar(registro.id,registro.dni)' ><i class='glyphicon glyphicon-trash' ></i></a>
-                    <a v-show="registro.deleted_at" title='Activar' style="cursor: pointer" @click='activar(registro.id,registro.dni)' ><i class='glyphicon glyphicon-thumbs-up' ></i></a>
-                    <a title='Reiniciar contraseña' style="cursor: pointer" @click='reset(registro.id,registro.dni)' ><i class='glyphicon glyphicon-refresh' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('users.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
+
+                    <a data-toggle="tooltip" data-placement="top"  v-show="!registro.deleted_at" title='Desactivar' style="cursor: pointer" @click='desactivar(registro.id,registro.dni)' ><i class='glyphicon glyphicon-trash' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top"   v-show="registro.deleted_at" title='Activar' style="cursor: pointer" @click='activar(registro.id,registro.dni)' ><i class='glyphicon glyphicon-thumbs-up' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top"   title='Reiniciar contraseña' style="cursor: pointer" @click='reset(registro.id,registro.dni)' ><i class='glyphicon glyphicon-refresh' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -241,10 +245,6 @@
         <label id="pagina_actual" class="pull-right" >@{{ pagina_actual }}</label>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
-
-    {{--<pre> @{{ $data | json }} </pre>--}}
-
-
 
     @include('components.modal',['accion' => 'Desactivar','id' => 1])
 

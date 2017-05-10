@@ -8,7 +8,9 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "styde/html": "~1.2"
+        "styde/html": "~1.2",
+        "owen-it/laravel-auditing": "^2.2",
+        "laravelista/lumen-vendor-publish": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

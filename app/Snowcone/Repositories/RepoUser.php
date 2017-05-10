@@ -38,7 +38,7 @@ class RepoUser extends Repo {
 
     public function createOrUpdateUser($data)
     {
-        $user = $this->getModel()->firstOrNew(['id' => $data['id']]);
+        $user = $this->getModel()->withTrashed()->firstOrNew(['id' => $data['id']]);
 //        dd($user);
         if($data['id'] == "")
         {
