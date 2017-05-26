@@ -207,10 +207,7 @@
     @include('components.message-confirmation')
 
     <div v-show="lista.length > 0">
-        {{ Form::button('Primera',['id' => 'first','class' => 'btn btn-warning',''=>'', '@click.prevent'=>'buscar(first)']) }}
-        {{ Form::button('Anterior',['id' => 'prev','class' => 'btn btn-warning', '@click.prevent'=>'buscar(prev)']) }}
-        {{ Form::button('Última',['id' => 'last','class' => 'btn btn-warning pull-right','style' => 'margin-left: 5px', '@click.prevent'=>'buscar(last)']) }}
-        {{ Form::button('Siguiente',['id' => 'next','class' => 'btn btn-warning pull-right', '@click.prevent'=>'buscar(next)']) }}
+        @include('components.buttons_paginate')
         <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
             <thead>
             <tr>

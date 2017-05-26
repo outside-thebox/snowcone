@@ -7,9 +7,9 @@
         vm = new Vue({
             el: '#main',
             data:{
-                sucursal : {
-                    nombre: '',
-                    direccion: ''
+                articulo : {
+                    cod: '',
+                    descripcion: ''
                 },
                 pagina_actual: 0,
                 first: '',
@@ -28,31 +28,22 @@
                 }
             },
             methods:{
-                desactivar: function(id,name)
+                eliminar: function(id,descripcion)
                 {
                     $("#pregunta-1").modal(function(){show:true});
 
                     $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Desactivar sucursal <strong>"+name+"</strong>?</h2>");
+                    $("#contenido-pregunta-1").append("<h3>¿Eliminar artículo <strong>"+descripcion+"</strong>?</h2>");
                     $("#pregunta-1").modal(function(){show:true});
-                    $("input:hidden[name=id_seleccionado]").val(id);
-                },
-                activar: function(id,name)
-                {
-                    $("#pregunta-2").modal(function(){show:true});
-
-                    $("#contenido-pregunta-2").html("");
-                    $("#contenido-pregunta-2").append("<h3>¿Activar sucursal <strong>"+name+"</strong>?</h2>");
-                    $("#pregunta-2").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
-                        var url = "{{route('sucursales.buscar')}}" + "?" + "page=1&nombre="+this.sucursal.nombre+"&direccion="+this.sucursal.direccion;
+                        var url = "{{route('articulos.buscar')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
 
-                    var sucursal = this.sucursal;
-                    sucursal._token = this.token;
+                    var articulo = this.articulo;
+                    articulo._token = this.token;
 
                     cargando('sk-circle','Buscando');
                     $.ajax({
@@ -60,16 +51,16 @@
                         method: 'GET',
                         dataType: "json",
                         assync: true,
-                        data: sucursal,
+                        data: articulo,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: function (data) {
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
-                            vm.first = "{{route('sucursales.buscar')}}" + "?page=1";
+                            vm.first = "{{route('articulos.buscar')}}" + "?page=1";
                             vm.next = data.next_page_url;
-                            if(data.next_page_url == null)
+                            if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
                             {
                                 $("#next").addClass("hidden");
                                 $("#first").addClass("hidden");
@@ -84,8 +75,8 @@
                                 $("#last").removeClass("hidden");
                             }
 
-                            vm.prev = data.prev_page_url
-                            vm.last = "{{route('sucursales.buscar')}}" + "?page="+data.last_page;
+                            vm.prev = data.prev_page_url;
+                            vm.last = "{{route('articulos.buscar')}}" + "?page="+data.last_page;
                             HoldOn.close();
                             vm.busqueda = false;
                         },
@@ -98,9 +89,13 @@
         });
 
         $(document).ready(function(){
+
+            $("input:text[name=telefono]").mask("00000000000000000000");
+            $('[data-toggle="tooltip"]').tooltip();
+
             $("#eliminar-1").click(function(){
                 var id = $("input:hidden[name=id_seleccionado]").val();
-                var urlDelete = "{{route('sucursal.desactivar')}}";
+                var urlDelete = "{{route('articulos.eliminar')}}";
                 var token = $("input:hidden[name=_token]").val();
                 cargando("sk-folding-cube",'Guardando...');
                 $.ajax({
@@ -111,59 +106,41 @@
                     {
                         HoldOn.close();
                         $("#pregunta-1").modal("hide");
-                        $("#contenido-modal-1").html("Se ha desactivado el usuario");
+                        $("#contenido-modal-1").html("Se ha eliminado el articulo");
                         $("#confirmacion-1").modal(function(){show:true});
-                        location.href = "{{ Route('master',2) }}";
+                        location.href = "{{ Route('master',3) }}";
 
-                    }
-                });
-            });
-
-            $("#eliminar-2").click(function(){
-                var id = $("input:hidden[name=id_seleccionado]").val();
-                var urlActivate = "{{route('sucursal.activar')}}";
-                var token = $("input:hidden[name=_token]").val();
-                cargando("sk-folding-cube",'Guardando...');
-                $.ajax({
-                    type: "Post",
-                    url : urlActivate,
-                    data: "id="+id+"&_token="+token,
-                    success: function(respuesta)
-                    {
-                        HoldOn.close();
-                        $("#pregunta-2").modal("hide");
-                        $("#contenido-modal-2").html("Se ha activado el usuario");
-                        $("#confirmacion-2").modal(function(){show:true});
-                        location.href = "{{ Route('master',2) }}";
                     }
                 });
             });
 
         });
+
     </script>
 
 
 @endsection
 
-
 @section('content')
 
-    <h1>Sucursales
-        <a href="{!! route('sucursales.create')!!}"><button class="btn btn-success pull-right" >Agregar</button></a>
+    <h1>Articulos
+        <a href="{!! route('articulos.create')!!}"><button class="btn btn-success pull-right">Agregar</button></a>
     </h1>
+
     <div class="form-inline" style="margin-bottom: 10px">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
         <input type="hidden" name="id_seleccionado" value="" v-model="id_seleccionado">
 
         {{ method_field('PUT') }}
 
-        {{ Form::text('nombre',null,['class' => 'form-control','placeholder' => 'Nombre','v-model' => 'sucursal.nombre','autofocus']) }}
+        {{ Form::text('cod',null,['class' => 'form-control','placeholder' => 'Cod','v-model' => 'articulo.cod','autofocus']) }}
 
-        {{ Form::text('direccion',null,['class' => 'form-control','placeholder' => 'Direccion','v-model' => 'sucursal.direccion','autofocus']) }}
+        {{ Form::text('descripcion',null,['class' => 'form-control','placeholder' => 'Descripcion','v-model' => 'articulo.descripcion','autofocus']) }}
 
-        {{ Form::button('Buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus']) }}
+        {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 
     </div>
+
     @include('components.message-confirmation')
 
     <div v-show="lista.length > 0">
@@ -171,30 +148,24 @@
         <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
             <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Direccion</th>
-                <th>Telefono</th>
-                <th>Email</th>
-                <th>Estado</th>
+                <th>Cod</th>
+                <th>Descripción</th>
+                <th>Unidad de medida</th>
+                <th>Precio sugerido</th>
+                <th>Precio de compra</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody id="table">
             <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                <td>@{{ registro.nombre }}</td>
-                <td>@{{ registro.direccion }}</td>
-                <td>@{{ registro.telefono }}</td>
-                <td>@{{ registro.email }}</td>
-                <td v-show="registro.deleted_at">
-                    Inactivo
-                </td>
-                <td v-show="!registro.deleted_at">
-                    Activo
-                </td>
+                <td>@{{ registro.cod }}</td>
+                <td>@{{ registro.descripcion }}</td>
+                <td>@{{ registro.unidad_medida.descripcion }}</td>
+                <td>$@{{ registro.precio_sugerido }}</td>
+                <td>$@{{ registro.precio_compra }}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="top" title='Editar' href="{{route('sucursales.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
-                    <a data-toggle="tooltip" data-placement="top" v-show="!registro.deleted_at" title='Desactivar' style="cursor: pointer" @click='desactivar(registro.id,registro.nombre)' ><i class='glyphicon glyphicon-trash' ></i></a>
-                    <a data-toggle="tooltip" data-placement="top" v-show="registro.deleted_at" title='Activar' style="cursor: pointer" @click='activar(registro.id,registro.nombre)' ><i class='glyphicon glyphicon-thumbs-up' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -203,11 +174,6 @@
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
 
-    @include('components.modal',['accion' => 'Desactivar','id' => 1])
-
-    @include('components.modal',['accion' => 'Activar','id' => 2])
-
-
+    @include('components.modal',['accion' => 'Eliminar','id' => 1])
 
 @endsection
-

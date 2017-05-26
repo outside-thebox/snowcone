@@ -81,7 +81,7 @@
                             HoldOn.close();
                         }
                     });
-                },
+                }
 
 
             }
@@ -123,7 +123,7 @@
     <div class="col-md-12 form-group">
         <div class="form-group">
             <label for="tipo_usuario_id" class="control-label">Tipo de usuario</label>
-
+            <span class="label label-info">Required</span>
             <select class="form-control" name="tipo_usuario_id" v-model="user.tipo_usuario_id" required="required">
                 <option v-for="tipo_usuario in tipos_usuarios" value="@{{ tipo_usuario.id }}" >@{{ tipo_usuario.descripcion }}</option>
             </select>
@@ -132,10 +132,12 @@
     @if(!isset($user_id))
         <div class="col-md-6">
             <label for="password" class="control-label">Password</label>
+            <span class="label label-info">Required</span>
             {{ Form::password('password',['class' => 'form-control','required','autofocus','v-model' => 'user.password']) }}
         </div>
         <div class="col-md-6">
             <label for="password-confirmation" class="control-label">Repetir Password</label>
+            <span class="label label-info">Required</span>
             {{ Form::password('password_confirmation',['class' => 'form-control','required','v-model' => 'user.password_confirmation']) }}
         </div>
     @endif

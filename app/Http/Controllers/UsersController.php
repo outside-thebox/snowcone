@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
@@ -25,9 +24,9 @@ class UsersController extends Controller
         return View('users.index');
     }
 
-    public function buscar()
+    public function buscar(Request $request)
     {
-        return $this->repoUser->findAndPaginate(Input::all());
+        return $this->repoUser->findAndPaginate($request->all());
     }
 
     /**
@@ -92,10 +91,10 @@ class UsersController extends Controller
         return View("users.formulario",compact('titulo','user_id'));
     }
 
-    public function getDataUser()
+    public function getDataUser(Request $request)
     {
-        $grupo = $this->repoUser->find(Input::get("user_id"));
-        return $grupo;
+        $user = $this->repoUser->find($request->get("user_id"));
+        return $user;
     }
 
     /**
