@@ -30,4 +30,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function tipo_usuario()
+    {
+        return $this->hasOne('App\Snowcone\Entities\TipoUsuario','id','tipo_usuario_id');
+    }
 }

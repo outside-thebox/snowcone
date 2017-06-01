@@ -26,4 +26,5 @@ Class Articulo extends Model{
         return $this->hasOne('App\Snowcone\Entities\UnidadMedida','id','unidad_medida_id');
     }
 
+
 }

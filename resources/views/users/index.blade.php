@@ -214,6 +214,7 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Usuario</th>
+                <th>Tipo de usuario</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -223,6 +224,7 @@
                 <td>@{{ registro.nombre }}</td>
                 <td>@{{ registro.apellido }}</td>
                 <td>@{{ registro.dni }}</td>
+                <td>@{{ registro.tipo_usuario.descripcion }}</td>
                 <td v-show="registro.deleted_at">
                     Inactivo
                 </td>

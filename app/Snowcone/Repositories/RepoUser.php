@@ -68,7 +68,7 @@ class RepoUser extends Repo {
         if(isset($datos['dni']))
             $model = $model->where('dni','like','%'.$datos['dni'].'%');
 
-        $model = $model->withTrashed()->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->withTrashed()->with('tipo_usuario')->paginate(env('APP_CANT_PAGINATE',10));
 
         return $model;
 
