@@ -49,7 +49,7 @@ class ArticulosController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, $this->getRules($request->get('id')));
+        $this->validate($request, $this->getRules($request->get('id')),$this->getMessages());
 
         $data = $this->repoArticulos->prepareData($request->toArray());
         $this->repoArticulos->createOrUpdate($data);
@@ -110,9 +110,18 @@ class ArticulosController extends Controller
         return [
             'cod' => 'required|numeric|unique:articulos,cod,'.$id.',id',
             'descripcion' => 'required|max:255',
-            'unidad_medida_id' => 'required',
             'precio_sugerido' => 'required',
-            'precio_compra' => 'required'
+            'precio_compra' => 'required',
+            'unidad_medida_id' => 'required',
+            'proveedor_id' => 'required'
+        ];
+    }
+
+    private function getMessages()
+    {
+        return [
+            'proveedor_id.required' => 'Debe seleccionar un proveedor',
+            'unidad_medida_id.required' => 'Debe seleccionar una unidad de medida'
         ];
     }
 }

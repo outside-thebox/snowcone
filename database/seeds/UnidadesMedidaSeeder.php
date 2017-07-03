@@ -13,19 +13,19 @@ class UnidadesMedidaSeeder extends Seeder
     public function run()
     {
         UnidadMedida::create([
-            'descripcion' => 'Unidad de medida 1'
+            'descripcion' => 'LTR'
         ]);
         UnidadMedida::create([
-            'descripcion' => 'Unidad de medida 2'
+            'descripcion' => 'KG'
         ]);
         UnidadMedida::create([
-            'descripcion' => 'Unidad de medida 3'
+            'descripcion' => 'Gr'
         ]);
         UnidadMedida::create([
-            'descripcion' => 'Unidad de medida 4'
+            'descripcion' => 'Unidad'
         ]);
         UnidadMedida::create([
-            'descripcion' => 'Unidad de medida 5'
+            'descripcion' => 'Caja'
         ]);
     }
 }

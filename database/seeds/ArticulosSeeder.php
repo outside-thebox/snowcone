@@ -20,7 +20,7 @@ class ArticulosSeeder extends Seeder
         {
             Articulo::create([
                 'cod' => $i,
-                'descripcion' => $faker->address,1
+                'descripcion' => $faker->address,
                 'unidad_medida_id' => $faker->randomElement([1,2,3,4,5]),
                 'precio_sugerido' => $faker->numberBetween(1,10000),
                 'precio_compra' => $faker->numberBetween(1,10000),

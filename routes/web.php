@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('unidades_medida.all',['uses' => 'UnidadesMedidaController@all','as' => 'unidades_medida.all']);
 
+    Route::get('proveedores.all',['uses' => 'ProveedoresController@all','as' => 'proveedores.all']);
+
     Route::post("articulos/eliminar",array('as' => 'articulos.eliminar','uses'  => 'ArticulosController@eliminar'));
     Route::get('articulos.getDataArticulo',['uses' => 'ArticulosController@getDataArticulo','as' => 'articulos.getDataArticulo']);
     Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);

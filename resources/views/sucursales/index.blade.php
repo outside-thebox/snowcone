@@ -98,6 +98,9 @@
         });
 
         $(document).ready(function(){
+
+            vm.buscar();
+
             $("#eliminar-1").click(function(){
                 var id = $("input:hidden[name=id_seleccionado]").val();
                 var urlDelete = "{{route('sucursal.desactivar')}}";

@@ -113,6 +113,8 @@
             $("input:text[name=telefono]").mask("00000000000000000000");
             $('[data-toggle="tooltip"]').tooltip();
 
+            vm.buscar();
+
             $("#eliminar-1").click(function(){
                 var id = $("input:hidden[name=id_seleccionado]").val();
                 var urlDelete = "{{route('users.desactivar')}}";

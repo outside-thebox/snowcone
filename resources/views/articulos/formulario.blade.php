@@ -16,6 +16,7 @@
                 fecha_ultima_compra: ''
             },
             unidades_medida: [],
+            proveedores: [],
             titulo: "{!! $titulo !!}",
             errors: [],
             token: ''
@@ -33,6 +34,21 @@
                     success: function (data) {
                         $.each(data,function(k,v){
                             vm.unidades_medida.push({'id':v.id,'descripcion':v.descripcion});
+                        });
+                    }
+                });
+            },
+            cargarProveedores: function()
+            {
+                var url = "{{ Route('proveedores.all') }}";
+
+                $.ajax({
+                    url: url,
+                    method: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data,function(k,v){
+                            vm.proveedores.push({'id':v.id,'descripcion':v.descripcion});
                         });
                     }
                 });
@@ -84,6 +100,7 @@
     @endif
 
     vm.cargarUnidadesMedida();
+    vm.cargarProveedores();
 
     $(document).ready(function(){
 
@@ -138,6 +155,16 @@
             <span class="label label-info">Required</span>
             <select class="form-control" name="unidad_medida_id" v-model="articulo.unidad_medida_id" required="required">
                 <option v-for="unidad_medida in unidades_medida" value="@{{ unidad_medida.id }}" >@{{ unidad_medida.descripcion }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-6 form-group" style="margin-top: 10px">
+        <div class="form-group">
+            <label for="proveedor_id" class="control-label">Proveedor</label>
+            <span class="label label-info">Required</span>
+            <select class="form-control" name="proveedor_id" v-model="articulo.proveedor_id" required="required">
+                <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
             </select>
         </div>
     </div>

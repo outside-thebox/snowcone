@@ -33,7 +33,7 @@ class RepoArticulos extends Repo {
         if(isset($datos['descripcion']))
             $model = $model->where('descripcion','like','%'.$datos['descripcion'].'%');
 
-        $model = $model->with('unidad_medida')->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->with('unidad_medida','proveedor')->paginate(env('APP_CANT_PAGINATE',10));
 
         return $model;
 

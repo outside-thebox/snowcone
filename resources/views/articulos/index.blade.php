@@ -93,6 +93,8 @@
             $("input:text[name=telefono]").mask("00000000000000000000");
             $('[data-toggle="tooltip"]').tooltip();
 
+            vm.buscar();
+
             $("#eliminar-1").click(function(){
                 var id = $("input:hidden[name=id_seleccionado]").val();
                 var urlDelete = "{{route('articulos.eliminar')}}";
@@ -153,6 +155,7 @@
                 <th>Unidad de medida</th>
                 <th>Precio sugerido</th>
                 <th>Precio de compra</th>
+                <th>Proveedor</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -163,6 +166,7 @@
                 <td>@{{ registro.unidad_medida.descripcion }}</td>
                 <td>$@{{ registro.precio_sugerido }}</td>
                 <td>$@{{ registro.precio_compra }}</td>
+                <td>@{{ registro.proveedor.descripcion }}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
                     <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
