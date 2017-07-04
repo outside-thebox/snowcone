@@ -50,4 +50,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
     Route::resource('articulos','ArticulosController');
 
+
+    Route::resource('presupuesto','PresupuestoController');
+
 });

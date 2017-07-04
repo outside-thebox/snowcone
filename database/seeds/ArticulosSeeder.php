@@ -24,7 +24,9 @@ class ArticulosSeeder extends Seeder
                 'unidad_medida_id' => $faker->randomElement([1,2,3,4,5]),
                 'precio_sugerido' => $faker->numberBetween(1,10000),
                 'precio_compra' => $faker->numberBetween(1,10000),
-                'fecha_ultima_compra' => $faker->date($format = 'Y-m-d', $max = 'now')
+                'fecha_ultima_compra' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'proveedor_id' => $faker->randomElement([1,2,3,4,5,6,7,8,9,10,11,12,13]),
+
             ]);
         }
     }
