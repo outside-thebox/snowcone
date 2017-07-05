@@ -91,7 +91,6 @@
 //                    console.log("hola");
                     var item = {};
 
-                    console.log(vm.articulo_seleccionado);
                     if(vm.articulo_seleccionado != null)
                     {
                         item.cod = vm.articulo_seleccionado.cod;
@@ -108,6 +107,13 @@
                         vm.buscar();
                         vm.articulo_seleccionado = null;
                     }
+                },
+                eliminar: function(item)
+                {
+                    console.log(item);
+                    vm.lista_presupuesto.$remove(item);
+//                    vm.lista_presupuesto = [];
+
                 }
             }
         });
@@ -118,26 +124,7 @@
 
             vm.buscar();
 
-            $("#eliminar-1").click(function(){
-                var id = $("input:hidden[name=id_seleccionado]").val();
-                var urlDelete = "{{route('articulos.eliminar')}}";
-                var token = $("input:hidden[name=_token]").val();
-                cargando("sk-folding-cube",'Guardando...');
-                $.ajax({
-                    type: "Post",
-                    url : urlDelete,
-                    data: "id="+id+"&_token="+token,
-                    success: function(respuesta)
-                    {
-                        HoldOn.close();
-                        $("#pregunta-1").modal("hide");
-                        $("#contenido-modal-1").html("Se ha eliminado el articulo");
-                        $("#confirmacion-1").modal(function(){show:true});
-                        location.href = "{{ Route('master',3) }}";
 
-                    }
-                });
-            });
 
         });
 
@@ -154,20 +141,21 @@
 
     <div class="row">
         <div class="col-md-6">
-            {!! Field::text('cliente',null,['v-model' => 'presupuesto.cliente', 'autofocus', 'required']) !!}
+            {!! Form::label('cliente','Cliente',['class' => 'campos_resaltados']) !!}
+            {!! Form::text('cliente',null,['class' => 'form-control','v-model' => 'presupuesto.cliente','autofocus']) !!}
         </div>
     </div>
-    <div class="form-inline" style="margin-bottom: 10px">
+    <div class="form-inline" style="margin-bottom: 10px; margin-top: 10px">
         <div class="col-md-6">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
             <input type="hidden" name="id_seleccionado" value="" v-model="id_seleccionado">
 
             {{ method_field('PUT') }}
 
-            {!! Form::label('cod','Articulo') !!}
+            {!! Form::label('cod','Articulo: ',['class' => 'campos_resaltados']) !!}
             {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'presupuesto.cod','autofocus','@keyup' => 'buscar()']) !!}
 
-            {!! Form::label('cant','Cantidad') !!}
+            {!! Form::label('cant','Cantidad',['class' => 'campos_resaltados']) !!}
             {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add"]) !!}
             <div v-show="lista.length > 0" style="margin-top: 10px">
                 @include('components.buttons_paginate')
@@ -193,7 +181,7 @@
             <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
         </div>
         <div class="col-md-6">
-            <label>Presupuesto para: @{{ presupuesto.cliente }}</label>
+            <label class="campos_resaltados">Presupuesto para: @{{ presupuesto.cliente }}</label>
             <div>
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
                     <thead>
@@ -202,6 +190,7 @@
                         <th>Cantidad</th>
                         <th>Unitario</th>
                         <th>Subtotal</th>
+                        <th>#</th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -210,6 +199,9 @@
                         <td>@{{ registro.cantidad }}</td>
                         <td>$@{{ registro.precio_unitario }}</td>
                         <td>$@{{ registro.subtotal }}</td>
+                        <td>
+                            <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro)' ><i class='glyphicon glyphicon-remove' ></i></a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -217,7 +209,8 @@
         </div>
     </div>
 
-    <pre>@{{ $data | json }}</pre>
+    {{--<pre>@{{ $data | json }}</pre>--}}
 
+    @include('components.modal',['accion' => 'Eliminar','id' => 1])
 
 @endsection
