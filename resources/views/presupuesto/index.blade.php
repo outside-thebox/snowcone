@@ -22,7 +22,7 @@
                 id_seleccionado: 0,
                 token: '',
                 lista_presupuesto:[],
-                articulo_seleccionado: []
+                articulo_seleccionado: null
 
             },
             watch:{
@@ -90,18 +90,24 @@
                 add: function () {
 //                    console.log("hola");
                     var item = {};
-                    item.cod = vm.articulo_seleccionado.cod;
-                    item.nombre = vm.articulo_seleccionado.descripcion;
-                    item.cantidad = vm.presupuesto.cant;
-                    item.precio_unitario = vm.articulo_seleccionado.precio_sugerido;
-                    item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_sugerido) * parseFloat(vm.presupuesto.cant));
-                    vm.lista_presupuesto.push(item);
+
+                    console.log(vm.articulo_seleccionado);
+                    if(vm.articulo_seleccionado != null)
+                    {
+                        item.cod = vm.articulo_seleccionado.cod;
+                        item.nombre = vm.articulo_seleccionado.descripcion;
+                        item.cantidad = vm.presupuesto.cant;
+                        item.precio_unitario = vm.articulo_seleccionado.precio_sugerido;
+                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_sugerido) * parseFloat(vm.presupuesto.cant));
+                        vm.lista_presupuesto.push(item);
 
 
-                    vm.presupuesto.cod = '';
-                    vm.presupuesto.cant = 1;
+                        vm.presupuesto.cod = '';
+                        vm.presupuesto.cant = 1;
 
-                    vm.buscar();
+                        vm.buscar();
+                        vm.articulo_seleccionado = null;
+                    }
                 }
             }
         });
@@ -163,7 +169,7 @@
 
             {!! Form::label('cant','Cantidad') !!}
             {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add"]) !!}
-            <div v-show="lista.length > 0">
+            <div v-show="lista.length > 0" style="margin-top: 10px">
                 @include('components.buttons_paginate')
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
                     <thead>
@@ -187,7 +193,7 @@
             <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
         </div>
         <div class="col-md-6">
-            <label>Presupuesto para @{{ presupuesto.cliente }}</label>
+            <label>Presupuesto para: @{{ presupuesto.cliente }}</label>
             <div>
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
                     <thead>
@@ -210,6 +216,8 @@
             </div>
         </div>
     </div>
+
+    <pre>@{{ $data | json }}</pre>
 
 
 @endsection
