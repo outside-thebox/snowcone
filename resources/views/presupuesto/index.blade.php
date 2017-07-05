@@ -106,6 +106,9 @@
 
                         vm.buscar();
                         vm.articulo_seleccionado = null;
+//                        console.log(vm.presupuesto.cod.focus());
+//                        vm.presupuesto.cod.focus();
+                        document.getElementById("cod").focus();
                     }
                 },
                 eliminar: function(item)
@@ -153,7 +156,7 @@
             {{ method_field('PUT') }}
 
             {!! Form::label('cod','Articulo: ',['class' => 'campos_resaltados']) !!}
-            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'presupuesto.cod','autofocus','@keyup' => 'buscar()']) !!}
+            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'presupuesto.cod','autofocus','@keyup' => 'buscar()','id' => 'cod']) !!}
 
             {!! Form::label('cant','Cantidad',['class' => 'campos_resaltados']) !!}
             {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add"]) !!}
