@@ -53,4 +53,6 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::resource('presupuesto','PresupuestoController');
 
+    Route::resource('caja','CajaController');
+
 });
