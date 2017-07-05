@@ -113,9 +113,7 @@
                 },
                 eliminar: function(item)
                 {
-                    console.log(item);
                     vm.lista_presupuesto.$remove(item);
-//                    vm.lista_presupuesto = [];
 
                 }
             }
@@ -124,6 +122,9 @@
         $(document).ready(function(){
 
             $('[data-toggle="tooltip"]').tooltip();
+
+            $("input:text[name=cod]").mask("9999");
+            $("input:text[name=cant]").mask("999");
 
             vm.buscar();
 
