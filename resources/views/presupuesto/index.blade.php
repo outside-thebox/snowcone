@@ -210,6 +210,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <a href="#" class="btn btn-primary pull-right" v-if="lista_presupuesto.length > 0">Imprimir</a>
         </div>
     </div>
 
