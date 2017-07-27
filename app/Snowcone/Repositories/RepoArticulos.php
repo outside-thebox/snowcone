@@ -39,5 +39,26 @@ class RepoArticulos extends Repo {
 
     }
 
+    public function findAndPaginateStock(array $datos)
+    {
+        $model = $this->getModel();
+
+        if(isset($datos['cod']))
+            $model = $model->where('cod',$datos['cod']);
+        if(isset($datos['descripcion']))
+            $model = $model->where('descripcion','like','%'.$datos['descripcion'].'%');
+
+        $model = $model->leftJoin("stockxarticulos","articulos.id","=","stockxarticulos.articulo_id");
+
+        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+        $model = $model->with('unidad_medida','proveedor')->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
+    }
+
+
+
 
 }

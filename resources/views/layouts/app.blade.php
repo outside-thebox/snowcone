@@ -87,6 +87,9 @@
                             <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
                         </ul>
                         <ul class="nav navbar-nav">
+                            <li><a href="{{ route('articulos.stock') }}">Stock artículos</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav">
                             <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
                         </ul>
                         <ul class="nav navbar-nav">

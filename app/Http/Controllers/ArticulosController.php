@@ -29,6 +29,13 @@ class ArticulosController extends Controller
         return $this->repoArticulos->findAndPaginate($request->all());
     }
 
+    public function buscarxstock(Request $request)
+    {
+        return $this->repoArticulos->findAndPaginateStock($request->all());
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -121,5 +128,10 @@ class ArticulosController extends Controller
             'proveedor_id.required' => 'Debe seleccionar un proveedor',
             'unidad_medida_id.required' => 'Debe seleccionar una unidad de medida'
         ];
+    }
+
+    public function stock()
+    {
+        return View("articulos.stock");
     }
 }

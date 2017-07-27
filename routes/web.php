@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post("articulos/eliminar",array('as' => 'articulos.eliminar','uses'  => 'ArticulosController@eliminar'));
     Route::get('articulos.getDataArticulo',['uses' => 'ArticulosController@getDataArticulo','as' => 'articulos.getDataArticulo']);
     Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
+    Route::get('articulos.buscarxstock',['uses' => 'ArticulosController@buscarxstock','as' => 'articulos.buscarxstock']);
+    Route::get('articulos.stock',['uses' => 'ArticulosController@stock','as' => 'articulos.stock']);
     Route::resource('articulos','ArticulosController');
 
 
