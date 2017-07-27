@@ -153,8 +153,8 @@
                 <th>Cod</th>
                 <th>Descripción</th>
                 <th>Unidad de medida</th>
-                <th>Precio sugerido</th>
-                <th>Precio de compra</th>
+                {{--<th>Precio sugerido</th>--}}
+                {{--<th>Precio de compra</th>--}}
                 <th>Proveedor</th>
                 <th>Acciones</th>
             </tr>
@@ -164,8 +164,8 @@
                 <td>@{{ registro.cod }}</td>
                 <td>@{{ registro.descripcion }}</td>
                 <td>@{{ registro.unidad_medida.descripcion }}</td>
-                <td>$@{{ registro.precio_sugerido }}</td>
-                <td>$@{{ registro.precio_compra }}</td>
+                {{--<td>$@{{ registro.precio_sugerido }}</td>--}}
+                {{--<td>$@{{ registro.precio_compra }}</td>--}}
                 <td>@{{ registro.proveedor.descripcion }}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>

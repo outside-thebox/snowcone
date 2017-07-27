@@ -19,7 +19,7 @@ Class Articulo extends Model{
     use SoftDeletes;
     use AuditingTrait;
     protected $table = 'articulos';
-    protected $fillable = ['descripcion','cod','unidad_medida_id','precio_sugerido','precio_compra','fecha_ultima_compra','proveedor_id','deleted_at','created_at','updated_at'];
+    protected $fillable = ['descripcion','cod','unidad_medida_id','fecha_ultima_compra','proveedor_id','deleted_at','created_at','updated_at'];
 
     public function unidad_medida()
     {

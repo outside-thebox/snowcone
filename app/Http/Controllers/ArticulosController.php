@@ -110,8 +110,6 @@ class ArticulosController extends Controller
         return [
             'cod' => 'required|numeric|unique:articulos,cod,'.$id.',id',
             'descripcion' => 'required|max:255',
-            'precio_sugerido' => 'required',
-            'precio_compra' => 'required',
             'unidad_medida_id' => 'required',
             'proveedor_id' => 'required'
         ];
