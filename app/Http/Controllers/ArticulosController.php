@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoArticulos;
+use App\Snowcone\Repositories\RepoStockXArticulos;
 use Illuminate\Http\Request;
 
 class ArticulosController extends Controller
 {
     private $repoArticulos;
+    private $repoStockXArticulos;
 
-    public function __construct(RepoArticulos $repoArticulos)
+    public function __construct(RepoArticulos $repoArticulos,RepoStockXArticulos $repoStockXArticulos)
     {
         $this->repoArticulos = $repoArticulos;
+        $this->repoStockXArticulos = $repoStockXArticulos;
     }
 
     /**
@@ -31,6 +34,8 @@ class ArticulosController extends Controller
 
     public function buscarxstock(Request $request)
     {
+        $array_missing = $this->repoStockXArticulos->getRecordsMissing();
+        $this->repoStockXArticulos->addRecords($array_missing);
         return $this->repoArticulos->findAndPaginateStock($request->all());
     }
 
