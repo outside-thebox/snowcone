@@ -32,12 +32,7 @@ class ArticulosController extends Controller
         return $this->repoArticulos->findAndPaginate($request->all());
     }
 
-    public function buscarxstock(Request $request)
-    {
-        $array_missing = $this->repoStockXArticulos->getRecordsMissing();
-        $this->repoStockXArticulos->addRecords($array_missing);
-        return $this->repoArticulos->findAndPaginateStock($request->all());
-    }
+
 
 
 
@@ -135,8 +130,4 @@ class ArticulosController extends Controller
         ];
     }
 
-    public function stock()
-    {
-        return View("articulos.stock");
-    }
 }

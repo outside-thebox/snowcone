@@ -28,14 +28,29 @@
                 }
             },
             methods:{
-                eliminar: function(id,descripcion)
+                updateStock: function(id)
                 {
-                    $("#pregunta-1").modal(function(){show:true});
+                    var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
+                    var precio_sugerido = $("input:text[name=precio_sugerido_"+id+"]").val();
+                    var token = $("input:hidden[name=_token]").val();
 
-                    $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Eliminar artículo <strong>"+descripcion+"</strong>?</h2>");
-                    $("#pregunta-1").modal(function(){show:true});
-                    $("input:hidden[name=id_seleccionado]").val(id);
+                    cargando('sk-falding-circle"','Actualizando');
+                    $.ajax({
+                        url: "{{route('articulosxstock.updatePrices')}}",
+                        method: 'POST',
+                        data: "id="+id+"&precio_compra="+precio_compra+"&precio_sugerido="+precio_sugerido+"&_token="+token,
+                        success: function (data) {
+                            HoldOn.close();
+                            $("#contenido-modal-1").html("El registro fue actualizado correctamente");
+                            $("#confirmacion-1").modal(function(){show:true});
+                        },
+                        error: function (respuesta) {
+                            HoldOn.close();
+                            $("#contenido-modal-1").html("Se ha producido un error, por favor contacte con el administrador");
+                            $("#confirmacion-1").modal(function(){show:true});
+                        }
+                    });
+
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
@@ -58,7 +73,7 @@
                         success: function (data) {
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
-                            vm.first = "{{route('articulos.buscar')}}" + "?page=1";
+                            vm.first = "{{route('articulos.buscarxstock')}}" + "?page=1";
                             vm.next = data.next_page_url;
                             if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
                             {
@@ -76,7 +91,7 @@
                             }
 
                             vm.prev = data.prev_page_url;
-                            vm.last = "{{route('articulos.buscar')}}" + "?page="+data.last_page;
+                            vm.last = "{{route('articulos.buscarxstock')}}" + "?page="+data.last_page;
                             HoldOn.close();
                             vm.busqueda = false;
                         },
@@ -104,7 +119,9 @@
 
 @section('content')
 
-    <h1>Stock de articulos</h1>
+    <h1>Stock de articulos
+        <a href="{!! route('articulos.create')!!}"><button class="btn btn-success pull-right">Agregar boleta</button></a>
+    </h1>
 
     <div class="form-inline" style="margin-bottom: 10px">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
@@ -129,7 +146,6 @@
             <tr>
                 <th>Cod</th>
                 <th>Descripción</th>
-                <th>Unidad de medida</th>
                 <th>Precio</th>
                 <th>Sugerido</th>
                 <th>Stock</th>
@@ -142,13 +158,12 @@
             <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
                 <td>@{{ registro.cod }}</td>
                 <td>@{{ registro.descripcion }}</td>
-                <td>@{{ registro.unidad_medida.descripcion }}</td>
                 <td>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <span class="fa fa-usd"></span>
                             </span>
-                        <input type="text" value="@{{ registro.precio_compra }}" class="form-control numeros" />
+                        <input type="text" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
                     </div>
                 </td>
                 <td>
@@ -156,19 +171,19 @@
                         <span class="input-group-addon">
                             <span class="fa fa-usd"></span>
                             </span>
-                        <input type="text" value="@{{ registro.precio_sugerido }}" class="form-control numeros" />
+                        <input type="text" name="precio_sugerido_@{{ registro.id }}" value="@{{ registro.precio_sugerido }}" class="form-control" />
                     </div>
                 </td>
                 <td v-if="registro.stock != null">
-                    <input type="text" value="@{{ registro.stock }}" class="form-control numeros" />
+                    @{{ registro.stock }}
                 </td>
                 <td v-else>
-                    <input type="text" value="0" class="form-control numeros" />
+                    0
                 </td>
-                <td>@{{ registro.proveedor.descripcion }}</td>
-                <td>@{{ registro.unidad_medida.descripcion }}</td>
+                <td>@{{ registro.proveedor }}</td>
+                <td>@{{ registro.unidad_medida }}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="top"  title='Actualizar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-refresh' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-refresh' ></i></a>
                 </td>
             </tr>
             </tbody>

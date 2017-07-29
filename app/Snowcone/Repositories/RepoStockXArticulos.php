@@ -56,4 +56,42 @@ class RepoStockXArticulos extends Repo
 
     }
 
+    public function findAndPaginateStock(array $datos)
+    {
+        $model = $this->getModel();
+
+        $model = $model->leftJoin("articulos","articulos.id","=","stockxarticulos.articulo_id");
+
+        if(isset($datos['cod']))
+            $model = $model->where('articulos.cod',$datos['cod']);
+        if(isset($datos['descripcion']))
+            $model = $model->where('articulos.descripcion','like','%'.$datos['descripcion'].'%');
+
+
+        $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
+        $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
+
+        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+//        $model = $model->with('unidad_medida','proveedor');
+
+        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.descripcion','stockxarticulos.precio_compra'
+            ,'stockxarticulos.precio_sugerido','stockxarticulos.stock','proveedores.descripcion as proveedor'
+            ,'unidades_medida.descripcion as unidad_medida']);
+
+        $model = $model->orderBy("articulos.cod");
+
+
+        $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
+    }
+
+
+    public function updatePrices($data)
+    {
+        $this->getModel()->where('id',$data['id'])->update(['precio_compra' => $data['precio_compra'],'precio_sugerido' => $data['precio_sugerido']]);
+    }
+
 }
