@@ -64,9 +64,12 @@ class RepoStockXArticulos extends Repo
 
         if(isset($datos['cod']))
             $model = $model->where('articulos.cod',$datos['cod']);
+
         if(isset($datos['descripcion']))
             $model = $model->where('articulos.descripcion','like','%'.$datos['descripcion'].'%');
 
+        if(isset($datos['proveedor_id']))
+            $model = $model->where('articulos.proveedor_id',$datos['proveedor_id']);
 
         $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
         $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");

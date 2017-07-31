@@ -8,9 +8,9 @@
             el: '#main',
             data:{
                 articulo : {
-                    cod: '',
-                    descripcion: ''
+                    proveedor_id:''
                 },
+                proveedores: [],
                 pagina_actual: 0,
                 first: '',
                 prev: '',
@@ -19,8 +19,8 @@
                 lista: [],
                 busqueda: true,
                 id_seleccionado: 0,
-                token: ''
-
+                token: '',
+                stocktotal:''
             },
             watch:{
                 lista:function(){
@@ -28,6 +28,29 @@
                 }
             },
             methods:{
+
+                totalstock: function(id) {
+                console.log(id);
+                var addstock = $("input:text[name=addstock"+id+"]").val();
+                var stock = $("input:text[name=stock"+id+"]").val();
+                this.stocktotal =  parseFloat(addstock) +  parseFloat(stock);
+                    console.log(this.stocktotal);
+                },
+                cargarProveedores: function()
+                {
+                    var url = "{{ Route('proveedores.all') }}";
+
+                    $.ajax({
+                        url: url,
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data,function(k,v){
+                                vm.proveedores.push({'id':v.id,'descripcion':v.descripcion});
+                            });
+                        }
+                    });
+                },
                 updateStock: function(id)
                 {
                     var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
@@ -50,12 +73,11 @@
                             $("#confirmacion-1").modal(function(){show:true});
                         }
                     });
-
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
-                    if(url == undefined)
-                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
+                   if(url == undefined)
+                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&proveedor_id="+this.articulo.proveedor_id;
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
@@ -73,6 +95,7 @@
                         success: function (data) {
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
+                            $('#btntodo').show();
                             vm.first = "{{route('articulos.buscarxstock')}}" + "?page=1";
                             vm.next = data.next_page_url;
                             if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
@@ -99,7 +122,7 @@
                             HoldOn.close();
                         }
                     });
-                }
+             }
             }
         });
 
@@ -108,33 +131,36 @@
             $(".numeros").mask("000000");
             $('[data-toggle="tooltip"]').tooltip();
 
-            vm.buscar();
-
+            vm.cargarProveedores();
         });
-
     </script>
 
-
 @endsection
-
 @section('content')
 
-    <h1>Stock de articulos
-        <a href="{!! route('articulosxstock.addBoleta')!!}"><button class="btn btn-success pull-right">Agregar boleta</button></a>
-    </h1>
+    <h1>Stock de articulos por proveedor</h1>
+    <div class="row">
+        <div class="form-inline col-md-6" style="margin-bottom: 10px">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
+            <input type="hidden" name="id_seleccionado" value="" v-model="id_seleccionado">
 
-    <div class="form-inline" style="margin-bottom: 10px">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
-        <input type="hidden" name="id_seleccionado" value="" v-model="id_seleccionado">
+            {{ method_field('PUT') }}
 
-        {{ method_field('PUT') }}
+            <div class="form-group ">
+                <label for="proveedor_id" class="control-label">Proveedor</label>
+                <span class="label label-info">Required</span>
+                <select class="form-control" name="articulo.proveedor_id" v-model="articulo.proveedor_id" required="required">
+                    <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
+                </select>
+            </div>
+            {{ Form::button('Buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
+        </div>
 
-        {{ Form::text('cod',null,['class' => 'form-control','placeholder' => 'Cod','v-model' => 'articulo.cod','autofocus']) }}
-
-        {{ Form::text('descripcion',null,['class' => 'form-control','placeholder' => 'Descripcion','v-model' => 'articulo.descripcion','autofocus']) }}
-
-        {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
-
+        <div id="btntodo" class="form-aling col-md-6" style="display: none;">
+            <div class="text-right">
+                {{ Form::button('Actualizar Todo',['class' => 'btn btn-success', '@click.prevent'=>'updateStock()','autofocus' ]) }}
+            </div>
+        </div>
     </div>
 
     @include('components.message-confirmation')
@@ -147,11 +173,8 @@
                 <th>Cod</th>
                 <th>Descripción</th>
                 <th>Precio</th>
-                <th>Sugerido</th>
                 <th>Stock</th>
-                <th>Proveedor</th>
-                <th>Unidad</th>
-                <th>Acciones</th>
+                <th>Accion</th>
             </tr>
             </thead>
             <tbody id="table">
@@ -163,28 +186,27 @@
                         <span class="input-group-addon">
                             <span class="fa fa-usd"></span>
                             </span>
-                        <input type="text" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
+                        <input type="text" size="5" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
                     </div>
                 </td>
                 <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="fa fa-usd"></span>
-                            </span>
-                        <input type="text" name="precio_sugerido_@{{ registro.id }}" value="@{{ registro.precio_sugerido }}" class="form-control" />
-                    </div>
+                   <div class="row">
+                       <div class="col-xs-4 .col-md-4">
+                           <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
+                           <span>+</span>
+                       </div>
+                       <div class="col-xs-4 .col-md-4">
+                           <input type="text" maxlength="5" size="5" name="addstock@{{ registro.id }}" value="" v-on:keyup.enter="totalstock(registro.id)"  />
+                           <span>=</span>
+                       </div>
+                       <div class="col-xs-4 .col-md-4">
+                           <input type="text" maxlength="5" size="5" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
+                       </div>
+                   </div>
                 </td>
-                <td v-if="registro.stock != null">
-                    @{{ registro.stock }}
-                </td>
-                <td v-else>
-                    0
-                </td>
-                <td>@{{ registro.proveedor }}</td>
-                <td>@{{ registro.unidad_medida }}</td>
-                <td>
-                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-refresh' ></i></a>
-                </td>
+               <td>
+                   <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-refresh' ></i></a>
+               </td>
             </tr>
             </tbody>
         </table>
