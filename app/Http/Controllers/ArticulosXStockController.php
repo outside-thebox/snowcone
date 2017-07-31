@@ -35,12 +35,12 @@ class ArticulosXStockController extends Controller
 
     public function updatePrices(Request $request)
     {
-        $this->repoStockXArticulos->updatePrices($request);
+        $this->repoStockXArticulos->update($request);
         return \Response()->json(['success' => true],200);
     }
     public function updateBoleta(Request $request)
     {
-        $this->repoStockXArticulos->updateBoleta($request);
+        $this->repoStockXArticulos->update($request);
         return \Response()->json(['success' => true],200);
     }
     public function addBoleta()

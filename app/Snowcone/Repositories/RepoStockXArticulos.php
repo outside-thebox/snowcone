@@ -92,13 +92,13 @@ class RepoStockXArticulos extends Repo
     }
 
 
-    public function updatePrices($data)
+    public function update($data)
     {
-        $this->getModel()->where('id',$data['id'])->update(['precio_compra' => $data['precio_compra'],'precio_sugerido' => $data['precio_sugerido']]);
+        $record = $this->getModel()->firstOrNew(['id' => $data['id']]);
+
+        $record->fill($data->all());
+
+        $record->save();
     }
 
-    public function updateBoleta($data)
-    {
-        $this->getModel()->where('id',$data['id'])->update(['precio_compra' => $data['precio_compra'],'stock' => $data['stock']]);
-    }
 }
