@@ -19,8 +19,8 @@
                 lista: [],
                 busqueda: true,
                 id_seleccionado: 0,
-                token: '',
-                stocktotal:''
+                token: ''
+
             },
             watch:{
                 lista:function(){
@@ -33,8 +33,9 @@
                 console.log(id);
                 var addstock = $("input:text[name=addstock"+id+"]").val();
                 var stock = $("input:text[name=stock"+id+"]").val();
-                this.stocktotal =  parseFloat(addstock) +  parseFloat(stock);
-                    console.log(this.stocktotal);
+                var total = parseFloat(addstock) +  parseFloat(stock);
+                $("#stocktotal"+id).val(total);
+                    //console.log($("#stocktotal"+id).val());
                 },
                 cargarProveedores: function()
                 {
@@ -53,19 +54,21 @@
                 },
                 updateStock: function(id)
                 {
+                    console.log($("input:text[name=stocktotal"+id+"]").val());
                     var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
-                    var precio_sugerido = $("input:text[name=precio_sugerido_"+id+"]").val();
+                    var stocktotal = $("input:text[name=stocktotal"+id+"]").val();
                     var token = $("input:hidden[name=_token]").val();
 
                     cargando('sk-falding-circle"','Actualizando');
                     $.ajax({
-                        url: "{{route('articulosxstock.updatePrices')}}",
+                        url: "{{route('articulosxstock.updateBoleta')}}",
                         method: 'POST',
-                        data: "id="+id+"&precio_compra="+precio_compra+"&precio_sugerido="+precio_sugerido+"&_token="+token,
+                        data: "id="+id+"&precio_compra="+precio_compra+"&stock="+stocktotal+"&_token="+token,
                         success: function (data) {
                             HoldOn.close();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
                             $("#confirmacion-1").modal(function(){show:true});
+
                         },
                         error: function (respuesta) {
                             HoldOn.close();
@@ -200,7 +203,7 @@
                            <span>=</span>
                        </div>
                        <div class="col-xs-4 .col-md-4">
-                           <input type="text" maxlength="5" size="5" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
+                           <input type="text" maxlength="5" size="5" id="stocktotal@{{ registro.id }}" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
                        </div>
                    </div>
                 </td>

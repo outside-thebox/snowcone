@@ -97,4 +97,8 @@ class RepoStockXArticulos extends Repo
         $this->getModel()->where('id',$data['id'])->update(['precio_compra' => $data['precio_compra'],'precio_sugerido' => $data['precio_sugerido']]);
     }
 
+    public function updateBoleta($data)
+    {
+        $this->getModel()->where('id',$data['id'])->update(['precio_compra' => $data['precio_compra'],'stock' => $data['stock']]);
+    }
 }
