@@ -77,6 +77,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     @if (!Auth::guest())
+                        {{Auth::user()->tipo_usuario_id }}
+                        @if(Auth::user()->tipo_usuario_id <= 1)
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                         </ul>
@@ -86,12 +88,18 @@
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
                         </ul>
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('caja.index') }}">Caja</a></li>
-                        </ul>
+                        @endif
+                        @if(Auth::user()->tipo_usuario_id <= 4)
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
+                            </ul>
+                        @endif
+                        @if(Auth::user()->tipo_usuario_id  <= 5)
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('caja.index') }}">Caja</a></li>
+                            </ul>
+                        @endif
+
                     @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
