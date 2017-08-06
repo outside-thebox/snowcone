@@ -50,6 +50,11 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
     Route::resource('articulos','ArticulosController');
 
+    Route::get('articulosxstock.buscarxstock',['uses' => 'ArticulosXStockController@buscarxstock','as' => 'articulos.buscarxstock']);
+    Route::get('articulosxstock.prices',['uses' => 'ArticulosXStockController@prices','as' => 'articulos.prices']);
+    Route::post('articulosxstock.updatePrices',['uses' => 'ArticulosXStockController@updatePrices','as' => 'articulosxstock.updatePrices']);
+    Route::get('articulosxstock.addBoleta',['uses' => 'ArticulosXStockController@addBoleta','as' => 'articulosxstock.addBoleta']);
+    Route::post('articulosxstock.updateBoleta',['uses' => 'ArticulosXStockController@updateBoleta','as' => 'articulosxstock.updateBoleta']);
 
     Route::resource('presupuesto','PresupuestoController');
 

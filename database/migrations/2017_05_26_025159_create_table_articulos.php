@@ -18,8 +18,6 @@ class CreateTableArticulos extends Migration
             $table->integer('cod')->unsigned()->unique();
             $table->string('descripcion');
             $table->integer('unidad_medida_id')->unsigned();
-            $table->integer('precio_sugerido');
-            $table->integer('precio_compra');
             $table->date('fecha_ultima_compra');
             $table->timestamps();
             $table->softDeletes();

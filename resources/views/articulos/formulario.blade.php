@@ -11,8 +11,8 @@
                 cod: '',
                 descripcion: '',
                 unidad_medida_id: '',
-                precio_sugerido: '',
-                precio_compra: '',
+//                precio_sugerido: '',
+//                precio_compra: '',
                 fecha_ultima_compra: ''
             },
             unidades_medida: [],
@@ -125,29 +125,29 @@
         {!! Field::text('descripcion',null,['v-model' => 'articulo.descripcion', 'autofocus', 'required']) !!}
     </div>
 
-    <div class="col-md-6">
-        {!! Form::label('precio_sugerido','Precio sugerido') !!}
-        <span class="label label-info">Required</span>
+    {{--<div class="col-md-6">--}}
+        {{--{!! Form::label('precio_sugerido','Precio sugerido') !!}--}}
+        {{--<span class="label label-info">Required</span>--}}
 
-        <div class="input-group">
-                <span class="input-group-addon">
-                    <span class="fa fa-usd"></span>
-                </span>
-            {!! Form::text('precio_sugerido',null,['class' => 'form-control','v-model' => 'articulo.precio_sugerido']) !!}
-        </div>
-    </div>
+        {{--<div class="input-group">--}}
+                {{--<span class="input-group-addon">--}}
+                    {{--<span class="fa fa-usd"></span>--}}
+                {{--</span>--}}
+            {{--{!! Form::text('precio_sugerido',null,['class' => 'form-control','v-model' => 'articulo.precio_sugerido']) !!}--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
-    <div class="col-md-6">
-        {!! Form::label('precio_compra','Precio de compra') !!}
-        <span class="label label-info">Required</span>
+    {{--<div class="col-md-6">--}}
+        {{--{!! Form::label('precio_compra','Precio de compra') !!}--}}
+        {{--<span class="label label-info">Required</span>--}}
 
-        <div class="input-group">
-                <span class="input-group-addon">
-                    <span class="fa fa-usd"></span>
-                </span>
-            {!! Form::text('precio_compra',null,['class' => 'form-control','v-model' => 'articulo.precio_compra']) !!}
-        </div>
-    </div>
+        {{--<div class="input-group">--}}
+                {{--<span class="input-group-addon">--}}
+                    {{--<span class="fa fa-usd"></span>--}}
+                {{--</span>--}}
+            {{--{!! Form::text('precio_compra',null,['class' => 'form-control','v-model' => 'articulo.precio_compra']) !!}--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
     <div class="col-md-6 form-group" style="margin-top: 10px">
         <div class="form-group">

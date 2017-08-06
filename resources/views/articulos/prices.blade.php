@@ -28,19 +28,34 @@
                 }
             },
             methods:{
-                eliminar: function(id,descripcion)
+                updateStock: function(id)
                 {
-                    $("#pregunta-1").modal(function(){show:true});
+                    var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
+                    var precio_sugerido = $("input:text[name=precio_sugerido_"+id+"]").val();
+                    var token = $("input:hidden[name=_token]").val();
 
-                    $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Eliminar artículo <strong>"+descripcion+"</strong>?</h2>");
-                    $("#pregunta-1").modal(function(){show:true});
-                    $("input:hidden[name=id_seleccionado]").val(id);
+                    cargando('sk-falding-circle"','Actualizando');
+                    $.ajax({
+                        url: "{{route('articulosxstock.updatePrices')}}",
+                        method: 'POST',
+                        data: "id="+id+"&precio_compra="+precio_compra+"&precio_sugerido="+precio_sugerido+"&_token="+token,
+                        success: function (data) {
+                            HoldOn.close();
+                            $("#contenido-modal-1").html("El registro fue actualizado correctamente");
+                            $("#confirmacion-1").modal(function(){show:true});
+                        },
+                        error: function (respuesta) {
+                            HoldOn.close();
+                            $("#contenido-modal-1").html("Se ha producido un error, por favor contacte con el administrador");
+                            $("#confirmacion-1").modal(function(){show:true});
+                        }
+                    });
+
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
-                        var url = "{{route('articulos.buscar')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
+                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
@@ -58,7 +73,7 @@
                         success: function (data) {
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
-                            vm.first = "{{route('articulos.buscar')}}" + "?page=1";
+                            vm.first = "{{route('articulos.buscarxstock')}}" + "?page=1";
                             vm.next = data.next_page_url;
                             if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
                             {
@@ -76,7 +91,7 @@
                             }
 
                             vm.prev = data.prev_page_url;
-                            vm.last = "{{route('articulos.buscar')}}" + "?page="+data.last_page;
+                            vm.last = "{{route('articulos.buscarxstock')}}" + "?page="+data.last_page;
                             HoldOn.close();
                             vm.busqueda = false;
                         },
@@ -90,31 +105,10 @@
 
         $(document).ready(function(){
 
-            $("input:text[name=telefono]").mask("00000000000000000000");
+            $(".numeros").mask("000000");
             $('[data-toggle="tooltip"]').tooltip();
 
             vm.buscar();
-
-            $("#eliminar-1").click(function(){
-                var id = $("input:hidden[name=id_seleccionado]").val();
-                var urlDelete = "{{route('articulos.eliminar')}}";
-                var token = $("input:hidden[name=_token]").val();
-                cargando("sk-folding-cube",'Guardando...');
-                $.ajax({
-                    type: "Post",
-                    url : urlDelete,
-                    data: "id="+id+"&_token="+token,
-                    success: function(respuesta)
-                    {
-                        HoldOn.close();
-                        $("#pregunta-1").modal("hide");
-                        $("#contenido-modal-1").html("Se ha eliminado el articulo");
-                        $("#confirmacion-1").modal(function(){show:true});
-                        location.href = "{{ Route('master',3) }}";
-
-                    }
-                });
-            });
 
         });
 
@@ -125,8 +119,8 @@
 
 @section('content')
 
-    <h1>Articulos
-        <a href="{!! route('articulos.create')!!}"><button class="btn btn-success pull-right">Agregar</button></a>
+    <h1>Stock de articulos
+        <a href="{!! route('articulosxstock.addBoleta')!!}"><button class="btn btn-success pull-right">Agregar boleta</button></a>
     </h1>
 
     <div class="form-inline" style="margin-bottom: 10px">
@@ -152,10 +146,11 @@
             <tr>
                 <th>Cod</th>
                 <th>Descripción</th>
-                <th>Unidad de medida</th>
-                {{--<th>Precio sugerido</th>--}}
-                {{--<th>Precio de compra</th>--}}
+                <th>Precio</th>
+                <th>Sugerido</th>
+                <th>Stock</th>
                 <th>Proveedor</th>
+                <th>Unidad</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -163,13 +158,32 @@
             <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
                 <td>@{{ registro.cod }}</td>
                 <td>@{{ registro.descripcion }}</td>
-                <td>@{{ registro.unidad_medida.descripcion }}</td>
-                {{--<td>$@{{ registro.precio_sugerido }}</td>--}}
-                {{--<td>$@{{ registro.precio_compra }}</td>--}}
-                <td>@{{ registro.proveedor.descripcion }}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
-                    <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="fa fa-usd"></span>
+                            </span>
+                        <input type="text" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="fa fa-usd"></span>
+                            </span>
+                        <input type="text" name="precio_sugerido_@{{ registro.id }}" value="@{{ registro.precio_sugerido }}" class="form-control" />
+                    </div>
+                </td>
+                <td v-if="registro.stock != null">
+                    @{{ registro.stock }}
+                </td>
+                <td v-else>
+                    0
+                </td>
+                <td>@{{ registro.proveedor }}</td>
+                <td>@{{ registro.unidad_medida }}</td>
+                <td>
+                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-refresh' ></i></a>
                 </td>
             </tr>
             </tbody>
