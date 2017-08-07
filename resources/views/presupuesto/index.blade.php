@@ -57,6 +57,7 @@
                         success: function (data) {
                             if(data.total == 1)
                             {
+                                $("#message-confirmation").addClass("hidden");
                                 vm.articulo_seleccionado = data.data[0];
                             }
 
