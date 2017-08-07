@@ -25,6 +25,7 @@
                 articulo_seleccionado: null,
                 lista_ingresados: [],
                 error: false,
+                error2: false,
                 precio_total: 0,
                 presupuestos: []
 
@@ -36,7 +37,6 @@
             },
             methods:{
                 buscar: function(url){
-                    $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
                         var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&cod="+this.presupuesto.cod;
 
@@ -98,6 +98,11 @@
 //                        $("#confirmacion-1").modal(function(){show:true});
                         document.getElementById("cant").focus();
                         vm.error = true;
+                    }
+                    else if(vm.presupuesto.cant == 0)
+                    {
+                        document.getElementById("cant").focus();
+                        vm.error2 = true;
                     }
 
                     else if(vm.articulo_seleccionado != null)
@@ -165,6 +170,7 @@
                         data: "cliente="+vm.presupuesto.cliente+"&precio_total="+vm.precio_total+"&_token="+this.token+"&lista="+JSON.stringify(lista_presupuesto),
                         dataType: "json",
                         success: function (data) {
+                            location.href = "{{ Route('master',4) }}";
 
                         },
                         error: function(respuesta)
@@ -203,8 +209,10 @@
 
 
 @section('content')
+
     <h1>Presupuesto</h1>
 
+    @include('components.message-confirmation')
 
     <div class="row">
         <div class="col-md-6">
@@ -226,6 +234,7 @@
             {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add",'id' => 'cant']) !!}
 
             <label class="error" v-show="error">No hay suficiente stock, por favor, ingresa una cantidad menor</label>
+            <label class="error" v-show="error2">La cantidad debe ser mayor a cero</label>
 
             <div v-show="lista.length > 0" style="margin-top: 10px">
                 @include('components.buttons_paginate')
