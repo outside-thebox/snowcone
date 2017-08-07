@@ -22,7 +22,10 @@
                 id_seleccionado: 0,
                 token: '',
                 lista_presupuesto:[],
-                articulo_seleccionado: null
+                articulo_seleccionado: null,
+                lista_ingresados: [],
+                error: false,
+                precio_total: 0
 
             },
             watch:{
@@ -34,7 +37,7 @@
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
-                        var url = "{{route('articulos.buscar')}}" + "?" + "page=1&cod="+this.presupuesto.cod;
+                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&cod="+this.presupuesto.cod;
 
                     var presupuesto = this.presupuesto;
                     presupuesto._token = this.token;
@@ -46,7 +49,7 @@
                         method: 'GET',
                         dataType: "json",
                         assync: true,
-                        data: presupuesto,
+                        data: presupuesto+"&ingresados="+vm.lista_ingresados,
                         cache: false,
                         contentType: false,
                         processData: false,
@@ -56,11 +59,9 @@
                                 vm.articulo_seleccionado = data.data[0];
                             }
 
-                            console.log(vm.articulo_seleccionado);
-
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
-                            vm.first = "{{route('articulos.buscar')}}" + "?page=1";
+                            vm.first = "{{route('articulos.buscarxstock')}}" + "?page=1";
                             vm.next = data.next_page_url;
                             if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
                             {
@@ -89,31 +90,74 @@
                 },
                 add: function () {
 //                    console.log("hola");
-                    var item = {};
-
-                    if(vm.articulo_seleccionado != null)
+                    vm.error = false;
+                    if(vm.articulo_seleccionado.stock < vm.presupuesto.cant)
                     {
+//                        $("#contenido-modal-1").html("No hay suficiente stock. Por favor, ingresa una cantidad menor");
+//                        $("#confirmacion-1").modal(function(){show:true});
+                        document.getElementById("cant").focus();
+                        vm.error = true;
+                    }
+
+                    else if(vm.articulo_seleccionado != null)
+                    {
+                        var item = {};
+
+                        vm.lista_ingresados.push(vm.articulo_seleccionado.cod);
+
+                        item.id = vm.articulo_seleccionado.id;
+                        item.articulo_id = vm.articulo_seleccionado.articulo_id;
                         item.cod = vm.articulo_seleccionado.cod;
                         item.nombre = vm.articulo_seleccionado.descripcion;
                         item.cantidad = vm.presupuesto.cant;
                         item.precio_unitario = vm.articulo_seleccionado.precio_sugerido;
-                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_sugerido) * parseFloat(vm.presupuesto.cant));
+                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_sugerido) * parseFloat(vm.presupuesto.cant)).toFixed(2);
                         vm.lista_presupuesto.push(item);
+                        vm.precio_total = ((parseFloat(vm.precio_total))+(parseFloat(item.subtotal)));
 
+//                        console.log(vm.articulo_seleccionado);
+
+//                        vm.lista[vm.articulo_seleccionado.id] = vm.articulo_seleccionado;
 
                         vm.presupuesto.cod = '';
                         vm.presupuesto.cant = 1;
 
                         vm.buscar();
+
                         vm.articulo_seleccionado = null;
-//                        console.log(vm.presupuesto.cod.focus());
 //                        vm.presupuesto.cod.focus();
                         document.getElementById("cod").focus();
                     }
                 },
                 eliminar: function(item)
                 {
+                    vm.lista_ingresados.$remove(item.cod);
                     vm.lista_presupuesto.$remove(item);
+                    vm.buscar();
+
+                },
+                imprimir: function()
+                {
+
+                    var lista_presupuesto = this.lista_presupuesto;
+                    lista_presupuesto._token = this.token;
+//                    cargando('sk-circle','Imprimiendo');
+                    $.ajax({
+                        url: "{{ Route('presupuesto.store') }}",
+                        method: 'POST',
+                        data: "cliente="+vm.presupuesto.cliente+"&precio_total="+vm.precio_total+"&_token="+this.token+"&lista="+JSON.stringify(lista_presupuesto),
+                        dataType: "json",
+                        success: function (data) {
+
+                        },
+                        error: function(respuesta)
+                        {
+                            $("#contenido-modal-1").html("No hay stock suficiente para el artículo " + respuesta.responseJSON.descripcion);
+                            $("#confirmacion-1").modal(function(){show:true});
+
+                        }
+
+                    });
 
                 }
             }
@@ -160,7 +204,10 @@
             {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'presupuesto.cod','autofocus','@keyup' => 'buscar()','id' => 'cod']) !!}
 
             {!! Form::label('cant','Cantidad',['class' => 'campos_resaltados']) !!}
-            {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add"]) !!}
+            {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'presupuesto.cant','autofocus','v-on:keyup.enter'=>"add",'id' => 'cant']) !!}
+
+            <label class="error" v-show="error">No hay suficiente stock, por favor, ingresa una cantidad menor</label>
+
             <div v-show="lista.length > 0" style="margin-top: 10px">
                 @include('components.buttons_paginate')
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
@@ -170,6 +217,7 @@
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Sugerido</th>
+                        <th>Stock</th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -178,6 +226,7 @@
                         <td>@{{ registro.descripcion }}</td>
                         <td>$@{{ registro.precio_compra }}</td>
                         <td>$@{{ registro.precio_sugerido }}</td>
+                        <td>@{{ registro.stock }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -190,6 +239,7 @@
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
                     <thead>
                     <tr>
+                        <th>Cod</th>
                         <th>Nombre</th>
                         <th>Cantidad</th>
                         <th>Unitario</th>
@@ -199,6 +249,7 @@
                     </thead>
                     <tbody id="table">
                     <tr v-for="registro in lista_presupuesto">
+                        <td>@{{ registro.cod }}</td>
                         <td>@{{ registro.nombre }}</td>
                         <td>@{{ registro.cantidad }}</td>
                         <td>$@{{ registro.precio_unitario }}</td>
@@ -207,15 +258,21 @@
                             <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro)' ><i class='glyphicon glyphicon-remove' ></i></a>
                         </td>
                     </tr>
+                    <tr v-show="precio_total" style="font-weight: bold; color: black">
+                        <td colspan="4" style="text-align: right">Total:</td>
+                        <td >$@{{ precio_total }}</td>
+                        <td>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
-
-            <a href="#" class="btn btn-primary pull-right" v-if="lista_presupuesto.length > 0">Imprimir</a>
+            <a href="#" data-toggle="tooltip" data-placement="top"  title='Para poder imprimir, ingresa el nombre del cliente y al menos un registro a la venta' class="btn btn-primary pull-right" :disabled="lista_presupuesto.length == 0 || presupuesto.cliente == ''" v-show="lista_presupuesto.length == 0 || presupuesto.cliente == ''">Imprimir</a>
+            <a @click="imprimir()" data-toggle="tooltip" data-placement="top"  title='' class="btn btn-primary pull-right" v-show="lista_presupuesto.length > 0 && presupuesto.cliente != ''">Imprimir</a>
         </div>
     </div>
 
-    {{--<pre>@{{ $data | json }}</pre>--}}
+    <pre>@{{ $data | json }}</pre>
 
     @include('components.modal',['accion' => 'Eliminar','id' => 1])
 
