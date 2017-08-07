@@ -119,8 +119,13 @@ class RepoStockXArticulos extends Repo
 
 
         }
+    }
 
-
+    public function updateStock($id,$l)
+    {
+        $model = $this->getModel()->firstOrNew(['id' => $id]);
+        $model->stock = $model->stock - $l->cantidad;
+        $model->save();
     }
 
 }

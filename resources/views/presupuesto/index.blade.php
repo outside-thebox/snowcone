@@ -115,10 +115,6 @@
                         vm.lista_presupuesto.push(item);
                         vm.precio_total = ((parseFloat(vm.precio_total))+(parseFloat(item.subtotal)));
 
-//                        console.log(vm.articulo_seleccionado);
-
-//                        vm.lista[vm.articulo_seleccionado.id] = vm.articulo_seleccionado;
-
                         vm.presupuesto.cod = '';
                         vm.presupuesto.cant = 1;
 
@@ -133,6 +129,7 @@
                 {
                     vm.lista_ingresados.$remove(item.cod);
                     vm.lista_presupuesto.$remove(item);
+                    vm.precio_total = ((parseFloat(vm.precio_total))-(parseFloat(item.subtotal)));
                     vm.buscar();
 
                 },

@@ -43,11 +43,7 @@ class PresupuestoController extends Controller
 
         $this->repoPresupuesto->store($data['cliente'],$data['precio_total'],$lista);
 
-        
-
-
-
-
+        return \Response()->json(['success' => true], 200);
     }
 
 

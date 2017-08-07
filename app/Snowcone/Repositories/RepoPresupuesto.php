@@ -43,6 +43,11 @@ class RepoPresupuesto extends Repo
         return new RepoPresupuestoXArticulos();
     }
 
+    private function getRepoStockXArticulos()
+    {
+        return new RepoStockXArticulos();
+    }
+
     public function store($cliente, $precio_total, $lista)
     {
         $presupuesto = $this->createOrUpdate($this->prepareData($cliente,$precio_total));
@@ -51,10 +56,8 @@ class RepoPresupuesto extends Repo
         {
             $data = $this->getRepoPresupuestoXArticulos()->prepareData($presupuesto['id'],$l);
             $this->getRepoPresupuestoXArticulos()->createOrUpdate($data);
+
+            $this->getRepoStockXArticulos()->updateStock($l->id,$l);
         }
-
-
-
-
     }
 }
