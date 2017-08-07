@@ -26,7 +26,7 @@
                 <div class="panel-heading">Inicio</div>
 
                 <div class="panel-body">
-                    Bienvenido al sistema Snowcone
+                    Bienvenido al sistema {{ config('app.name', 'Laravel') }}
                 </div>
             </div>
         </div>

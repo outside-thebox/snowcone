@@ -78,7 +78,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Snowcone
+                    {{ config('app.name', 'Laravel') }}
                 </div>
             </div>
         </div>
