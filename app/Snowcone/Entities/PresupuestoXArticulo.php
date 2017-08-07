@@ -21,4 +21,9 @@ Class PresupuestoXArticulo extends Model{
     protected $table = 'presupuestosxarticulos';
     protected $fillable = ['presupuesto_id','articulo_id','cantidad','precio_unitario','subtotal','deleted_at','created_at','updated_at'];
 
+
+    public function articulo()
+    {
+        return $this->hasOne('App\Snowcone\Entities\Articulo','id','articulo_id');
+    }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Snowcone\Entities\Presupuesto;
 use App\Snowcone\Repositories\RepoArticulos;
 use App\Snowcone\Repositories\RepoPresupuesto;
 use App\Snowcone\Repositories\RepoPresupuestoXArticulos;
@@ -49,6 +50,16 @@ class PresupuestoController extends Controller
     public function buscar()
     {
         return $this->repoPresupuesto->buscar();
+    }
+
+    public function exportarPDF($id)
+    {
+        $presupuesto = $this->repoPresupuesto->find($id);
+
+//        dd($presupuesto->user);
+        $pdf = \PDF::loadView('presupuesto.PDF', compact("presupuesto"))->setPaper('a4', 'landscape');
+        return $pdf->download("Presupuesto-".$presupuesto->id.".pdf");
+
     }
 
 

@@ -319,6 +319,7 @@
                 <td>$@{{ presupuesto.precio_total }}</td>
                 <td>@{{ presupuesto.created_at }}</td>
                 <td>
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ presupuesto.id }}"><i class='glyphicon glyphicon-print' ></i></a>
                 </td>
             </tr>
             </tbody>

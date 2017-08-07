@@ -27,4 +27,14 @@ Class Presupuesto extends Model{
 //    {
 //        return Carbon::parse($this->attribute['created_at'])->format('H:i:s d/m/Y');
 //    }
+
+    public function presupuestoxarticulo()
+    {
+        return $this->hasMany('App\Snowcone\Entities\PresupuestoXArticulo','presupuesto_id','id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User','id','user_id');
+    }
 }

@@ -183,7 +183,7 @@
                 <td>@{{ registro.proveedor }}</td>
                 <td>@{{ registro.unidad_medida }}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-refresh' ></i></a>
+                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-ok' ></i></a>
                 </td>
             </tr>
             </tbody>
