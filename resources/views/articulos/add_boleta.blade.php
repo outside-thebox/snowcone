@@ -8,7 +8,6 @@
                 articulo : {
                     proveedor_id:''
                 },
-                addstock:[],
                 proveedores: [],
                 lista: [],
                 busqueda: true,
@@ -50,13 +49,13 @@
                 },
                 updateStock: function()
                 {
-                    var formData = new FormData(document.getElementById("frmaddstock"));
                     var token = $("input:hidden[name=_token]").val();
-                    console.log(formData);
+                    var datos = $('#frmaddstock').serialize();
+                    console.log(datos);
                     $.ajax({
                         url: "{{route('articulosxstock.datosinput')}}",
                         method: 'POST',
-                        data: "data="+formData+"&_token="+token,
+                        data: datos+"&_token="+token,
                         success: function (data) {
                             HoldOn.close();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
@@ -94,7 +93,7 @@
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
-                   if(url == undefined)
+                    if(url == undefined)
                         var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.articulo.proveedor_id;
 
                     var articulo = this.articulo;
@@ -121,7 +120,7 @@
                             HoldOn.close();
                         }
                     });
-             }
+                }
             }
         });
 
@@ -167,48 +166,51 @@
 
             </div>
         </div>
-
-        <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
-            <thead>
-            <tr>
-                <th>Cod</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
-            </tr>
-            </thead>
-            <tbody id="table">
-            <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                <td>@{{ registro.cod }}</td>
-                <td>@{{ registro.descripcion }}</td>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="fa fa-usd"></span>
-                            </span>
-                        <input type="text" size="5" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
-                    </div>
-                </td>
-                <td>
-                   <div class="row">
-                       <div class="col-xs-4 .col-md-4">
-                           <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
-                           <span>+</span>
+        <form name="frmaddstock" method="post" id="frmaddstock" >
+            <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
+                <thead>
+                <tr>
+                    <th>Cod</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                </tr>
+                </thead>
+                <tbody id="table">
+                <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
+                    <td>@{{ registro.cod }}</td>
+                    <input type="hidden" name="addstock2[@{{ registro.id }}][cod]" id="cod" value="@{{ registro.cod }}" >
+                    <input type="hidden" name="addstock2[@{{ registro.id }}][name]" id="name" value="@{{ registro.cod }}" >
+                    <input type="hidden" name="addstock2[@{{ registro.id }}][hola]" id="hola" value="@{{ registro.cod }}" >
+                    <td>@{{ registro.descripcion }}</td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-usd"></span>
+                                </span>
+                            <input type="text" size="5" name="addstock" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control" />
+                        </div>
+                    </td>
+                    <td>
+                       <div class="row">
+                           <div class="col-xs-4 .col-md-4">
+                               <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
+                               <span>+</span>
+                           </div>
+                           <div class="col-xs-4 .col-md-4">
+                               <input type="text" maxlength="5" size="5"  id="stock" name="addstock"    />
+                               <span>=</span>
+                           </div>
+                           <div class="col-xs-4 .col-md-4">
+                               <input type="text" maxlength="5" size="5" id="stocktotal@{{ registro.id }}" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
+                           </div>
                        </div>
-                       <div class="col-xs-4 .col-md-4">
-                           <input type="text" maxlength="5" size="5"  id="addstock@{{ registro.id }}" name="stocktotal@{{ registro.id }}"    />
-                           <span>=</span>
-                       </div>
-                       <div class="col-xs-4 .col-md-4">
-                           <input type="text" maxlength="5" size="5" id="stocktotal@{{ registro.id }}" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
-                       </div>
-
-                   </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        {!! Form::button("Actualizar Todo", ['type' => 'submit','name' => 'frmaddstock', 'class' => 'btn btn-primary pull-right', '@click' => 'updateStock()']) !!}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()']) !!}
+        </form>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
 
