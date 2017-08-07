@@ -7,6 +7,7 @@
  */
 
 namespace App\Snowcone\Entities;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -21,4 +22,9 @@ Class Presupuesto extends Model{
     protected $table = 'presupuestos';
     protected $fillable = ['sucursal_id','user_id','precio_total','cliente','deleted_at','created_at','updated_at'];
 
+
+//    public function getCreatedAtAttribute()
+//    {
+//        return Carbon::parse($this->attribute['created_at'])->format('H:i:s d/m/Y');
+//    }
 }

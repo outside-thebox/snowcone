@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('articulosxstock.addBoleta',['uses' => 'ArticulosXStockController@addBoleta','as' => 'articulosxstock.addBoleta']);
     Route::post('articulosxstock.updateBoleta',['uses' => 'ArticulosXStockController@updateBoleta','as' => 'articulosxstock.updateBoleta']);
 
+    Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::resource('presupuesto','PresupuestoController');
 
     Route::resource('caja','CajaController');

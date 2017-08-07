@@ -46,5 +46,11 @@ class PresupuestoController extends Controller
         return \Response()->json(['success' => true], 200);
     }
 
+    public function buscar()
+    {
+        return $this->repoPresupuesto->buscar();
+    }
+
+
 
 }

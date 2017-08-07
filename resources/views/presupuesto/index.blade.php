@@ -25,7 +25,8 @@
                 articulo_seleccionado: null,
                 lista_ingresados: [],
                 error: false,
-                precio_total: 0
+                precio_total: 0,
+                presupuestos: []
 
             },
             watch:{
@@ -117,6 +118,7 @@
 
                         vm.presupuesto.cod = '';
                         vm.presupuesto.cant = 1;
+                        $("#cant").val(1);
 
                         vm.buscar();
 
@@ -132,6 +134,24 @@
                     vm.precio_total = ((parseFloat(vm.precio_total))-(parseFloat(item.subtotal)));
                     vm.buscar();
 
+                },
+                traerPresupuestos: function()
+                {
+                    $.ajax({
+                        url: "{{ Route('presupuesto.buscar') }}",
+                        data: '_token='+this.token,
+                        method: 'POST',
+                        dataType: "json",
+                        success: function (data) {
+                            vm.presupuestos = data;
+                        },
+                        error: function(respuesta)
+                        {
+                            $("#confirmacion-1").modal(function(){show:true});
+
+                        }
+
+                    });
                 },
                 imprimir: function()
                 {
@@ -168,6 +188,8 @@
             $("input:text[name=cant]").mask("999");
 
             vm.buscar();
+
+            vm.traerPresupuestos();
 
 
 
@@ -268,8 +290,31 @@
             <a @click="imprimir()" data-toggle="tooltip" data-placement="top"  title='' class="btn btn-primary pull-right" v-show="lista_presupuesto.length > 0 && presupuesto.cliente != ''">Imprimir</a>
         </div>
     </div>
-
-    <pre>@{{ $data | json }}</pre>
+    <div class="col-md-12">
+        <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
+            <thead>
+            <tr>
+                <th colspan="6" style="text-align: center">Últimos presupuestos</th>
+            </tr>
+            <tr>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Fecha</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            <tbody id="table">
+            <tr v-for="presupuesto in presupuestos">
+                <td>@{{ presupuesto.cliente }}</td>
+                <td>$@{{ presupuesto.precio_total }}</td>
+                <td>@{{ presupuesto.created_at }}</td>
+                <td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{--<pre>@{{ $data | json }}</pre>--}}
 
     @include('components.modal',['accion' => 'Eliminar','id' => 1])
 

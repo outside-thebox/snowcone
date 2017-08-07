@@ -60,4 +60,17 @@ class RepoPresupuesto extends Repo
             $this->getRepoStockXArticulos()->updateStock($l->id,$l);
         }
     }
+
+    public function buscar()
+    {
+        $model = $this->getModel();
+
+        $model = $model->where('sucursal_id',env('APP_SUCURSAL',1));
+
+        $model = $model->orderBy('created_at', 'desc');
+
+        return $model->get();
+
+
+    }
 }
