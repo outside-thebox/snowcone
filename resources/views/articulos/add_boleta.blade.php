@@ -6,7 +6,8 @@
             el: '#main',
             data:{
                 articulo : {
-                    proveedor_id:''
+                    proveedor_id:'',
+                    nro_factura:''
                 },
                 proveedores: [],
                 lista: [],
@@ -61,6 +62,7 @@
                             HoldOn.close();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
                             $("#confirmacion-1").modal(function(){show:true});
+                            vm.articulo.nro_factura = '';
                             return vm.buscar();
 
                         },
@@ -118,7 +120,7 @@
 @endsection
 @section('content')
 
-    <h1>Stock de articulos por proveedor</h1>
+    <h1>Agregar Boletas</h1>
     <div class="row">
         <div class="form-inline col-md-6" style="margin-bottom: 10px">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" v-model="token">
@@ -128,22 +130,25 @@
 
             <div class="form-group ">
                 <label for="proveedor_id" class="control-label">Proveedor</label>
-                <span class="label label-info">Required</span>
                 <select class="form-control" name="articulo.proveedor_id" v-model="articulo.proveedor_id" required="required">
                     <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
                 </select>
             </div>
             {{ Form::button('Buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
         </div>
-
     </div>
     @include('components.message-confirmation')
 
     <div v-show="lista.length > 0">
 
         <form name="frmaddstock" method="post" id="frmaddstock" >
+            <div class="row">
+                <div class="form-inline col-md-6">
+                    <label for="nro_factura" class="control-label">Numero de Factura</label>
+                    <input class="form-control" type="text" v-model="articulo.nro_factura" name="articulo.nro_factura" value="" >
+                </div>
+            </div>
             {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','style' => 'margin-bottom: 20px']) !!}
-
             <table class="table responsive table-bordered table-hover table-striped"  >
                 <thead>
                 <tr>
@@ -156,7 +161,9 @@
                 </thead>
                 <tbody id="table">
                 <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                    <input type="hidden" name="row[@{{ index }}][id]" value="@{{ registro.id }}" >
+                    <input type="hidden" name="row[@{{ index }}][id]"           value="@{{ registro.id }}" >
+                    <input type="hidden" name="row[@{{ index }}][proveedor_id]" value="@{{ articulo.proveedor_id }}" >
+                    <input type="hidden" name="row[@{{ index }}][nro_factura]"  value="@{{ articulo.nro_factura }}" >
                     <td>@{{ registro.cod }}</td>
                     <td>@{{ registro.descripcion }}</td>
                     <td>
@@ -172,7 +179,7 @@
                         <input type="hidden" name="row[@{{ index }}][stock]" value="@{{ registro.stock }}" />
                     </td>
                     <td>
-                        <input type="text" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
+                        <input type="number" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
                     </td>
                 </tr>
                 </tbody>
