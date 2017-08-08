@@ -58,6 +58,7 @@
                         data: datos+"&_token="+token,
                         success: function (data) {
                             HoldOn.close();
+                            return vm.buscar();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
                             $("#confirmacion-1").modal(function(){show:true});
 
@@ -68,33 +69,13 @@
                             $("#confirmacion-1").modal(function(){show:true});
                         }
                     });
-                    /*console.log($("input:text[name=stocktotal"+id+"]").val());
-                    var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
-                    var stocktotal = $("input:text[name=stocktotal"+id+"]").val();
-                    var token = $("input:hidden[name=_token]").val();
-
-                    cargando('sk-falding-circle"','Actualizando');
-                    $.ajax({
-                        url: "{{route('articulosxstock.updateBoleta')}}",
-                        method: 'POST',
-                        data: "id="+id+"&precio_compra="+precio_compra+"&stock="+stocktotal+"&_token="+token,
-                        success: function (data) {
-                            HoldOn.close();
-                            $("#contenido-modal-1").html("El registro fue actualizado correctamente");
-                            $("#confirmacion-1").modal(function(){show:true});
-
-                        },
-                        error: function (respuesta) {
-                            HoldOn.close();
-                            $("#contenido-modal-1").html("Se ha producido un error, por favor contacte con el administrador");
-                            $("#confirmacion-1").modal(function(){show:true});
-                        }
-                    });*/
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
                         var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.articulo.proveedor_id;
+                    else
+                        var url = url + "?" + "proveedor_id="+this.articulo.proveedor_id;
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
@@ -155,61 +136,47 @@
         </div>
 
     </div>
-    <pre>@{{ addstock | json }}</pre>
-
     @include('components.message-confirmation')
 
     <div v-show="lista.length > 0">
-        <div id="btntodo" class="form-aling col-md-6" style="display: none;">
-            <div class="text-right">
-            <!--{{ Form::button('Actualizar Todo',['class' => 'btn btn-success', '@click.prevent'=>'updateStock()','autofocus' ]) }}-->
 
-            </div>
-        </div>
         <form name="frmaddstock" method="post" id="frmaddstock" >
-            <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
+            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()']) !!}
+
+            <table class="table responsive table-bordered table-hover table-striped" >
                 <thead>
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
                     <th>Precio</th>
                     <th>Stock</th>
+                    <th>Nuevo Stock</th>
                 </tr>
                 </thead>
                 <tbody id="table">
-                <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
+                <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
+                    <input type="hidden" name="row[@{{ index }}][id]" value="@{{ registro.id }}" >
                     <td>@{{ registro.cod }}</td>
-                    <input type="hidden" name="addstock2[@{{ registro.id }}][cod]" id="cod" value="@{{ registro.cod }}" >
-                    <input type="hidden" name="addstock2[@{{ registro.id }}][name]" id="name" value="@{{ registro.cod }}" >
-                    <input type="hidden" name="addstock2[@{{ registro.id }}][hola]" id="hola" value="@{{ registro.cod }}" >
                     <td>@{{ registro.descripcion }}</td>
                     <td>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <span class="fa fa-usd"></span>
                                 </span>
-                            <input type="text" size="5" name="addstock" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control" />
+                            <input type="text" size="5" name="row[@{{ index }}][precio_compra]" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control" />
                         </div>
                     </td>
                     <td>
-                       <div class="row">
-                           <div class="col-xs-4 .col-md-4">
-                               <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
-                               <span>+</span>
-                           </div>
-                           <div class="col-xs-4 .col-md-4">
-                               <input type="text" maxlength="5" size="5"  id="stock" name="addstock"    />
-                               <span>=</span>
-                           </div>
-                           <div class="col-xs-4 .col-md-4">
-                               <input type="text" maxlength="5" size="5" id="stocktotal@{{ registro.id }}" name="stocktotal@{{ registro.id }}" value="@{{ stocktotal }}" disabled />
-                           </div>
-                       </div>
+                        <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
+                        <input type="hidden" name="row[@{{ index }}][stock]" value="@{{ registro.stock }}" />
+                    </td>
+                    <td>
+                        <input type="text" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
                     </td>
                 </tr>
                 </tbody>
             </table>
-            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()']) !!}
+
         </form>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>

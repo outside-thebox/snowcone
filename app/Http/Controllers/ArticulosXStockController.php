@@ -40,7 +40,7 @@ class ArticulosXStockController extends Controller
         return \Response()->json(['success' => true], 200);
     }
 
-    public function updateBoleta(Request $request)
+    public function updateBoleta($request)
     {
         $this->repoStockXArticulos->update($request);
         return \Response()->json(['success' => true], 200);
@@ -57,6 +57,17 @@ class ArticulosXStockController extends Controller
     }
     public function datosinput(Request $request)
     {
-        dd($request->all());
+        foreach ($request['row'] as $key => $item) {
+
+            if($item['addstock'] <> 0){
+
+                $aux['id'] = $item['id'];
+                $aux['precio_compra'] = $item['precio_compra'];
+                $aux['stock'] = $item['stock'] + $item['addstock'];
+
+                $this->updateBoleta($aux);
+            }
+        };
+        return \Response()->json(['success' => true], 200);
     }
 }

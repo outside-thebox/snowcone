@@ -129,7 +129,7 @@ class RepoStockXArticulos extends Repo
     {
         $record = $this->getModel()->firstOrNew(['id' => $data['id']]);
 
-        $record->fill($data->all());
+        $record->fill($data);
 
         $record->save();
     }
