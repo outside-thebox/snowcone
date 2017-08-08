@@ -57,10 +57,11 @@
                         method: 'POST',
                         data: datos+"&_token="+token,
                         success: function (data) {
+
                             HoldOn.close();
-                            return vm.buscar();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
                             $("#confirmacion-1").modal(function(){show:true});
+                            return vm.buscar();
 
                         },
                         error: function (respuesta) {
@@ -141,9 +142,9 @@
     <div v-show="lista.length > 0">
 
         <form name="frmaddstock" method="post" id="frmaddstock" >
-            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()']) !!}
+            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','style' => 'margin-bottom: 20px']) !!}
 
-            <table class="table responsive table-bordered table-hover table-striped" >
+            <table class="table responsive table-bordered table-hover table-striped"  >
                 <thead>
                 <tr>
                     <th>Cod</th>
