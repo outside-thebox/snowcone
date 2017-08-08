@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('articulosxstock.updatePrices',['uses' => 'ArticulosXStockController@updatePrices','as' => 'articulosxstock.updatePrices']);
     Route::get('articulosxstock.addBoleta',['uses' => 'ArticulosXStockController@addBoleta','as' => 'articulosxstock.addBoleta']);
     Route::post('articulosxstock.updateBoleta',['uses' => 'ArticulosXStockController@updateBoleta','as' => 'articulosxstock.updateBoleta']);
+    Route::get('articulosxstock.buscarxstockall',['uses' => 'ArticulosXStockController@buscarxstockall','as' => 'articulos.buscarxstockall']);
+    Route::post('articulosxstock.datosinput',['uses' => 'ArticulosXStockController@datosinput','as' => 'articulosxstock.datosinput']);
 
     Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);

@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoStockXArticulos;
 use Illuminate\Http\Request;
+use Psy\Test\Exception\RuntimeExceptionTest;
 
 class ArticulosXStockController extends Controller
 {
@@ -36,15 +37,37 @@ class ArticulosXStockController extends Controller
     public function updatePrices(Request $request)
     {
         $this->repoStockXArticulos->update($request);
-        return \Response()->json(['success' => true],200);
+        return \Response()->json(['success' => true], 200);
     }
-    public function updateBoleta(Request $request)
+
+    public function updateBoleta($request)
     {
         $this->repoStockXArticulos->update($request);
-        return \Response()->json(['success' => true],200);
+        return \Response()->json(['success' => true], 200);
     }
+
     public function addBoleta()
     {
         return view("articulos.add_boleta");
+    }
+
+    public function buscarxstockall(Request $request)
+    {
+        return $this->repoStockXArticulos->findAll($request->all());
+    }
+    public function datosinput(Request $request)
+    {
+        foreach ($request['row'] as $key => $item) {
+
+            if($item['addstock'] <> 0){
+
+                $aux['id'] = $item['id'];
+                $aux['precio_compra'] = $item['precio_compra'];
+                $aux['stock'] = $item['stock'] + $item['addstock'];
+
+                $this->updateBoleta($aux);
+            }
+        };
+        return \Response()->json(['success' => true], 200);
     }
 }

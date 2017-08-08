@@ -88,19 +88,52 @@ class RepoStockXArticulos extends Repo
 
         $model = $model->orderBy("articulos.cod");
 
-
         $model = $model->paginate(env('APP_CANT_PAGINATE',10));
 
         return $model;
 
     }
 
+    function findAll(array $datos)
+    {
+        $model = $this->getModel();
+
+        $model = $model->leftJoin("articulos","articulos.id","=","stockxarticulos.articulo_id");
+
+        if(isset($datos['cod']))
+            $model = $model->where('articulos.cod',$datos['cod']);
+
+        if(isset($datos['descripcion']))
+            $model = $model->where('articulos.descripcion','like','%'.$datos['descripcion'].'%');
+
+        if(isset($datos['proveedor_id']))
+            $model = $model->where('articulos.proveedor_id',$datos['proveedor_id']);
+
+        $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
+        $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
+
+        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.descripcion','stockxarticulos.precio_compra'
+            ,'stockxarticulos.precio_sugerido','stockxarticulos.stock','proveedores.descripcion as proveedor'
+            ,'unidades_medida.descripcion as unidad_medida']);
+
+        $model = $model->orderBy("articulos.cod");
+        $model = $model->get();
+
+        return $model;
+
+    }
+
+
+
+
 
     public function update($data)
     {
         $record = $this->getModel()->firstOrNew(['id' => $data['id']]);
 
-        $record->fill($data->all());
+        $record->fill($data);
 
         $record->save();
     }
