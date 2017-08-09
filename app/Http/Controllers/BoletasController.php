@@ -36,6 +36,8 @@ class BoletasController extends Controller
     {
         $boleta = $this->repoBoleta->buscarboleta($id);
 
+//        dd($boleta[1]->articulo);
+
         $pdf = \PDF::loadView('boleta.PDF', compact("boleta","id"))->setPaper('a4', 'landscape');
         return $pdf->download("Boleta-".$id.".pdf");
 

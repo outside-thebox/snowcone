@@ -120,8 +120,8 @@
 @section('content')
 
     <h1>Stock de articulos
-        <a href="{!! route('boleta.index')!!}"><button class="btn btn-success pull-right">Listado Boletas</button></a>
-        <a href="{!! route('articulosxstock.addBoleta')!!}"><button class="btn btn-success pull-right">Agregar boleta</button></a>
+        <a href="{!! route('boleta.index')!!}"><button class="btn btn-success pull-right" style="margin-left: 10px">Listado Boletas</button></a>
+        <a href="{!! route('articulosxstock.addBoleta')!!}" ><button class="btn btn-success pull-right" >Agregar boleta</button></a>
     </h1>
 
     <div class="form-inline" style="margin-bottom: 10px">

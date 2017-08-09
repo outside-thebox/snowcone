@@ -164,7 +164,7 @@
 
                     var lista_presupuesto = this.lista_presupuesto;
                     lista_presupuesto._token = this.token;
-//                    cargando('sk-circle','Imprimiendo');
+                    cargando('sk-circle','Imprimiendo');
                     $.ajax({
                         url: "{{ Route('presupuesto.store') }}",
                         method: 'POST',

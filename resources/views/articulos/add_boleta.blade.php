@@ -52,7 +52,10 @@
                 {
                     var token = $("input:hidden[name=_token]").val();
                     var datos = $('#frmaddstock').serialize();
-                    console.log(datos);
+
+                    cargando('sk-circle','Actualizando');
+
+
                     $.ajax({
                         url: "{{route('articulosxstock.datosinput')}}",
                         method: 'POST',
@@ -142,13 +145,13 @@
     <div v-show="lista.length > 0">
 
         <form name="frmaddstock" method="post" id="frmaddstock" >
-            <div class="row">
-                <div class="form-inline col-md-6">
+            <div class="row" style="margin-bottom: 20px">
+                <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
                     <input class="form-control" type="text" v-model="articulo.nro_factura" name="articulo.nro_factura" value="" >
+                    {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','v-show' => "articulo.nro_factura != ''" ]) !!}
                 </div>
             </div>
-            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','style' => 'margin-bottom: 20px']) !!}
             <table class="table responsive table-bordered table-hover table-striped"  >
                 <thead>
                 <tr>
