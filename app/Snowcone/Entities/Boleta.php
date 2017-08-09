@@ -29,11 +29,16 @@ class Boleta extends Model
 
     public function sucursal()
     {
-        return $this->hasOne('App\Snowcone\Entities\Sucursal','id','sucursal_id');
+        return $this->hasOne('App\Snowcone\Entities\Sucursales','id','sucursal_id');
     }
 
     public function proveedor()
     {
         return $this->hasOne('App\Snowcone\Entities\Proveedor','id','proveedor_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User','id','user_id');
     }
 }

@@ -62,6 +62,10 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::resource('presupuesto','PresupuestoController');
 
+    Route::resource('boleta','BoletasController');
+    Route::get('boleta.buscar',['uses' => 'BoletasController@buscarAgrupadoBoleta','as' => 'boleta.buscarAgrupadoBoleta']);
+    Route::get('boleta/exportarPDF/{ID}',['uses' => 'BoletasController@exportarPDF','as' => 'boleta/exportarPDF']);
+
     Route::resource('caja','CajaController');
 
 });

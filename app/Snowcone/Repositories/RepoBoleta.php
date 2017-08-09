@@ -17,4 +17,26 @@ class RepoBoleta  extends Repo{
         // TODO: Implement getModel() method.
         return new Boleta();
     }
+
+    public function buscarAgrupadoBoleta()
+    {
+        $model = $this->getModel();
+
+        $model = $model->with('sucursal','proveedor','articulo','user');
+
+        $model = $model->groupBy('nro_factura')->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+    }
+
+    public function buscarboleta($id)
+    {
+        $model = $this->getModel();
+
+        $model = $model->with('sucursal','proveedor','articulo','user');
+
+        $model = $model->where('nro_factura',$id)->get();
+
+        return $model;
+    }
 }

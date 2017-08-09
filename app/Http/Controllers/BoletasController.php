@@ -20,7 +20,11 @@ class BoletasController extends Controller
      */
     public function index()
     {
-        //
+        return View("boleta.index");
+    }
+    public function buscarAgrupadoBoleta()
+    {
+        return $this->repoBoleta->buscarAgrupadoBoleta();
     }
 
     /**
@@ -28,9 +32,13 @@ class BoletasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function exportarPDF($id)
     {
-        //
+        $boleta = $this->repoBoleta->buscarboleta($id);
+
+        $pdf = \PDF::loadView('boleta.PDF', compact("boleta","id"))->setPaper('a4', 'landscape');
+        return $pdf->download("Boleta-".$id.".pdf");
+
     }
 
     /**
@@ -48,48 +56,5 @@ class BoletasController extends Controller
         return \Response()->json(['success' => true], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
