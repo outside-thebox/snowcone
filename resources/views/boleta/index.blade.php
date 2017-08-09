@@ -82,6 +82,7 @@
 
             vm.buscar();
 
+
         });
 
     </script>

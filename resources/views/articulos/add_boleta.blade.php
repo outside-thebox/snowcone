@@ -148,7 +148,7 @@
             <div class="row" style="margin-bottom: 20px">
                 <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
-                    <input class="form-control" type="text" v-model="articulo.nro_factura" name="articulo.nro_factura" value="" >
+                    <input class="form-control numeros" type="text" v-model="articulo.nro_factura" name="articulo.nro_factura" value="" >
                     {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','v-show' => "articulo.nro_factura != ''" ]) !!}
                 </div>
             </div>
