@@ -61,13 +61,20 @@ class RepoPresupuesto extends Repo
         }
     }
 
-    public function buscar()
+    public function buscar($data=[])
     {
         $model = $this->getModel();
 
         $model = $model->where('sucursal_id',env('APP_SUCURSAL',1));
 
-        $model = $model->with('estado');
+        $model = $model->with('estado','presupuestoxarticulo','presupuestoxarticulo.articulo');
+
+        if(isset($data['id']))
+        {
+            if($data['id'] != '')
+                $model->where('id',$data['id']);
+        }
+
 
         $model = $model->orderBy('created_at', 'desc');
 

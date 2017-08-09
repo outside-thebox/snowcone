@@ -47,9 +47,9 @@ class PresupuestoController extends Controller
         return \Response()->json(['success' => true], 200);
     }
 
-    public function buscar()
+    public function buscar(Request $request)
     {
-        return $this->repoPresupuesto->buscar();
+        return $this->repoPresupuesto->buscar($request);
     }
 
     public function exportarPDF($id)
