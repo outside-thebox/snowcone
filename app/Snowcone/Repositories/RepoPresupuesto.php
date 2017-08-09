@@ -67,6 +67,8 @@ class RepoPresupuesto extends Repo
 
         $model = $model->where('sucursal_id',env('APP_SUCURSAL',1));
 
+        $model = $model->with('estado');
+
         $model = $model->orderBy('created_at', 'desc');
 
         return $model->get();

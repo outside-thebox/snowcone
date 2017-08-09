@@ -164,7 +164,7 @@
                 </thead>
                 <tbody id="table">
                 <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                    <input type="hidden" name="row[@{{ index }}][id]"           value="@{{ registro.id }}" >
+                    <input type="hidden" name="row[@{{ index }}][id]"           value="@{{ registro.articulo_id }}" >
                     <input type="hidden" name="row[@{{ index }}][proveedor_id]" value="@{{ articulo.proveedor_id }}" >
                     <input type="hidden" name="row[@{{ index }}][nro_factura]"  value="@{{ articulo.nro_factura }}" >
                     <td>@{{ registro.cod }}</td>

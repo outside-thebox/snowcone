@@ -114,7 +114,7 @@ class RepoStockXArticulos extends Repo
 
         $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
 
-        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.descripcion','stockxarticulos.precio_compra'
+        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.id as articulo_id','articulos.descripcion','stockxarticulos.precio_compra'
             ,'stockxarticulos.precio_sugerido','stockxarticulos.stock','proveedores.descripcion as proveedor'
             ,'unidades_medida.descripcion as unidad_medida']);
 

@@ -24,7 +24,10 @@ class RepoBoleta  extends Repo{
 
         $model = $model->with('sucursal','proveedor','articulo','user');
 
+        $model = $model->orderBy('created_at', 'desc');
+
         $model = $model->groupBy('nro_factura')->paginate(env('APP_CANT_PAGINATE',10));
+
 
         return $model;
     }

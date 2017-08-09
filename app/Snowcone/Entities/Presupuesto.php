@@ -20,7 +20,7 @@ Class Presupuesto extends Model{
     use SoftDeletes;
     use AuditingTrait;
     protected $table = 'presupuestos';
-    protected $fillable = ['sucursal_id','user_id','precio_total','cliente','deleted_at','created_at','updated_at'];
+    protected $fillable = ['sucursal_id','user_id','precio_total','cliente','estado_id','deleted_at','created_at','updated_at'];
 
 
 //    public function getCreatedAtAttribute()
@@ -31,6 +31,11 @@ Class Presupuesto extends Model{
     public function presupuestoxarticulo()
     {
         return $this->hasMany('App\Snowcone\Entities\PresupuestoXArticulo','presupuesto_id','id');
+    }
+
+    public function estado()
+    {
+        return $this->hasOne('App\Snowcone\Entities\Estado','id','estado_id');
     }
 
     public function user()
