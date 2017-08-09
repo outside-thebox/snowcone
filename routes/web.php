@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
 
 Auth::routes();
@@ -58,6 +58,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('articulosxstock.buscarxstockall',['uses' => 'ArticulosXStockController@buscarxstockall','as' => 'articulos.buscarxstockall']);
     Route::post('articulosxstock.datosinput',['uses' => 'ArticulosXStockController@datosinput','as' => 'articulosxstock.datosinput']);
 
+    Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
+    Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::resource('presupuesto','PresupuestoController');
 
     Route::resource('caja','CajaController');

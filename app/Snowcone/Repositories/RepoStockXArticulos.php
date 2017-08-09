@@ -71,6 +71,10 @@ class RepoStockXArticulos extends Repo
         if(isset($datos['proveedor_id']))
             $model = $model->where('articulos.proveedor_id',$datos['proveedor_id']);
 
+//        dd($datos['ingresados']);
+        if(isset($datos['ingresados']))
+            $model = $model->whereNotIn('articulos.cod',explode(",",$datos['ingresados']));
+
         $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
         $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
 
@@ -78,7 +82,7 @@ class RepoStockXArticulos extends Repo
 
 //        $model = $model->with('unidad_medida','proveedor');
 
-        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.descripcion','stockxarticulos.precio_compra'
+        $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.id as articulo_id','articulos.descripcion','stockxarticulos.precio_compra'
             ,'stockxarticulos.precio_sugerido','stockxarticulos.stock','proveedores.descripcion as proveedor'
             ,'unidades_medida.descripcion as unidad_medida']);
 
@@ -128,6 +132,29 @@ class RepoStockXArticulos extends Repo
         $record->fill($data);
 
         $record->save();
+    }
+
+    public function validateStock($lista)
+    {
+        foreach($lista as $l)
+        {
+            $model = $this->getModel()
+                ->join('articulos','articulos.id','=','stockxarticulos.articulo_id')
+                ->where('stockxarticulos.id',$l->id)->first();
+
+//            dd($model);
+            if($model->stock < $l->cantidad)
+                return $model;
+
+
+        }
+    }
+
+    public function updateStock($id,$l)
+    {
+        $model = $this->getModel()->firstOrNew(['id' => $id]);
+        $model->stock = $model->stock - $l->cantidad;
+        $model->save();
     }
 
 }

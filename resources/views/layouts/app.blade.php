@@ -51,6 +51,19 @@
 
     </script>
 
+    <style>
+
+        .campos_resaltados{
+            color: #0d1318;
+            font-weight: bold;
+        }
+
+        .error{
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+
 
 
 </head>
