@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('articulosxstock.datosinput',['uses' => 'ArticulosXStockController@datosinput','as' => 'articulosxstock.datosinput']);
 
     Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
+    Route::post('presupuesto.updateEstado',['uses' => 'PresupuestoController@updateEstado','as' => 'presupuesto.updateEstado']);
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::resource('presupuesto','PresupuestoController');
 
