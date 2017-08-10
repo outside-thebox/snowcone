@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
 
 Auth::routes();
@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('master/{id}',['uses' => 'Controller@redirect','as' => 'master']);
     Route::get('unidades_medida.all',['uses' => 'UnidadesMedidaController@all','as' => 'unidades_medida.all']);
+
     //admin
     Route::group(['middleware' => 'tipousuarios:1'],function(){
 
@@ -44,27 +45,46 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('tipos_usuarios.getTiposUsuariosWithoutAdmin',['uses' => 'TiposUsuariosController@getTiposUsuariosWithoutAdmin','as' => 'tipos_usuarios.getTiposUsuariosWithoutAdmin']);
         Route::get('tipos_usuarios.all',['uses' => 'TiposUsuariosController@all','as' => 'tipos_usuarios.all']);
 
-        Route::get('proveedores.all',['uses' => 'ProveedoresController@all','as' => 'proveedores.all']);
+
     });
-    /*Route::group(['middleware' => 'tipousuarios:3'],function(){
-        Route::post("articulos/eliminar",array('as' => 'articulos.eliminar','uses'  => 'ArticulosController@eliminar'));
-        Route::get('articulos.getDataArticulo',['uses' => 'ArticulosController@getDataArticulo','as' => 'articulos.getDataArticulo']);
-        Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
-        Route::resource('articulos','ArticulosController');
-    });*/
 
     //ventas
     Route::group(['middleware' => 'tipousuarios:4'],function(){
-        Route::resource('presupuesto','PresupuestoController');
-        Route::post("articulos/eliminar",array('as' => 'articulos.eliminar','uses'  => 'ArticulosController@eliminar'));
-        Route::get('articulos.getDataArticulo',['uses' => 'ArticulosController@getDataArticulo','as' => 'articulos.getDataArticulo']);
-        Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
-        Route::resource('articulos','ArticulosController');
+
+        //dd('ventas');
+
     });
     //caja
     Route::group(['middleware' => 'tipousuarios:5'],function(){
 
-        Route::resource('caja','CajaController');
+
     });
+
+
+    Route::get('proveedores.all',['uses' => 'ProveedoresController@all','as' => 'proveedores.all']);
+
+    Route::post("articulos/eliminar",array('as' => 'articulos.eliminar','uses'  => 'ArticulosController@eliminar'));
+    Route::get('articulos.getDataArticulo',['uses' => 'ArticulosController@getDataArticulo','as' => 'articulos.getDataArticulo']);
+    Route::get('articulos.buscar',['uses' => 'ArticulosController@buscar','as' => 'articulos.buscar']);
+    Route::resource('articulos','ArticulosController');
+
+    Route::get('articulosxstock.buscarxstock',['uses' => 'ArticulosXStockController@buscarxstock','as' => 'articulos.buscarxstock']);
+    Route::get('articulosxstock.prices',['uses' => 'ArticulosXStockController@prices','as' => 'articulos.prices']);
+    Route::post('articulosxstock.updatePrices',['uses' => 'ArticulosXStockController@updatePrices','as' => 'articulosxstock.updatePrices']);
+    Route::get('articulosxstock.addBoleta',['uses' => 'ArticulosXStockController@addBoleta','as' => 'articulosxstock.addBoleta']);
+    Route::post('articulosxstock.updateBoleta',['uses' => 'ArticulosXStockController@updateBoleta','as' => 'articulosxstock.updateBoleta']);
+    Route::get('articulosxstock.buscarxstockall',['uses' => 'ArticulosXStockController@buscarxstockall','as' => 'articulos.buscarxstockall']);
+    Route::post('articulosxstock.datosinput',['uses' => 'ArticulosXStockController@datosinput','as' => 'articulosxstock.datosinput']);
+
+    Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
+    Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
+    Route::resource('presupuesto','PresupuestoController');
+
+    Route::resource('boleta','BoletasController');
+    Route::get('boleta.buscar',['uses' => 'BoletasController@buscarAgrupadoBoleta','as' => 'boleta.buscarAgrupadoBoleta']);
+    Route::get('boleta/exportarPDF/{ID}',['uses' => 'BoletasController@exportarPDF','as' => 'boleta/exportarPDF']);
+
+    Route::resource('caja','CajaController');
+
 
 });

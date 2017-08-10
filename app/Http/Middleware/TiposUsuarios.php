@@ -25,7 +25,7 @@ class TiposUsuarios
     {
         $user = Auth::user();
 
-        if( $rol >= $user->tipo_usuario_id ){
+        if( $user->tipo_usuario_id = $rol ){
             return $next($request);
         }
 

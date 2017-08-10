@@ -2,13 +2,7 @@
 
 @section('scripts')
 
-    <style>
 
-        .campos_resaltados{
-            color: #0d1318;
-            font-weight: bold;
-        }
-    </style>
 
     <script>
         vm = new Vue({
@@ -30,42 +24,45 @@
                 id_seleccionado: 0,
                 token: '',
                 presupuesto_seleccionado:"",
-                lista_presupuestos:[{"nro_presupuesto":"13","cliente":"Lucas Matias Sisi","total":"650","fecha":"",
-                    "estado":{"cod":"0","descripcion":"No Cobrado"},
-                    "articulos":[
-                        {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-                        {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-                        {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-                    ]},
-                    {"nro_presupuesto":"1351","cliente":"Lucas","total":"650","fecha":"",
-                        "estado":{"cod":"0","descripcion":"No Cobrado"},
-                        "articulos":[
-                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-                        ]},
-                    {"nro_presupuesto":"1310","cliente":"Carlos","total":"650","fecha":"",
-                        "estado":{"cod":"1","descripcion":"Cobrado"},
-                        "articulos":[
-                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-                        ]},
-                    {"nro_presupuesto":"1300","cliente":"Juan","total":"650","fecha":"",
-                        "estado":{"cod":"1","descripcion":"Cobrado"},
-                        "articulos":[
-                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-                        ]},
-                    {"nro_presupuesto":"1388","cliente":"Pedro","total":"650","fecha":"",
-                        "estado":{"cod":"1","descripcion":"Cobrado"},
-                        "articulos":[
-                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-                        ]},
-                ],
+                lista_presupuestos:[],
+                presupuestosxarticulos:[],
+                precio_total: ''
+//                lista_presupuestos:[{"nro_presupuesto":"13","cliente":"Lucas Matias Sisi","total":"650","fecha":"",
+//                    "estado":{"cod":"0","descripcion":"No Cobrado"},
+//                    "articulos":[
+//                        {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
+//                        {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
+//                        {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
+//                    ]},
+//                    {"nro_presupuesto":"1351","cliente":"Lucas","total":"650","fecha":"",
+//                        "estado":{"cod":"0","descripcion":"No Cobrado"},
+//                        "articulos":[
+//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
+//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
+//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
+//                        ]},
+//                    {"nro_presupuesto":"1310","cliente":"Carlos","total":"650","fecha":"",
+//                        "estado":{"cod":"1","descripcion":"Cobrado"},
+//                        "articulos":[
+//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
+//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
+//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
+//                        ]},
+//                    {"nro_presupuesto":"1300","cliente":"Juan","total":"650","fecha":"",
+//                        "estado":{"cod":"1","descripcion":"Cobrado"},
+//                        "articulos":[
+//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
+//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
+//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
+//                        ]},
+//                    {"nro_presupuesto":"1388","cliente":"Pedro","total":"650","fecha":"",
+//                        "estado":{"cod":"1","descripcion":"Cobrado"},
+//                        "articulos":[
+//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
+//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
+//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
+//                        ]},
+//                ],
             },
             watch:{
                 lista:function(){
@@ -106,8 +103,34 @@
                         }
                     }
 
+
                     HoldOn.close();
                     vm.caja.cod = '';
+                },
+                find:function()
+                {
+                    cargando('sk-circle','Buscando');
+                    vm.presupuesto_seleccionado="";
+                    var nro_presupuesto = vm.caja.cod;
+
+                    $.ajax({
+                        url: "{{ Route('presupuesto.buscar') }}",
+                        data: '_token='+this.token+"&id="+nro_presupuesto,
+                        method: 'POST',
+                        dataType: "json",
+                        success: function (data) {
+                            vm.lista_presupuestos = data;
+                            vm.presupuestosxarticulos = vm.lista_presupuestos[0].presupuestoxarticulo;
+                            vm.precio_total = vm.lista_presupuestos[0].precio_total;
+                        },
+                        error: function(respuesta)
+                        {
+                            $("#confirmacion-1").modal(function(){show:true});
+
+                        }
+
+                    });
+                    HoldOn.close();
                 },
                 pagar:function () {
                     cargando('sk-circle','Buscando');
@@ -127,17 +150,31 @@
                     }
                     HoldOn.close();
                 },
-                get_color:function(codigo_estado){
-                    if(codigo_estado.cod === '1')
-                        return 'label-success';
-                    else
-                        return 'label-danger';
-                },
+                traerPresupuestos: function()
+                {
+                    $.ajax({
+                        url: "{{ Route('presupuesto.buscar') }}",
+                        data: '_token='+this.token,
+                        method: 'POST',
+                        dataType: "json",
+                        success: function (data) {
+                            vm.lista_presupuestos = data;
+                        },
+                        error: function(respuesta)
+                        {
+                            $("#confirmacion-1").modal(function(){show:true});
+
+                        }
+
+                    });
+                }
             }
         });
 
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+
+            vm.traerPresupuestos();
         });
     </script>
 @endsection
@@ -152,7 +189,7 @@
             {{ method_field('PUT') }}
 
             {!! Form::label('cod','Presupuesto Nro',['class' => 'campos_resaltados']) !!}
-            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"add"]) !!}
+            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"find"]) !!}
 
 
             <div v-show="lista_presupuestos.length > 0">
@@ -168,16 +205,16 @@
                     </thead>
                     <tbody id="table">
                         <tr v-for="registro in lista_presupuestos">
-                            <td>@{{ registro.nro_presupuesto }}</td>
+                            <td>@{{ registro.id }}</td>
                             <td>@{{ registro.cliente }}</td>
-                            <td>$@{{ registro.total }}</td>
-                            <td>@{{ registro.fecha }}</td>
+                            <td>$@{{ registro.precio_total }}</td>
+                            <td>@{{ registro.created_at }}</td>
                             <td>
-                                <h5>
-                                    <span  style="font-size: 90%;" class="label" :class="get_color(registro.estado)" >@{{ registro.estado.descripcion }}</span>
-                                </h5>
+                                <span class="label label-danger" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
+                                <span class="label label-success" v-if="registro.estado_id == 2">@{{ registro.estado.descripcion }}</span>
                             </td>
                         </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -207,17 +244,23 @@
                     </tr>
                     </thead>
                     <tbody id="table">
-                    <tr v-for="row in presupuesto_seleccionado.articulos">
-                        <td>@{{ row.descripcion }}</td>
-                        <td>@{{ row.cantidad }}</td>
-                        <td>$@{{ row.precio_unitario }}</td>
-                        <td>$@{{ row.subtotal }}</td>
-                    </tr>
+                        <tr v-for="row in presupuestosxarticulos">
+                            <td>@{{ row.articulo.descripcion }}</td>
+                            <td>@{{ row.cantidad }}</td>
+                            <td>$@{{ row.precio_unitario }}</td>
+                            <td>$@{{ row.subtotal }}</td>
+                        </tr>
                     </tbody>
+                    <tr v-show="precio_total" style="font-weight: bold; color: black">
+                        <td colspan="3" style="text-align: right">Total:</td>
+                        <td >$@{{ precio_total }}</td>
+                    </tr>
                 </table>
             </div>
         </div>
     </div>
     @include('components.modal',['id' => 1,'accion' => 'Guardar'])
+
+    <pre> @{{ $data | json }}</pre>
 
 @endsection

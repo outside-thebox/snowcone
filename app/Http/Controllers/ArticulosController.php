@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoArticulos;
+use App\Snowcone\Repositories\RepoStockXArticulos;
 use Illuminate\Http\Request;
 
 class ArticulosController extends Controller
 {
     private $repoArticulos;
+    private $repoStockXArticulos;
 
-    public function __construct(RepoArticulos $repoArticulos)
+    public function __construct(RepoArticulos $repoArticulos,RepoStockXArticulos $repoStockXArticulos)
     {
         $this->repoArticulos = $repoArticulos;
+        $this->repoStockXArticulos = $repoStockXArticulos;
     }
 
     /**
@@ -28,6 +31,10 @@ class ArticulosController extends Controller
     {
         return $this->repoArticulos->findAndPaginate($request->all());
     }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -122,4 +129,5 @@ class ArticulosController extends Controller
             'unidad_medida_id.required' => 'Debe seleccionar una unidad de medida'
         ];
     }
+
 }

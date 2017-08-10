@@ -10,7 +10,8 @@
         "laravel/tinker": "~1.0",
         "styde/html": "~1.2",
         "owen-it/laravel-auditing": "^2.2",
-        "laravelista/lumen-vendor-publish": "^2.0"
+        "laravelista/lumen-vendor-publish": "^2.0",
+        "barryvdh/laravel-dompdf": "^0.8.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

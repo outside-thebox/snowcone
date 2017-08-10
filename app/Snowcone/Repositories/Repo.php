@@ -37,6 +37,7 @@ abstract class Repo {
 
     public function createOrUpdate($data)
     {
+
         $entity = $this->getModel()->firstOrNew(['id' => $data['id']]);
 
         $entity->fill($data);
