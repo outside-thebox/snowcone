@@ -78,6 +78,7 @@
                         success: function (data) {
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
+                            console.log(data.data);
                             vm.first = "{{route('users.buscar')}}" + "?page=1";
                             vm.next = data.next_page_url;
                             if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
@@ -101,6 +102,7 @@
                             vm.busqueda = false;
                         },
                         error: function (respuesta) {
+                            console.log(respuesta);
                            HoldOn.close();
                         }
                     });

@@ -90,25 +90,36 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     @if (!Auth::guest())
-
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                         </ul>
+                        @endif
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('sucursales.index') }}">Sucursales</a></li>
                         </ul>
+                        @endif
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
                         </ul>
+                        @endif
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('articulos.prices') }}">Stock artículos</a></li>
                         </ul>
+                        @endif
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(2,3,4)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
                         </ul>
+                        @endif
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(3,2,5)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('caja.index') }}">Caja</a></li>
                         </ul>
+                        @endif
                     @endif
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">

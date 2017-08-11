@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TiposUsuarios
 {
-    protected $tiposusuarios = [
-        '1' => 'admin',
-        '2' => 'gerente',
-        '3' => 'encargado',
-        '4' => 'ventas',
-        '5' => 'caja'
-    ];
     /**
      * Handle an incoming request.
      *
@@ -24,12 +17,15 @@ class TiposUsuarios
     public function handle($request, Closure $next, $rol)
     {
         $user = Auth::user();
+        $roles = explode("|", $rol);
 
-        if( $user->tipo_usuario_id = $rol ){
+        if(in_array($user->tipo_usuario_id,$roles)){
             return $next($request);
         }
-
-        return redirect()->route('home');
+        else{
+            return redirect()->route('home');
+        }
 
     }
 }
+
