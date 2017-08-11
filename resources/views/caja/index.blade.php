@@ -247,7 +247,7 @@
             {{ method_field('PUT') }}
 
             {!! Form::label('cod','Presupuesto Nro',['class' => 'campos_resaltados']) !!}
-            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"find"]) !!}
+            {!! Form::text('cod',null,['class' => 'form-control numeros','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"find"]) !!}
 
 
             <div v-show="lista_presupuestos.length > 0">
@@ -281,15 +281,21 @@
         <div class="col-md-6">
             <label class="campos_resaltados">Cliente: <span>@{{ presupuesto_seleccionado.nombre }}</span></label><br>
             <label class="campos_resaltados">Total a cobrar: <span v-if="precio_total"> $@{{ precio_total }}</span></label><br>
-            {!! Form::label('cant','Su pago') !!}
-            <div class="input-group">
-                <div class="input-group-addon">$</div>
-                {!! Form::text('cant',null,['class' => 'form-control numeros','v-model' => 'caja.supago','autofocus','v-on:keyup.enter'=>"pagar", 'required']) !!}
-            </div>
-            {!! Form::label('cant','Vuelto') !!}
-            <div class="input-group">
-                <div class="input-group-addon">$</div>
-                {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
+            <div class="col-md-12" style="margin-bottom: 20px">
+                <div class="col-md-6">
+                    {!! Form::label('cant','Su pago') !!}
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        {!! Form::text('cant',null,['class' => 'form-control numeros','v-model' => 'caja.supago','autofocus','v-on:keyup.enter'=>"pagar", 'required']) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {!! Form::label('cant','Vuelto') !!}
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
+                    </div>
+                </div>
             </div>
             <div>
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
