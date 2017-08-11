@@ -15,7 +15,8 @@ class Controller extends BaseController
         1 => 'users.index',
         2 => 'sucursales.index',
         3 => 'articulos.index',
-        4 => 'presupuesto.index'
+        4 => 'presupuesto.index',
+        5 => 'caja.index'
     ];
 
 

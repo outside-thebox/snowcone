@@ -82,4 +82,13 @@ class RepoPresupuesto extends Repo
 
 
     }
+
+    public function updateEstado($id, $estado_id)
+    {
+        $presupuesto = $this->createOrUpdate(['id' => $id]);
+        $presupuesto->estado_id = $estado_id;
+
+        $presupuesto->save();
+
+    }
 }

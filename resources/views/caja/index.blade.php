@@ -26,7 +26,8 @@
                 presupuesto_seleccionado:"",
                 lista_presupuestos:[],
                 presupuestosxarticulos:[],
-                precio_total: ''
+                precio_total: '',
+                boton_cobrar: false
 //                lista_presupuestos:[{"nro_presupuesto":"13","cliente":"Lucas Matias Sisi","total":"650","fecha":"",
 //                    "estado":{"cod":"0","descripcion":"No Cobrado"},
 //                    "articulos":[
@@ -111,6 +112,11 @@
                 {
                     cargando('sk-circle','Buscando');
                     vm.presupuesto_seleccionado="";
+                    vm.boton_cobrar = false;
+                    vm.caja.vuelto = '';
+                    vm.caja.supago = '';
+                    vm.precio_total = '';
+                    vm.presupuestosxarticulos = [];
                     var nro_presupuesto = vm.caja.cod;
 
                     $.ajax({
@@ -120,8 +126,21 @@
                         dataType: "json",
                         success: function (data) {
                             vm.lista_presupuestos = data;
-                            vm.presupuestosxarticulos = vm.lista_presupuestos[0].presupuestoxarticulo;
-                            vm.precio_total = vm.lista_presupuestos[0].precio_total;
+                            console.log(vm.lista_presupuestos.length);
+                            if(vm.lista_presupuestos.length > 0)
+                            {
+                                if(vm.lista_presupuestos.length == 1)
+                                {
+                                    vm.presupuestosxarticulos = vm.lista_presupuestos[0].presupuestoxarticulo;
+                                    vm.precio_total = vm.lista_presupuestos[0].precio_total;
+                                    vm.presupuesto_seleccionado = vm.lista_presupuestos[0];
+                                }
+                            }
+                            else
+                            {
+                                vm.presupuestosxarticulos = [];
+                                vm.precio_total = "";
+                            }
                         },
                         error: function(respuesta)
                         {
@@ -136,11 +155,15 @@
                     cargando('sk-circle','Buscando');
                     //console.log(vm.presupuesto_seleccionado.total);
                     //vm.caja.supago = '';
-                    if(parseFloat(vm.caja.supago) >= parseFloat(vm.presupuesto_seleccionado.total) ){
-                        vm.caja.vuelto = vm.caja.supago - vm.presupuesto_seleccionado.total
-                        console.log(vm.lista_presupuestos[vm.presupuesto_seleccionado.key]);
-                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.cod = '1';
-                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.descripcion = 'Cobrado';
+                    if(parseFloat(vm.caja.supago) >= parseFloat(vm.presupuesto_seleccionado.precio_total) ){
+                        vm.caja.vuelto = vm.caja.supago - vm.presupuesto_seleccionado.precio_total;
+//                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.cod = '1';
+//                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.descripcion = 'Cobrado';
+                        console.log(vm.presupuesto_seleccionado);
+                        if(vm.presupuesto_seleccionado.estado_id == 1)
+                            vm.boton_cobrar = true;
+                        else
+                            vm.boton_cobrar = false;
                     }
                     else {
                         var mensaje = "";
@@ -152,6 +175,12 @@
                 },
                 traerPresupuestos: function()
                 {
+//                    vm.presupuesto_seleccionado="";
+//                    vm.boton_cobrar = false;
+//                    vm.caja.vuelto = '';
+//                    vm.caja.supago = '';
+//                    vm.presupuestosxarticulos = [];
+
                     $.ajax({
                         url: "{{ Route('presupuesto.buscar') }}",
                         data: '_token='+this.token,
@@ -167,6 +196,30 @@
                         }
 
                     });
+                },
+                cobrar: function(){
+
+                    var lista_presupuesto = this.presupuesto_seleccionado;
+                    lista_presupuesto._token = this.token;
+                    lista_presupuesto.estado_id = 2;
+                    cargando('sk-circle','Actualizando');
+                    $.ajax({
+                        url: "{{ Route('presupuesto.updateEstado') }}",
+                        method: 'POST',
+                        data: "id="+vm.presupuesto_seleccionado.id+"&estado_id="+2+"&_token="+this.token,
+                        dataType: "json",
+                        success: function (data) {
+                            location.href = "{{ Route('master',5) }}";
+
+                        },
+                        error: function(respuesta)
+                        {
+                            $("#contenido-modal-1").html("No hay stock suficiente para el artículo " + respuesta.responseJSON.descripcion);
+                            $("#confirmacion-1").modal(function(){show:true});
+
+                        }
+
+                    });
                 }
             }
         });
@@ -174,12 +227,17 @@
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
 
+
+            $(".numeros").mask("9999999");
+
             vm.traerPresupuestos();
         });
     </script>
 @endsection
 @section('content')
     <h1>Caja</h1>
+
+    @include('components.message-confirmation')
 
     <div class="form-inline" style="margin-bottom: 10px">
         <div class="col-md-6">
@@ -189,7 +247,7 @@
             {{ method_field('PUT') }}
 
             {!! Form::label('cod','Presupuesto Nro',['class' => 'campos_resaltados']) !!}
-            {!! Form::text('cod',null,['class' => 'form-control','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"find"]) !!}
+            {!! Form::text('cod',null,['class' => 'form-control numeros','v-model' => 'caja.cod','autofocus','v-on:keyup.enter'=>"find"]) !!}
 
 
             <div v-show="lista_presupuestos.length > 0">
@@ -222,16 +280,22 @@
         </div>
         <div class="col-md-6">
             <label class="campos_resaltados">Cliente: <span>@{{ presupuesto_seleccionado.nombre }}</span></label><br>
-            <label class="campos_resaltados">Total a cobrar: <span v-if="presupuesto_seleccionado.total"> $@{{ presupuesto_seleccionado.total }}</span></label><br>
-            {!! Form::label('cant','Su pago') !!}
-            <div class="input-group">
-                <div class="input-group-addon">$</div>
-                {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.supago','autofocus','v-on:keyup.enter'=>"pagar", 'required']) !!}
-            </div>
-            {!! Form::label('cant','Vuelto') !!}
-            <div class="input-group">
-                <div class="input-group-addon">$</div>
-                {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
+            <label class="campos_resaltados">Total a cobrar: <span v-if="precio_total"> $@{{ precio_total }}</span></label><br>
+            <div class="col-md-12" style="margin-bottom: 20px">
+                <div class="col-md-6">
+                    {!! Form::label('cant','Su pago') !!}
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        {!! Form::text('cant',null,['class' => 'form-control numeros','v-model' => 'caja.supago','autofocus','v-on:keyup.enter'=>"pagar", 'required']) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {!! Form::label('cant','Vuelto') !!}
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
+                    </div>
+                </div>
             </div>
             <div>
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
@@ -259,8 +323,9 @@
             </div>
         </div>
     </div>
+    <a @click="cobrar()" data-toggle="tooltip" data-placement="top"  title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
     @include('components.modal',['id' => 1,'accion' => 'Guardar'])
 
-    <pre> @{{ $data | json }}</pre>
+    {{--<pre> @{{ $data | json }}</pre>--}}
 
 @endsection

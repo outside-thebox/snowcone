@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('presupuesto.buscar', ['uses' => 'PresupuestoController@buscar', 'as' => 'presupuesto.buscar']);
     Route::get('articulos.buscar', ['uses' => 'ArticulosController@buscar', 'as' => 'articulos.buscar']);
     Route::get('articulosxstock.buscarxstockall', ['uses' => 'ArticulosXStockController@buscarxstockall', 'as' => 'articulos.buscarxstockall']);
+    Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
 
     Route::group(['middleware' => 'tipousuarios: 1'],function() {
 
@@ -44,7 +45,6 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('tipos_usuarios.getTiposUsuariosWithAdmin', ['uses' => 'TiposUsuariosController@getTiposUsuariosWithAdmin', 'as' => 'tipos_usuarios.getTiposUsuariosWithAdmin']);
         Route::get('tipos_usuarios.getTiposUsuariosWithoutAdmin', ['uses' => 'TiposUsuariosController@getTiposUsuariosWithoutAdmin', 'as' => 'tipos_usuarios.getTiposUsuariosWithoutAdmin']);
         Route::get('tipos_usuarios.all', ['uses' => 'TiposUsuariosController@all', 'as' => 'tipos_usuarios.all']);
-
         Route::get('users.buscar', ['uses' => 'UsersController@buscar', 'as' => 'users.buscar']);
         Route::get('users.getDataUser', ['uses' => 'UsersController@getDataUser', 'as' => 'users.getDataUser']);
         Route::post("users/activar", array('as' => 'users.activar', 'uses' => 'UsersController@activar'));
@@ -54,9 +54,10 @@ Route::group(['middleware' => 'auth'],function(){
     });
 
     Route::group(['middleware' => 'tipousuarios: 1|2'],function() {
-            Route::post("articulos/eliminar", array('as' => 'articulos.eliminar', 'uses' => 'ArticulosController@eliminar'));
-            Route::get('articulos.getDataArticulo', ['uses' => 'ArticulosController@getDataArticulo', 'as' => 'articulos.getDataArticulo']);
-            Route::resource('articulos', 'ArticulosController');
+
+        Route::post("articulos/eliminar", array('as' => 'articulos.eliminar', 'uses' => 'ArticulosController@eliminar'));
+        Route::get('articulos.getDataArticulo', ['uses' => 'ArticulosController@getDataArticulo', 'as' => 'articulos.getDataArticulo']);
+        Route::resource('articulos', 'ArticulosController');
     });
 
     Route::group(['middleware' => 'tipousuarios:1|2|3'], function () {
@@ -74,17 +75,14 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['middleware' => 'tipousuarios:4|3|2'], function () {
 
-        Route::get('presupuesto/exportarPDF/{ID}', ['uses' => 'PresupuestoController@exportarPDF', 'as' => 'presupuesto/exportarPDF']);
-        Route::resource('presupuesto', 'PresupuestoController');
+        Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
+        Route::post('presupuesto.updateEstado',['uses' => 'PresupuestoController@updateEstado','as' => 'presupuesto.updateEstado']);
+        Route::resource('presupuesto','PresupuestoController');
     });
 
     Route::group(['middleware' => 'tipousuarios:5'], function () {
         Route::resource('caja', 'CajaController');
     });
-
-
-
-
 
 
 
