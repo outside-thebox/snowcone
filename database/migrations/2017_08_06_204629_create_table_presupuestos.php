@@ -17,7 +17,7 @@ class CreateTablePresupuestos extends Migration
             $table->increments('id');
             $table->integer('sucursal_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->double('precio_total');
+            $table->decimal('precio_total',10,2);
             $table->string('cliente');
             $table->timestamps();
             $table->softDeletes();

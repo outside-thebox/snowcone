@@ -18,8 +18,8 @@ class CreateTableStockxarticulos extends Migration
             $table->integer('articulo_id')->unsigned();
             $table->integer('sucursal_id')->unsigned();
             $table->integer('stock');
-            $table->integer('precio_compra');
-            $table->integer('precio_sugerido');
+            $table->decimal('precio_compra',10, 2);
+            $table->decimal('precio_sugerido',10, 2);
             $table->timestamps();
             $table->softDeletes();
         });

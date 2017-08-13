@@ -83,6 +83,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::group(['middleware' => 'tipousuarios:2|3|5'], function () {
         Route::resource('caja', 'CajaController');
         Route::post('caja.cerrarCaja',['uses' => 'CajaController@cerrarCaja','as' => 'caja.cerrarCaja']);
+        Route::get('caja.buscar',['uses' => 'CajaController@buscar','as' => 'caja.buscar']);
+        Route::get('caja.history', ['uses' => 'CajaController@history', 'as' => 'caja.history']);
+        Route::get('caja/exportarPDF/{ID}',['uses' => 'CajaController@exportarPDF','as' => 'caja.exportarPDF']);
     });
 
 
