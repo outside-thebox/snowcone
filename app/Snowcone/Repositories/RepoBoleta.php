@@ -45,4 +45,19 @@ class RepoBoleta  extends Repo{
 
         return $model;
     }
+
+    public function validarboleta($proveedor_id, $nro_factura)
+    {
+
+        $model = $this->getModel();
+
+        $model = $model->with('sucursal','proveedor','articulo','user');
+
+        $model = $model->where('nro_factura',$nro_factura);
+
+        $model = $model->where('proveedor_id',$proveedor_id)->get();
+
+        return $model->isNotEmpty();
+
+    }
 }

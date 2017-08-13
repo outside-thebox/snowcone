@@ -61,18 +61,28 @@ class ArticulosXStockController extends Controller
     }
     public function datosinput(Request $request)
     {
-        foreach ($request['row'] as $key => $item) {
-            if($item['addstock'] > 0){
-                $aux['id'] = $item['id'];
-                $aux['precio_compra'] = $item['precio_compra'];
-                $aux['stock'] = $item['stock'] + $item['addstock'];
-                $this->repoStockXArticulos->update($aux);
+        $cont =0;
+        if(!$this->repoBoleta->validarboleta($request['proveedor_id'],$request['nro_factura'])) {
+            foreach ($request['row'] as $key => $item) {
+                if ($item['addstock'] > 0) {
+                    $aux['id'] = $item['id'];
+                    $aux['precio_compra'] = $item['precio_compra'];
+                    $aux['stock'] = $item['stock'] + $item['addstock'];
+                    $cont = 1;
+                    $this->repoStockXArticulos->update($aux);
+
+                }
+            };
+            if($cont == 1) {
+                $this->altaboleta($request['row']);
+                return \Response()->json(['success' => true], 200);
             }
-        };
+            else
+                return \Response()->json(['success' => false, 'descripcion' => 'No cargo ningun stock'], 404);
 
-        $this->altaboleta($request['row']);
-
-        return \Response()->json(['success' => true], 200);
+        }else {
+            return \Response()->json(['success' => false, 'descripcion' => 'Nro factura y Proveedor ya existen'], 404);
+        }
     }
 
     private function altaboleta($row)
@@ -96,4 +106,5 @@ class ArticulosXStockController extends Controller
 
 
     }
+
 }

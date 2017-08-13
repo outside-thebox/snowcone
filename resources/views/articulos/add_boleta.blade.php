@@ -55,7 +55,6 @@
 
                     cargando('sk-circle','Actualizando');
 
-
                     $.ajax({
                         url: "{{route('articulosxstock.datosinput')}}",
                         method: 'POST',
@@ -70,9 +69,10 @@
 
                         },
                         error: function (respuesta) {
-                            HoldOn.close();
-                            $("#contenido-modal-1").html("Se ha producido un error, por favor contacte con el administrador");
+                            var mensaje = respuesta.responseJSON.descripcion;
+                            $("#contenido-modal-1").html(mensaje);
                             $("#confirmacion-1").modal(function(){show:true});
+                            HoldOn.close();
                         }
                     });
                 },
@@ -148,9 +148,10 @@
             <div class="row" style="margin-bottom: 20px">
                 <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
-                    <input class="form-control numeros" type="text" v-model="articulo.nro_factura" name="articulo.nro_factura" value="" >
+                    <input class="form-control numeros" type="text" v-model="articulo.nro_factura" name="nro_factura" value="" >
                     {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','v-show' => "articulo.nro_factura != ''" ]) !!}
                 </div>
+                <input type="hidden" name="proveedor_id" v-model="articulo.proveedor_id">
             </div>
             <table class="table responsive table-bordered table-hover table-striped"  >
                 <thead>
@@ -193,5 +194,4 @@
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
 
     @include('components.modal',['accion' => 'Eliminar','id' => 1])
-
 @endsection
