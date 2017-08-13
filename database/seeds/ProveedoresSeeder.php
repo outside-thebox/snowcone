@@ -13,55 +13,39 @@ class ProveedoresSeeder extends Seeder
     public function run()
     {
         Proveedor::create([
-            'descripcion' => 'Queen'
+            'descripcion' => 'Comunes X 10 LTS'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Perello'
+            'descripcion' => 'Especiales X 10 LTS'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Shelattino'
+            'descripcion' => 'Premium X 10 LTS'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Ice cream'
+            'descripcion' => 'Super premium X 10 LTS'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Costa'
+            'descripcion' => 'Linea económica'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Bonmi'
+            'descripcion' => 'Linea BON-MI y MON'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Paty'
+            'descripcion' => 'Linea Perello'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Helado Gaby'
+            'descripcion' => 'Linea Fri Crem'
         ]);
 
         Proveedor::create([
-            'descripcion' => 'Candy'
-        ]);
-
-        Proveedor::create([
-            'descripcion' => 'Palitos Pablo'
-        ]);
-
-        Proveedor::create([
-            'descripcion' => 'MC Cream'
-        ]);
-
-        Proveedor::create([
-            'descripcion' => 'Mon Reve'
-        ]);
-
-        Proveedor::create([
-            'descripcion' => 'Super(Candy)X 10 LTS'
+            'descripcion' => 'Otros'
         ]);
 
     }
