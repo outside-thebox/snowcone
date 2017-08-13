@@ -18,7 +18,7 @@ class CreateTableArticulos extends Migration
             $table->integer('cod')->unsigned()->unique();
             $table->string('descripcion');
             $table->integer('unidad_medida_id')->unsigned();
-            $table->date('fecha_ultima_compra');
+            $table->date('fecha_ultima_compra')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

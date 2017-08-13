@@ -2,7 +2,13 @@
 
 @section('scripts')
 
+    <style>
 
+        .remarcar{
+            background-color: red;
+        }
+
+    </style>
 
     <script>
         vm = new Vue({
@@ -155,7 +161,7 @@
                     //console.log(vm.presupuesto_seleccionado.total);
                     //vm.caja.supago = '';
                     if(parseFloat(vm.caja.supago) >= parseFloat(vm.presupuesto_seleccionado.precio_total) ){
-                        vm.caja.vuelto = vm.caja.supago - vm.presupuesto_seleccionado.precio_total;
+                        vm.caja.vuelto = (vm.caja.supago - vm.presupuesto_seleccionado.precio_total).toFixed(2);
 //                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.cod = '1';
 //                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.descripcion = 'Cobrado';
                         console.log(vm.presupuesto_seleccionado);
@@ -271,7 +277,8 @@
 @endsection
 @section('content')
     <h1>Caja
-        <a @click="cerrarCaja()"><button class="btn btn-success pull-right">Cerrar Caja</button></a>
+        <a @click="cerrarCaja()"><button class="btn btn-primary pull-right" style="margin-left: 10px">Cerrar Caja</button></a>
+        <a href="{!! route('caja.history')!!}"><button class="btn btn-success pull-right">Listado de cierre de cajas</button></a>
     </h1>
 
     @include('components.message-confirmation')
@@ -330,7 +337,7 @@
                     {!! Form::label('cant','Vuelto') !!}
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
-                        {!! Form::text('cant',null,['class' => 'form-control','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
+                        {!! Form::text('cant',null,['class' => 'form-control remarcar','v-model' => 'caja.vuelto','autofocus','disabled']) !!}
                     </div>
                 </div>
             </div>

@@ -20,7 +20,7 @@ class CreateTableBoletas extends Migration
             $table->integer('articulo_id')->unsigned();
             $table->integer('sucursal_id')->unsigned();
             $table->integer('cantidad');
-            $table->integer('precio_compra');
+            $table->decimal('precio_compra',10,2);
             $table->integer('user_id');
             $table->timestamps();
             $table->softDeletes();

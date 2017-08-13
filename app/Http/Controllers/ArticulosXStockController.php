@@ -47,7 +47,7 @@ class ArticulosXStockController extends Controller
 
     public function updatePrices(Request $request)
     {
-        $this->repoStockXArticulos->update($request);
+        $this->repoStockXArticulos->update($request->all());
         return \Response()->json(['success' => true], 200);
     }
     public function addBoleta()

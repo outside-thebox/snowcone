@@ -18,8 +18,8 @@ class CreateTablePresupuestosxarticulos extends Migration
             $table->integer('presupuesto_id')->unsigned();
             $table->integer('articulo_id')->unsigned();
             $table->integer('cantidad')->unsigned();
-            $table->double('precio_unitario');
-            $table->double('subtotal');
+            $table->decimal('precio_unitario',10,2);
+            $table->decimal('subtotal',10,2);
             $table->timestamps();
             $table->softDeletes();
         });
