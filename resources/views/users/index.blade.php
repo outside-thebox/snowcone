@@ -34,7 +34,7 @@
                     $("#pregunta-1").modal(function(){show:true});
 
                     $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Desactivar usuario <strong>"+username+"</strong>?</h2>");
+                    $("#contenido-pregunta-1").append("<h3>¿Desactivar usuario <strong>"+username+"</strong>?</h3>");
                     $("#pregunta-1").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
                 },
@@ -43,7 +43,7 @@
                     $("#pregunta-2").modal(function(){show:true});
 
                     $("#contenido-pregunta-2").html("");
-                    $("#contenido-pregunta-2").append("<h3>¿Activar usuario <strong>"+username+"</strong>?</h2>");
+                    $("#contenido-pregunta-2").append("<h3>¿Activar usuario <strong>"+username+"</strong>?</h3>");
                     $("#pregunta-2").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
                 },
@@ -52,7 +52,7 @@
                     $("#pregunta-3").modal(function(){show:true});
 
                     $("#contenido-pregunta-3").html("");
-                    $("#contenido-pregunta-3").append("<h3>¿Reiniciar contraseña de usuario <strong>"+username+"</strong>?</h2>");
+                    $("#contenido-pregunta-3").append("<h3>¿Reiniciar contraseña de usuario <strong>"+username+"</strong>?</h3>");
                     $("#pregunta-3").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
 

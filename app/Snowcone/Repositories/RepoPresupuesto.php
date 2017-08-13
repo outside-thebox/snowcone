@@ -75,6 +75,8 @@ class RepoPresupuesto extends Repo
                 $model->where('id',$data['id']);
         }
 
+        $model = $model->where('caja_cerrada',0);
+
 
         $model = $model->orderBy('created_at', 'desc');
 
@@ -90,5 +92,10 @@ class RepoPresupuesto extends Repo
 
         $presupuesto->save();
 
+    }
+
+    public function updateCerrarCaja($id)
+    {
+        $this->getModel()->where('caja_cerrada',0)->update(['caja_cerrada' => $id]);
     }
 }

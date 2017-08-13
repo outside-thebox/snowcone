@@ -24,17 +24,17 @@ class UsersSeeder extends Seeder
             'tipo_usuario_id' => 1,
         ]);
 
-        for($i = 1;$i < 100;$i++)
-        {
-            User::create([
-                'nombre' => $faker->name,
-                'apellido' => $faker->lastName,
-                'dni' => $faker->unique()->userName,
-                'password' => bcrypt('123456'),
-                'telefono' => $faker->tollFreePhoneNumber,
-                'tipo_usuario_id' => $faker->randomElement([2,3,4,5])
-            ]);
-        }
+//        for($i = 1;$i < 100;$i++)
+//        {
+//            User::create([
+//                'nombre' => $faker->name,
+//                'apellido' => $faker->lastName,
+//                'dni' => $faker->unique()->userName,
+//                'password' => bcrypt('123456'),
+//                'telefono' => $faker->tollFreePhoneNumber,
+//                'tipo_usuario_id' => $faker->randomElement([2,3,4,5])
+//            ]);
+//        }
 
 
     }

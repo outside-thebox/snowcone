@@ -126,7 +126,6 @@
                         dataType: "json",
                         success: function (data) {
                             vm.lista_presupuestos = data;
-                            console.log(vm.lista_presupuestos.length);
                             if(vm.lista_presupuestos.length > 0)
                             {
                                 if(vm.lista_presupuestos.length == 1)
@@ -220,6 +219,21 @@
                         }
 
                     });
+                    HoldOn.close();
+
+                },
+                cerrarCaja: function()
+                {
+
+
+                    $("#pregunta-1").modal(function(){show:true});
+
+                    $("#contenido-pregunta-1").html("");
+                    $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cerrar la caja?</h3>");
+                    $("#pregunta-1").modal(function(){show:true});
+
+
+
                 }
             }
         });
@@ -231,11 +245,34 @@
             $(".numeros").mask("9999999");
 
             vm.traerPresupuestos();
+
+            $("#eliminar-1").click(function(){
+                cargando('sk-circle','Actualizando');
+                $.ajax({
+                    url: "{{ Route('caja.cerrarCaja') }}",
+                    method: 'POST',
+                    data: "_token="+$("input:hidden[name=_token]").val(),
+                    dataType: "json",
+                    success: function (data) {
+                        location.href = "{{ Route('master',5) }}";
+                    },
+                    error: function()
+                    {
+                        $("#contenido-modal-1").html("Se ha producido un error, por favor contacte con el administrador");
+                        $("#confirmacion-1").modal(function(){show:true});
+
+                    }
+
+                });
+                HoldOn.close();
+            });
         });
     </script>
 @endsection
 @section('content')
-    <h1>Caja</h1>
+    <h1>Caja
+        <a @click="cerrarCaja()"><button class="btn btn-success pull-right">Cerrar Caja</button></a>
+    </h1>
 
     @include('components.message-confirmation')
 
@@ -276,7 +313,7 @@
                     </tbody>
                 </table>
             </div>
-            <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
+            <h2 v-show="lista_presupuestos.length == 0">No se encontraron resultados</h2>
         </div>
         <div class="col-md-6">
             <label class="campos_resaltados">Cliente: <span>@{{ presupuesto_seleccionado.nombre }}</span></label><br>
@@ -324,7 +361,7 @@
         </div>
     </div>
     <a @click="cobrar()" data-toggle="tooltip" data-placement="top"  title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
-    @include('components.modal',['id' => 1,'accion' => 'Guardar'])
+    @include('components.modal',['id' => 1,'accion' => 'Confirmar'])
 
     {{--<pre> @{{ $data | json }}</pre>--}}
 

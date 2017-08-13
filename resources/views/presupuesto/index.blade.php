@@ -117,8 +117,8 @@
                         item.cod = vm.articulo_seleccionado.cod;
                         item.nombre = vm.articulo_seleccionado.descripcion;
                         item.cantidad = vm.presupuesto.cant;
-                        item.precio_unitario = vm.articulo_seleccionado.precio_sugerido;
-                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_sugerido) * parseFloat(vm.presupuesto.cant)).toFixed(2);
+                        item.precio_unitario = vm.articulo_seleccionado.precio_compra;
+                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_compra) * parseFloat(vm.presupuesto.cant)).toFixed(2);
                         vm.lista_presupuesto.push(item);
                         vm.precio_total = ((parseFloat(vm.precio_total))+(parseFloat(item.subtotal)));
 

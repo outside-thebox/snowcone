@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['middleware' => 'tipousuarios:5'], function () {
         Route::resource('caja', 'CajaController');
+        Route::post('caja.cerrarCaja',['uses' => 'CajaController@cerrarCaja','as' => 'caja.cerrarCaja']);
     });
 
 
