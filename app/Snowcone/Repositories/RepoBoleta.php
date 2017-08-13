@@ -26,19 +26,22 @@ class RepoBoleta  extends Repo{
 
         $model = $model->orderBy('created_at', 'desc');
 
-        $model = $model->groupBy('nro_factura')->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->groupBy('nro_factura','proveedor_id')->paginate(env('APP_CANT_PAGINATE',10));
 
 
         return $model;
     }
 
-    public function buscarboleta($id)
+    public function buscarboleta($dato)
     {
+
         $model = $this->getModel();
 
         $model = $model->with('sucursal','proveedor','articulo','user');
 
-        $model = $model->where('nro_factura',$id)->get();
+        $model = $model->where('nro_factura',$dato['nro_factura']);
+
+        $model = $model->where('proveedor_id',$dato['proveedor_id'])->get();
 
         return $model;
     }

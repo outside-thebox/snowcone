@@ -107,6 +107,7 @@
                 <th>Proveedor</th>
                 <th>Fecha</th>
                 <th>Acciones</th>
+
             </tr>
             </thead>
             <tbody id="table">
@@ -114,9 +115,9 @@
                 <td>@{{ registro.nro_factura }}</td>
                 <td>@{{ registro.proveedor.descripcion }}</td>
                 <td>@{{ registro.created_at }}</td>
-                <td>
-                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('boleta.index') }}/exportarPDF/@{{ registro.nro_factura }}"><i class='glyphicon glyphicon-print' ></i></a>
-                </td>
+                <!--<td><a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('boleta.index') }}/exportarPDF/@{{ registro.nro_factura }}"><i class='glyphicon glyphicon-print' ></i></a></td>-->
+                <td><a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('boleta.exportarPDF')}}?proveedor_id=@{{ registro.proveedor.id }}&nro_factura=@{{ registro.nro_factura }}"><i class='glyphicon glyphicon-print' ></i></a>
+                    </td>
             </tr>
             </tbody>
         </table>
