@@ -32,12 +32,11 @@ class BoletasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function exportarPDF($id)
+    public function exportarPDF()
     {
-        $boleta = $this->repoBoleta->buscarboleta($id);
 
-//        dd($boleta[1]->articulo);
-
+        $id = $_GET['nro_factura'];
+        $boleta = $this->repoBoleta->buscarboleta($_GET);
         $pdf = \PDF::loadView('boleta.PDF', compact("boleta","id"))->setPaper('a4', 'landscape');
         return $pdf->download("Boleta-".$id.".pdf");
 
