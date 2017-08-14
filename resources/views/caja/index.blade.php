@@ -5,7 +5,10 @@
     <style>
 
         .remarcar{
-            background-color: red;
+            background-color: red !important;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
         }
 
     </style>
