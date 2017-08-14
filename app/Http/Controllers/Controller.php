@@ -22,7 +22,11 @@ class Controller extends BaseController
 
     public function redirect($id)
     {
-        return redirect(route($this->redirigir[$id]))->with('alert','Guardado correctamente');
+        if($id != 4)
+            return redirect(route($this->redirigir[$id]))->with('alert','Guardado correctamente');
+        else
+            return redirect(route($this->redirigir[$id]))->with('alert','Enviado a caja');
+
     }
 
 }

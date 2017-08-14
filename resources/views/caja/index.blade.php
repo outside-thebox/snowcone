@@ -323,7 +323,7 @@
             <h2 v-show="lista_presupuestos.length == 0">No se encontraron resultados</h2>
         </div>
         <div class="col-md-6">
-            <label class="campos_resaltados">Cliente: <span>@{{ presupuesto_seleccionado.nombre }}</span></label><br>
+            <label class="campos_resaltados">Cliente: <span>@{{ presupuesto_seleccionado.cliente }}</span></label><br>
             <label class="campos_resaltados">Total a cobrar: <span v-if="precio_total"> $@{{ precio_total }}</span></label><br>
             <div class="col-md-12" style="margin-bottom: 20px">
                 <div class="col-md-6">
