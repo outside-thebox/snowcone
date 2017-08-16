@@ -15,7 +15,7 @@ class ArticulosSeeder extends Seeder
      */
     public function run()
     {
-        Articulo::create([
+        /*Articulo::create([
             'cod' => 1001,
             'descripcion' => 'Frutilla al agua',
             'unidad_medida_id' => 1,
@@ -1213,7 +1213,7 @@ class ArticulosSeeder extends Seeder
             'stock' => 0,
             'precio_compra' => 12,
             'precio_sugerido' => 0
-        ]);
+        ]);*/
 
 
     }
