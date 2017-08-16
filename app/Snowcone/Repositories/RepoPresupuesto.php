@@ -59,6 +59,8 @@ class RepoPresupuesto extends Repo
 
             $this->getRepoStockXArticulos()->updateStock($l->id,$l);
         }
+
+        return $presupuesto->id;
     }
 
     public function buscar($data=[])

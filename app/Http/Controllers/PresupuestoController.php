@@ -42,9 +42,9 @@ class PresupuestoController extends Controller
             return \Response()->json(['success' => false,'id' => $model->id,'descripcion' => $model->descripcion],404);
 
 
-        $this->repoPresupuesto->store($data['cliente'],$data['precio_total'],$lista);
+        $id = $this->repoPresupuesto->store($data['cliente'],$data['precio_total'],$lista);
 
-        return \Response()->json(['success' => true], 200);
+        return \Response()->json(['success' => true,'id' => $id], 200);
     }
 
     public function updateEstado(Request $request)
@@ -66,7 +66,7 @@ class PresupuestoController extends Controller
 
 //        dd($presupuesto->user);
         $pdf = \PDF::loadView('presupuesto.PDF', compact("presupuesto"))->setPaper('a4', 'landscape');
-        return $pdf->download("Presupuesto-".$presupuesto->id.".pdf");
+        return $pdf->stream("Presupuesto-".$presupuesto->id.".pdf");
 
     }
 

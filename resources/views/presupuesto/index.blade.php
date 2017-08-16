@@ -171,6 +171,9 @@
                         data: "cliente="+vm.presupuesto.cliente+"&precio_total="+vm.precio_total+"&_token="+this.token+"&lista="+JSON.stringify(lista_presupuesto),
                         dataType: "json",
                         success: function (data) {
+//                            console.log(data.id);
+                            var win = window.open("{{ Route('presupuesto.index') }}/exportarPDF/"+data.id, '_blank');
+                            win.focus();
                             location.href = "{{ Route('master',4) }}";
 
                         },
