@@ -62,6 +62,7 @@ class ArticulosXStockController extends Controller
     public function datosinput(Request $request)
     {
         $cont =0;
+//        dd($request->all());
         if(!$this->repoBoleta->validarboleta($request['proveedor_id'],$request['nro_factura'])) {
             foreach ($request['row'] as $key => $item) {
                 if ($item['addstock'] > 0) {

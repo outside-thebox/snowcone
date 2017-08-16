@@ -75,6 +75,8 @@ class RepoStockXArticulos extends Repo
         if(isset($datos['ingresados']))
             $model = $model->whereNotIn('articulos.cod',explode(",",$datos['ingresados']));
 
+        $model = $model->where('articulos.deleted_at',null);
+
         $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
         $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
 
@@ -108,6 +110,8 @@ class RepoStockXArticulos extends Repo
 
         if(isset($datos['proveedor_id']))
             $model = $model->where('articulos.proveedor_id',$datos['proveedor_id']);
+
+        $model = $model->where('articulos.deleted_at',null);
 
         $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
         $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
