@@ -50,31 +50,39 @@
                 },
                 updateStock: function()
                 {
-                    var token = $("input:hidden[name=_token]").val();
-                    var datos = $('#frmaddstock').serialize();
+                    if(vm.articulo.nro_factura != "")
+                    {
+                        var token = $("input:hidden[name=_token]").val();
+                        var datos = $('#frmaddstock').serialize();
 
-                    cargando('sk-circle','Actualizando');
+                        cargando('sk-circle','Actualizando');
 
-                    $.ajax({
-                        url: "{{route('articulosxstock.datosinput')}}",
-                        method: 'POST',
-                        data: datos+"&_token="+token,
-                        success: function (data) {
+                        $.ajax({
+                            url: "{{route('articulosxstock.datosinput')}}",
+                            method: 'POST',
+                            data: datos+"&_token="+token,
+                            success: function (data) {
 
-                            HoldOn.close();
-                            $("#contenido-modal-1").html("El registro fue actualizado correctamente");
-                            $("#confirmacion-1").modal(function(){show:true});
-                            vm.articulo.nro_factura = '';
-                            return vm.buscar();
+                                HoldOn.close();
+                                $("#contenido-modal-1").html("El registro fue actualizado correctamente");
+                                $("#confirmacion-1").modal(function(){show:true});
+                                vm.articulo.nro_factura = '';
+                                return vm.buscar();
 
-                        },
-                        error: function (respuesta) {
-                            var mensaje = respuesta.responseJSON.descripcion;
-                            $("#contenido-modal-1").html(mensaje);
-                            $("#confirmacion-1").modal(function(){show:true});
-                            HoldOn.close();
-                        }
-                    });
+                            },
+                            error: function (respuesta) {
+                                var mensaje = respuesta.responseJSON.descripcion;
+                                $("#contenido-modal-1").html(mensaje);
+                                $("#confirmacion-1").modal(function(){show:true});
+                                HoldOn.close();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        $("#contenido-modal-1").html("Debe ingresar un nro de boleta");
+                        $("#confirmacion-1").modal(function(){show:true});
+                    }
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
