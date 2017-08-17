@@ -25,6 +25,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('master/{id}',['uses' => 'Controller@redirect','as' => 'master']);
     Route::get('unidades_medida.all',['uses' => 'UnidadesMedidaController@all','as' => 'unidades_medida.all']);
     Route::get('proveedores.all',['uses' => 'ProveedoresController@all','as' => 'proveedores.all']);
+    Route::get('proveedores.exportarPDF', ['uses' => 'ProveedoresController@exportarPDF', 'as' => 'proveedores.exportarPDF']);
+    Route::get('proveedores.exportarListadoClientesPDF', ['uses' => 'ProveedoresController@exportarListadoClientesPDF', 'as' => 'proveedores.exportarListadoClientesPDF']);
+    Route::get('proveedores.exportarConStockPDF', ['uses' => 'ProveedoresController@exportarConStockPDF', 'as' => 'proveedores.exportarConStockPDF']);
     Route::get('sucursales.buscar', ['uses' => 'SucursalesController@buscar', 'as' => 'sucursales.buscar']);
     Route::get('articulosxstock.buscarxstock', ['uses' => 'ArticulosXStockController@buscarxstock', 'as' => 'articulos.buscarxstock']);
     Route::post('presupuesto.buscar', ['uses' => 'PresupuestoController@buscar', 'as' => 'presupuesto.buscar']);

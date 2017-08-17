@@ -177,7 +177,11 @@
         <label id="pagina_actual" class="pull-right" >@{{ pagina_actual }}</label>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
-
+    <div class="col-md-12">
+        <a href="{!! route('proveedores.exportarPDF')!!}" target="_blank"><button class="btn btn-success pull-right" style="margin-left: 10px">Listado de artículos</button></a>
+        <a href="{!! route('proveedores.exportarListadoClientesPDF')!!}" target="_blank"><button class="btn btn-success pull-right" style="margin-left: 10px">Listado para clientes</button></a>
+        <a href="{!! route('proveedores.exportarConStockPDF')!!}" target="_blank"><button class="btn btn-success pull-right">Listado con stock</button></a>
+    </div>
     @include('components.modal',['accion' => 'Eliminar','id' => 1])
 
 @endsection

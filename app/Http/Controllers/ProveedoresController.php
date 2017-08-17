@@ -25,4 +25,25 @@ class ProveedoresController extends Controller
         return $this->repoProveedores->all();
     }
 
+
+    public function exportarPDF()
+    {
+        $proveedores = $this->repoProveedores->all();
+        $pdf = \PDF::loadView('articulos.listado', compact("proveedores"));
+        return $pdf->download("Listado de articulos.pdf");
+    }
+
+    public function exportarListadoClientesPDF()
+    {
+        $proveedores = $this->repoProveedores->all();
+        $pdf = \PDF::loadView('articulos.listado_clientes', compact("proveedores"));
+        return $pdf->download("Listado de articulos para clientes.pdf");
+    }
+
+    public function exportarConStockPDF()
+    {
+        $proveedores = $this->repoProveedores->all();
+        $pdf = \PDF::loadView('articulos.listado_con_stock', compact("proveedores"));
+        return $pdf->download("Listado de articulos con stock.pdf");
+    }
 }

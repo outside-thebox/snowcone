@@ -17,4 +17,7 @@ class RepoProveedores extends Repo {
         return new Proveedor();
     }
 
+
+
+
 }

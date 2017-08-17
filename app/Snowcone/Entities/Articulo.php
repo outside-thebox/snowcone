@@ -31,5 +31,10 @@ Class Articulo extends Model{
         return $this->hasOne('App\Snowcone\Entities\Proveedor','id','proveedor_id');
     }
 
+    public function stockxarticulo()
+    {
+        return $this->hasOne('App\Snowcone\Entities\StockXArticulo','articulo_id','id');
+    }
+
 
 }

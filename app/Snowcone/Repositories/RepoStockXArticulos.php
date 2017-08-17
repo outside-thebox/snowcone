@@ -162,4 +162,18 @@ class RepoStockXArticulos extends Repo
         $model->save();
     }
 
+    public function getListado()
+    {
+        $model = $this->getModel();
+
+        $model = $model->join("articulos","articulos.id","=","stockxarticulos.articulo_id");
+
+        $model = $model->where('articulos.deleted_at',null);
+
+        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+        return $model->get();
+
+    }
+
 }
