@@ -37,7 +37,7 @@ class BoletasController extends Controller
 
         $id = $_GET['nro_factura'];
         $boleta = $this->repoBoleta->buscarboleta($_GET);
-        $pdf = \PDF::loadView('boleta.PDF', compact("boleta","id"))->setPaper('a4', 'landscape');
+        $pdf = \PDF::loadView('boleta.PDF', compact("boleta","id"));
         return $pdf->download("Boleta-".$id.".pdf");
 
     }

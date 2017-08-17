@@ -4,7 +4,7 @@
     }
 
     .letra{
-        font-size: 22px;
+        font-size: 18px;
         font-weight: bold;
     }
 

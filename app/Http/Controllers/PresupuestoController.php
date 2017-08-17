@@ -65,7 +65,7 @@ class PresupuestoController extends Controller
         $presupuesto = $this->repoPresupuesto->find($id);
 
 //        dd($presupuesto->user);
-        $pdf = \PDF::loadView('presupuesto.PDF', compact("presupuesto"))->setPaper('a4', 'landscape');
+        $pdf = \PDF::loadView('presupuesto.PDF', compact("presupuesto"));
         return $pdf->stream("Presupuesto-".$presupuesto->id.".pdf");
 
     }
