@@ -25,6 +25,8 @@
 
 </style>
 
+
+
 <table width="100%" class="letra table">
     <tr>
         <td width="60%">SEÑOR/A: {{ $presupuesto->cliente }}</td>

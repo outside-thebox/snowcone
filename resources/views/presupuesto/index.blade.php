@@ -173,7 +173,7 @@
                         success: function (data) {
 //                            console.log(data.id);
                             var win = window.open("{{ Route('presupuesto.index') }}/exportarPDF/"+data.id, '_blank');
-                            win.focus();
+                            win.print();
                             location.href = "{{ Route('master',4) }}";
 
                         },

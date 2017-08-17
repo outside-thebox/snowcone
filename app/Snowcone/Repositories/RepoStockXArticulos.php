@@ -131,6 +131,7 @@ class RepoStockXArticulos extends Repo
 
     public function update($data)
     {
+
         $record = $this->getModel()->firstOrNew(['id' => $data['id']]);
 
         $record->fill($data);
