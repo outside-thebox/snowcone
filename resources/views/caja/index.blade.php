@@ -243,6 +243,13 @@
 
 
 
+                },
+                imprimirPresupuesto: function(id)
+                {
+//                    console.log(id);
+                    var win = window.open("{{ Route('presupuesto.index') }}/exportarPDF/"+id, '_blank');
+                    win.print();
+
                 }
             }
         });
@@ -306,6 +313,7 @@
                         <th>Total</th>
                         <th>Fecha</th>
                         <th>Estado</th>
+                        <th>#</th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -317,6 +325,9 @@
                             <td>
                                 <span class="label label-danger" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
                                 <span class="label label-success" v-if="registro.estado_id == 2">@{{ registro.estado.descripcion }}</span>
+                            </td>
+                            <td>
+                                <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' @click="imprimirPresupuesto(registro.id)" ><i class='glyphicon glyphicon-print' ></i></a>
                             </td>
                         </tr>
 
