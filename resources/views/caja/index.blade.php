@@ -326,8 +326,11 @@
                                 <span class="label label-danger" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
                                 <span class="label label-success" v-if="registro.estado_id == 2">@{{ registro.estado.descripcion }}</span>
                             </td>
+                            {{--<td>--}}
+                                {{--<a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' @click="imprimirPresupuesto(registro.id)" ><i class='glyphicon glyphicon-print' ></i></a>--}}
+                            {{--</td>--}}
                             <td>
-                                <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' @click="imprimirPresupuesto(registro.id)" ><i class='glyphicon glyphicon-print' ></i></a>
+                                <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ registro.id }}"><i class='glyphicon glyphicon-print' ></i></a>
                             </td>
                         </tr>
 
