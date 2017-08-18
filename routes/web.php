@@ -77,13 +77,13 @@ Route::group(['middleware' => 'auth'],function(){
 
     });
 
-    Route::group(['middleware' => 'tipousuarios:4|3|2'], function () {
+    Route::group(['middleware' => 'tipousuarios:4|3|2|1'], function () {
 
         Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
         Route::resource('presupuesto','PresupuestoController');
     });
 
-    Route::group(['middleware' => 'tipousuarios:2|3|5'], function () {
+    Route::group(['middleware' => 'tipousuarios:2|3|5|1'], function () {
         Route::resource('caja', 'CajaController');
         Route::post('caja.cerrarCaja',['uses' => 'CajaController@cerrarCaja','as' => 'caja.cerrarCaja']);
         Route::get('caja.buscar',['uses' => 'CajaController@buscar','as' => 'caja.buscar']);

@@ -110,12 +110,12 @@
                             <li><a href="{{ route('articulos.prices') }}">Stock artículos</a></li>
                         </ul>
                         @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(2,3,4)))
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3,4)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
                         </ul>
                         @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(3,2,5)))
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,3,2,5)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('caja.index') }}">Caja</a></li>
                         </ul>
