@@ -100,4 +100,5 @@ class RepoPresupuesto extends Repo
     {
         $this->getModel()->where('caja_cerrada',0)->update(['caja_cerrada' => $id]);
     }
+
 }

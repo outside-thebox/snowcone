@@ -2,6 +2,8 @@
 
 @section('scripts')
 
+    @include('functions.eliminarPresupuesto')
+
     <script>
 
         vm = new Vue({
@@ -186,6 +188,15 @@
 
                     });
 
+                },
+                cancelarPresupuesto: function(id,cliente)
+                {
+                    $("#pregunta-1").modal(function(){show:true});
+
+                    $("#contenido-pregunta-1").html("");
+                    $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cancelar el presupuesto para <strong>"+cliente+"</strong>?</h2>");
+                    $("#pregunta-1").modal(function(){show:true});
+                    $("input:hidden[name=id_seleccionado]").val(id);
                 }
             }
         });
@@ -201,7 +212,9 @@
 
             vm.traerPresupuestos();
 
-
+            $("#eliminar-1").click(function(){
+                cancelarPresupuesto(6);
+            });
 
         });
 
@@ -323,11 +336,13 @@
                 <td>$@{{ presupuesto.precio_total }}</td>
                 <td>@{{ presupuesto.created_at }}</td>
                 <td>
-                    <span class="label label-danger" v-if="presupuesto.estado_id == 1">@{{ presupuesto.estado.descripcion }}</span>
+                    <span class="label label-primary" v-if="presupuesto.estado_id == 1">@{{ presupuesto.estado.descripcion }}</span>
                     <span class="label label-success" v-if="presupuesto.estado_id == 2">@{{ presupuesto.estado.descripcion }}</span>
+                    <span class="label label-danger" v-if="presupuesto.estado_id == 3">@{{ presupuesto.estado.descripcion }}</span>
                 </td>
                 <td>
                     <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ presupuesto.id }}"><i class='glyphicon glyphicon-print' ></i></a>
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Cancelar' v-show="presupuesto.estado_id == 1" @click="cancelarPresupuesto(presupuesto.id,presupuesto.cliente)"><i class='glyphicon glyphicon-trash' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -335,6 +350,6 @@
     </div>
     {{--<pre>@{{ $data | json }}</pre>--}}
 
-    @include('components.modal',['accion' => 'Eliminar','id' => 1])
+    @include('components.modal',['accion' => 'Confirmar','id' => 1])
 
 @endsection

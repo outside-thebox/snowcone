@@ -16,16 +16,20 @@ class Controller extends BaseController
         2 => 'sucursales.index',
         3 => 'articulos.index',
         4 => 'presupuesto.index',
-        5 => 'caja.index'
+        5 => 'caja.index',
+        6 => 'presupuesto.index',
+        7 => 'caja.index'
     ];
 
 
     public function redirect($id)
     {
-        if($id != 4)
-            return redirect(route($this->redirigir[$id]))->with('alert','Guardado correctamente');
-        else
+        if($id == 4)
             return redirect(route($this->redirigir[$id]))->with('alert','Enviado a caja');
+        else if($id == 6 || $id == 7)
+            return redirect(route($this->redirigir[$id]))->with('alert','Cancelado correctamente');
+        else
+            return redirect(route($this->redirigir[$id]))->with('alert','Guardado correctamente');
 
     }
 

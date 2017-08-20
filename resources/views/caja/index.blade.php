@@ -13,6 +13,9 @@
 
     </style>
 
+    @include('functions.eliminarPresupuesto')
+
+
     <script>
         vm = new Vue({
             el: '#main',
@@ -235,11 +238,11 @@
                 {
 
 
-                    $("#pregunta-1").modal(function(){show:true});
+                    $("#pregunta-2").modal(function(){show:true});
 
-                    $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cerrar la caja?</h3>");
-                    $("#pregunta-1").modal(function(){show:true});
+                    $("#contenido-pregunta-2").html("");
+                    $("#contenido-pregunta-2").append("<h3>¿Confirma que desea cerrar la caja?</h3>");
+                    $("#pregunta-2").modal(function(){show:true});
 
 
 
@@ -250,6 +253,15 @@
                     var win = window.open("{{ Route('presupuesto.index') }}/exportarPDF/"+id, '_blank');
                     win.print();
 
+                },
+                cancelarPresupuesto: function(id,cliente)
+                {
+                    $("#pregunta-1").modal(function(){show:true});
+
+                    $("#contenido-pregunta-1").html("");
+                    $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cancelar el presupuesto para <strong>"+cliente+"</strong>?</h2>");
+                    $("#pregunta-1").modal(function(){show:true});
+                    $("input:hidden[name=id_seleccionado]").val(id);
                 }
             }
         });
@@ -262,7 +274,7 @@
 
             vm.traerPresupuestos();
 
-            $("#eliminar-1").click(function(){
+            $("#eliminar-2").click(function(){
                 cargando('sk-circle','Actualizando');
                 $.ajax({
                     url: "{{ Route('caja.cerrarCaja') }}",
@@ -281,6 +293,9 @@
 
                 });
                 HoldOn.close();
+            });
+            $("#eliminar-1").click(function(){
+                cancelarPresupuesto(7);
             });
         });
     </script>
@@ -308,12 +323,12 @@
                 <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
                     <thead>
                     <tr>
-                        <th>Nro presupuesto</th>
+                        <th>Nro</th>
                         <th>Cliente</th>
                         <th>Total</th>
                         <th>Fecha</th>
                         <th>Estado</th>
-                        <th>#</th>
+                        <th width="10%">#</th>
                     </tr>
                     </thead>
                     <tbody id="table">
@@ -323,14 +338,16 @@
                             <td>$@{{ registro.precio_total }}</td>
                             <td>@{{ registro.created_at }}</td>
                             <td>
-                                <span class="label label-danger" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
+                                <span class="label label-primary" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
                                 <span class="label label-success" v-if="registro.estado_id == 2">@{{ registro.estado.descripcion }}</span>
+                                <span class="label label-danger" v-if="registro.estado_id == 3">@{{ registro.estado.descripcion }}</span>
                             </td>
                             {{--<td>--}}
                                 {{--<a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' @click="imprimirPresupuesto(registro.id)" ><i class='glyphicon glyphicon-print' ></i></a>--}}
                             {{--</td>--}}
                             <td>
                                 <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ registro.id }}"><i class='glyphicon glyphicon-print' ></i></a>
+                                <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Cancelar' v-show="registro.estado_id == 1" @click="cancelarPresupuesto(registro.id,registro.cliente)"><i class='glyphicon glyphicon-trash' ></i></a>
                             </td>
                         </tr>
 
@@ -386,6 +403,7 @@
     </div>
     <a @click="cobrar()" data-toggle="tooltip" data-placement="top"  title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
     @include('components.modal',['id' => 1,'accion' => 'Confirmar'])
+    @include('components.modal',['id' => 2,'accion' => 'Confirmar'])
 
     {{--<pre> @{{ $data | json }}</pre>--}}
 

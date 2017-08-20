@@ -70,6 +70,24 @@ class PresupuestoController extends Controller
 
     }
 
+    public function cancelar(Request $request)
+    {
+        $id = $request->get('id');
+
+        $presupuesto = $this->repoPresupuesto->find($id);
+
+        $presupuestoxarticulos = $this->repoPresupuestoXArticulos->presupuestoxarticulos($presupuesto->id);
+
+
+        foreach($presupuestoxarticulos as $presupuestoxarticulo)
+        {
+            $this->repoStockXArticulos->updateStockCancelPresupuesto($presupuestoxarticulo->articulo_id,$presupuestoxarticulo->cantidad);
+        }
+
+        $this->repoPresupuesto->updateEstado($id,3);
+
+
+    }
 
 
 }

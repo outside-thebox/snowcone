@@ -23,6 +23,7 @@
     {!! Html::script('assets/js/bootstrap.min.js') !!}
     {!! Html::script('assets/js/HoldOn.js') !!}
     {!! Html::script('assets/js/jquery.mask.js') !!}
+    {!! Html::script('assets/js/functions.js') !!}
     {!! Html::style('assets/css/app.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/HoldOn.css', array('media' => 'screen')) !!}
     {!! Html::style('assets/css/font-awesome.css', array('media' => 'screen')) !!}

@@ -17,6 +17,14 @@
         border-width: 0 0 1px 0;
     }
 
+    footer {
+        position: fixed;
+        bottom: -60px;
+        height: 50px;
+        text-align: right;
+    }
+
+
 </style>
 
 <table width="100%" class="letra table">
@@ -53,4 +61,4 @@
         @endif
     @endforeach
 </table>
-
+<footer>Momento del cierre: {{ $caja->created_at }}</footer>

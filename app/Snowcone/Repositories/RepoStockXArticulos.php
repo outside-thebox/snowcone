@@ -162,6 +162,14 @@ class RepoStockXArticulos extends Repo
         $model->save();
     }
 
+    public function updateStockCancelPresupuesto($articulo_id,$cantidad)
+    {
+        $model = $this->getModel()->firstOrNew(['articulo_id' => $articulo_id,'sucursal_id' => ENV('APP_SUCURSAL',1)]);
+        $model->stock = $model->stock + $cantidad;
+        $model->save();
+    }
+
+
     public function getListado()
     {
         $model = $this->getModel();

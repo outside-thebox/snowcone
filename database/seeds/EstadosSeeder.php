@@ -12,11 +12,14 @@ class EstadosSeeder extends Seeder
      */
     public function run()
     {
+//        Estado::create([
+//           'descripcion' => 'No Cobrado'
+//        ]);
+//        Estado::create([
+//            'descripcion' => 'Cobrado'
+//        ]);
         Estado::create([
-           'descripcion' => 'No Cobrado'
-        ]);
-        Estado::create([
-            'descripcion' => 'Cobrado'
+            'descripcion' => 'Cancelado'
         ]);
     }
 }

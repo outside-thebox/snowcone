@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('presupuesto.buscar', ['uses' => 'PresupuestoController@buscar', 'as' => 'presupuesto.buscar']);
     Route::get('articulos.buscar', ['uses' => 'ArticulosController@buscar', 'as' => 'articulos.buscar']);
     Route::get('articulosxstock.buscarxstockall', ['uses' => 'ArticulosXStockController@buscarxstockall', 'as' => 'articulos.buscarxstockall']);
+    Route::post('presupuesto.cancelar',['uses' => 'PresupuestoController@cancelar','as' => 'presupuesto.cancelar']);
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::post('presupuesto.updateEstado',['uses' => 'PresupuestoController@updateEstado','as' => 'presupuesto.updateEstado']);
 
