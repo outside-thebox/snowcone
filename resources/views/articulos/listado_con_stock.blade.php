@@ -38,6 +38,7 @@
                     <td align="left" class="table" style="font-weight: bold">{{$proveedor->descripcion or ''}}</td>
                     <td align="left" class="table" style="font-weight: bold">Precio</td>
                     <td align="left" class="table" style="font-weight: bold">Sugerido</td>
+                    <td align="left" class="table" style="font-weight: bold">Stock</td>
                 </tr>
                 @foreach($proveedor->articulos as $articulo)
                     @if($articulo->stockxarticulo->stock > 0)
@@ -45,6 +46,7 @@
                             <td align="left">{{$articulo->descripcion or ''}}</td>
                             <td align="left">${{$articulo->stockxarticulo->precio_compra or ''}}</td>
                             <td align="left">${{$articulo->stockxarticulo->precio_sugerido or ''}}</td>
+                            <td align="left">{{$articulo->stockxarticulo->stock or ''}}</td>
                         </tr>
                     @endif
                 @endforeach
