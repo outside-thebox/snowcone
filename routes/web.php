@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('presupuesto.cancelar',['uses' => 'PresupuestoController@cancelar','as' => 'presupuesto.cancelar']);
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::post('presupuesto.updateEstado',['uses' => 'PresupuestoController@updateEstado','as' => 'presupuesto.updateEstado']);
+    Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
 
     Route::group(['middleware' => 'tipousuarios: 1'],function() {
 
@@ -80,7 +81,6 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['middleware' => 'tipousuarios:4|3|2|1'], function () {
 
-        Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);
         Route::resource('presupuesto','PresupuestoController');
     });
 
