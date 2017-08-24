@@ -303,6 +303,7 @@
 @section('content')
     <h1>Caja
         <a @click="cerrarCaja()"><button class="btn btn-primary pull-right" style="margin-left: 10px">Cerrar Caja</button></a>
+        <a href="{!! route('articulosxstock.addBoleta')!!}" ><button style="margin-left: 10px" class="btn btn-success pull-right" >Agregar boleta</button></a>
         <a href="{!! route('caja.history')!!}"><button class="btn btn-success pull-right">Listado de cierre de cajas</button></a>
     </h1>
 

@@ -73,10 +73,14 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('boleta.exportarPDF', ['uses' => 'BoletasController@exportarPDF', 'as' => 'boleta.exportarPDF']);
         Route::get('articulosxstock.prices', ['uses' => 'ArticulosXStockController@prices', 'as' => 'articulos.prices']);
         Route::post('articulosxstock.updatePrices', ['uses' => 'ArticulosXStockController@updatePrices', 'as' => 'articulosxstock.updatePrices']);
-        Route::get('articulosxstock.addBoleta', ['uses' => 'ArticulosXStockController@addBoleta', 'as' => 'articulosxstock.addBoleta']);
-        Route::post('articulosxstock.updateBoleta', ['uses' => 'ArticulosXStockController@updateBoleta', 'as' => 'articulosxstock.updateBoleta']);
-        Route::post('articulosxstock.datosinput', ['uses' => 'ArticulosXStockController@datosinput', 'as' => 'articulosxstock.datosinput']);
 
+    });
+
+    Route::group(['middleware' => 'tipousuarios:1|2|3|5'], function () {
+
+        Route::post('articulosxstock.updateBoleta', ['uses' => 'ArticulosXStockController@updateBoleta', 'as' => 'articulosxstock.updateBoleta']);
+        Route::get('articulosxstock.addBoleta', ['uses' => 'ArticulosXStockController@addBoleta', 'as' => 'articulosxstock.addBoleta']);
+        Route::post('articulosxstock.datosinput', ['uses' => 'ArticulosXStockController@datosinput', 'as' => 'articulosxstock.datosinput']);
     });
 
     Route::group(['middleware' => 'tipousuarios:4|3|2|1'], function () {
