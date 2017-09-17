@@ -2,7 +2,6 @@
 
 @section('scripts')
 
-    @include('functions.eliminarPresupuesto')
 
     <script>
 
@@ -197,13 +196,20 @@
                     $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cancelar el presupuesto para <strong>"+cliente+"</strong>?</h2>");
                     $("#pregunta-1").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
+                },
+                anularPresupuesto: function(id,cliente)
+                {
+                    $("#pregunta-2").modal(function(){show:true});
+
+                    $("#contenido-pregunta-2").html("");
+                    $("#contenido-pregunta-2").append("<h3>¿Confirma que desea anular el presupuesto para <strong>"+cliente+"</strong>?</h2>");
+                    $("#pregunta-2").modal(function(){show:true});
+                    $("input:hidden[name=id_seleccionado]").val(id);
                 }
             }
         });
 
         $(document).ready(function(){
-
-            $('[data-toggle="tooltip"]').tooltip();
 
             $("input:text[name=cod]").mask("9999");
             $("input:text[name=cant]").mask("999");
@@ -216,9 +222,18 @@
                 cancelarPresupuesto(6);
             });
 
+            $("#eliminar-2").click(function(){
+                anularPresupuesto(6);
+            });
+
+
+            $('[data-toggle="tooltip"]').tooltip();
         });
 
     </script>
+
+    @include('functions.eliminarPresupuesto')
+
 
 
 @endsection
@@ -339,10 +354,12 @@
                     <span class="label label-primary" v-if="presupuesto.estado_id == 1">@{{ presupuesto.estado.descripcion }}</span>
                     <span class="label label-success" v-if="presupuesto.estado_id == 2">@{{ presupuesto.estado.descripcion }}</span>
                     <span class="label label-danger" v-if="presupuesto.estado_id == 3">@{{ presupuesto.estado.descripcion }}</span>
+                    <span class="label label-info" v-if="presupuesto.estado_id == 4">@{{ presupuesto.estado.descripcion }}</span>
                 </td>
                 <td>
-                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ presupuesto.id }}"><i class='glyphicon glyphicon-print' ></i></a>
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" title='Imprimir' style="cursor: pointer" href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ presupuesto.id }}"><i class='glyphicon glyphicon-print' ></i></a>
                     <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Cancelar' v-show="presupuesto.estado_id == 1" @click="cancelarPresupuesto(presupuesto.id,presupuesto.cliente)"><i class='glyphicon glyphicon-trash' ></i></a>
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Anular' v-show="presupuesto.estado_id == 2" @click="anularPresupuesto(presupuesto.id,presupuesto.cliente)"><i class='glyphicon glyphicon-minus-sign' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -351,5 +368,7 @@
     {{--<pre>@{{ $data | json }}</pre>--}}
 
     @include('components.modal',['accion' => 'Confirmar','id' => 1])
+
+    @include('components.modal',['accion' => 'Confirmar','id' => 2])
 
 @endsection

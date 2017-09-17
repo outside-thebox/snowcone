@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('articulos.buscar', ['uses' => 'ArticulosController@buscar', 'as' => 'articulos.buscar']);
     Route::get('articulosxstock.buscarxstockall', ['uses' => 'ArticulosXStockController@buscarxstockall', 'as' => 'articulos.buscarxstockall']);
     Route::post('presupuesto.cancelar',['uses' => 'PresupuestoController@cancelar','as' => 'presupuesto.cancelar']);
+    Route::post('presupuesto.anular',['uses' => 'PresupuestoController@anular','as' => 'presupuesto.anular']);
     Route::post('presupuesto.buscar',['uses' => 'PresupuestoController@buscar','as' => 'presupuesto.buscar']);
     Route::post('presupuesto.updateEstado',['uses' => 'PresupuestoController@updateEstado','as' => 'presupuesto.updateEstado']);
     Route::get('presupuesto/exportarPDF/{ID}',['uses' => 'PresupuestoController@exportarPDF','as' => 'presupuesto/exportarPDF']);

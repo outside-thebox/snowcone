@@ -43,6 +43,9 @@
     <tr>
         <td>TOTAL DE PRESUPUESTOS COBRADOS: {{ $caja->cantidad }}</td>
     </tr>
+    <tr>
+        <td>MOMENTO DEL CIERRE: {{ $caja->created_at }}</td>
+    </tr>
 </table>
 <table width="100%" class="letra center" style="margin-top: 20px;">
     <tr class="table">
@@ -59,6 +62,17 @@
                 <td width="20%" class="table">${{$row->precio_total}}</td>
             </tr>
         @endif
+        @if($row->estado_id == 4)
+            <tr class="table">
+                <td width="60%" align="center" class="table">{{$row->id or ''}}</td>
+                <td width="20%" class="table">{{$row->cliente}}</td>
+                <td width="20%" class="table">${{$row->precio_total}}</td>
+            </tr>
+            <tr class="table">
+                <td width="60%" align="center" class="table">{{$row->id or ''}} (Anulado)</td>
+                <td width="20%" class="table">{{$row->cliente}}</td>
+                <td width="20%" class="table">- ${{$row->precio_total}}</td>
+            </tr>
+        @endif
     @endforeach
 </table>
-<footer>Momento del cierre: {{ $caja->created_at }}</footer>
