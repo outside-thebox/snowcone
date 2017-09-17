@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Snowcone\Repositories\RepoArticulos;
 use App\Snowcone\Repositories\RepoBoleta;
+use App\Snowcone\Repositories\RepoPresupuestoXArticulos;
 use App\Snowcone\Repositories\RepoStockXArticulos;
 use Illuminate\Http\Request;
 use Psy\Test\Exception\RuntimeExceptionTest;
@@ -19,6 +20,7 @@ class ArticulosXStockController extends Controller
     private $repoArticulos;
     private $repoStockXArticulos;
     private $repoBoleta;
+    private $repoPresupuestoXArticulos;
 
     /**
      * ArticulosXStockController constructor.
@@ -26,11 +28,12 @@ class ArticulosXStockController extends Controller
      * @param RepoBoleta $repoBoleta
      * @param RepoArticulos $repoArticulos
      */
-    public function __construct(RepoStockXArticulos $repoStockXArticulos, RepoBoleta $repoBoleta, RepoArticulos $repoArticulos)
+    public function __construct(RepoStockXArticulos $repoStockXArticulos, RepoBoleta $repoBoleta, RepoArticulos $repoArticulos,RepoPresupuestoXArticulos $repoPresupuestoXArticulos)
     {
         $this->repoStockXArticulos = $repoStockXArticulos;
         $this->repoBoleta = $repoBoleta;
         $this->repoArticulos = $repoArticulos;
+        $this->repoPresupuestoXArticulos = $repoPresupuestoXArticulos;
     }
 
     public function prices()
@@ -104,7 +107,58 @@ class ArticulosXStockController extends Controller
                 $this->repoBoleta->createOrUpdate($aux);
             }
         };
+    }
 
+    public function control($articulo_id)
+    {
+        $articulo = $this->repoArticulos->find($articulo_id);
+
+        $listado = [];
+
+        $boletas = $this->repoBoleta->buscarboletaXArticulo($articulo_id);
+
+        foreach($boletas as $boleta)
+        {
+
+            array_push($listado,$boleta->toArray());
+        }
+
+
+        $presupuestos = $this->repoPresupuestoXArticulos->buscarPresuestoXArticulo($articulo_id);
+
+        foreach($presupuestos as $presupuesto)
+        {
+            array_push($listado,$presupuesto->toArray());
+        }
+
+        $historico = $this->burbuja($listado,count($listado));
+//        dd($historico);
+        return view("articulos.control",compact('articulo',"historico"));
+    }
+
+    function burbuja($A,$n)
+    {
+        for($i=1;$i<$n;$i++)
+        {
+            for($j=0;$j<$n-$i;$j++)
+            {
+                if($A[$j]['created_at']>$A[$j+1]['created_at'])
+                {$k=$A[$j+1]; $A[$j+1]=$A[$j]; $A[$j]=$k;}
+            }
+        }
+
+        return $A;
+    }
+
+    function main()
+    {
+
+        $VectorA=array(5,4,3,2,1);
+
+        $VectorB=burbuja($VectorA,sizeof($VectorA));
+
+        for($i=0;$i<sizeof($VectorB);$i++)
+            echo $VectorB[$i]."\n";
 
     }
 
