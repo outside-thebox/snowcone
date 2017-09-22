@@ -9,8 +9,10 @@
             data:{
                 articulo : {
                     cod: '',
-                    descripcion: ''
+                    descripcion: '',
+                    proveedor_id:''
                 },
+                proveedores: [],
                 pagina_actual: 0,
                 first: '',
                 prev: '',
@@ -28,6 +30,21 @@
                 }
             },
             methods:{
+                cargarProveedores: function()
+                {
+                    var url = "{{ Route('proveedores.all') }}";
+
+                    $.ajax({
+                        url: url,
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data,function(k,v){
+                                vm.proveedores.push({'id':v.id,'descripcion':v.descripcion});
+                            });
+                        }
+                    });
+                },
                 updateStock: function(id)
                 {
                     var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
@@ -55,7 +72,7 @@
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
                     if(url == undefined)
-                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
+                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod+"&proveedor_id="+this.articulo.proveedor_id;
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
@@ -109,6 +126,7 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             vm.buscar();
+            vm.cargarProveedores();
 
         });
 
@@ -133,6 +151,12 @@
         {{ Form::text('cod',null,['class' => 'form-control','placeholder' => 'Cod','v-model' => 'articulo.cod','autofocus']) }}
 
         {{ Form::text('descripcion',null,['class' => 'form-control','placeholder' => 'Descripcion','v-model' => 'articulo.descripcion','autofocus']) }}
+        <div class="form-group ">
+            <label for="proveedor_id" class="control-label">Proveedor</label>
+            <select class="form-control" name="articulo.proveedor_id" v-model="articulo.proveedor_id" required="required">
+                <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
+            </select>
+        </div>
 
         {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 

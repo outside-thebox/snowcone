@@ -43,6 +43,7 @@ class ArticulosXStockController extends Controller
         $array_missing = $this->repoStockXArticulos->getRecordsMissing();
         $this->repoStockXArticulos->addRecords($array_missing);
         return $this->repoStockXArticulos->findAndPaginateStock($request->all());
+
     }
 
     public function updatePrices(Request $request)
@@ -57,6 +58,7 @@ class ArticulosXStockController extends Controller
 
     public function buscarxstockall(Request $request)
     {
+
         return $this->repoStockXArticulos->findAll($request->all());
     }
     public function datosinput(Request $request)

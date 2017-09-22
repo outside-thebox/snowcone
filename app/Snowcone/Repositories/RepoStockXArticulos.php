@@ -90,7 +90,8 @@ class RepoStockXArticulos extends Repo
 
         $model = $model->orderBy("articulos.cod");
 
-        $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+        //$model = $model->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->get();
 
         return $model;
 
