@@ -86,10 +86,14 @@
                 },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
-                    if(url == undefined)
+                    if(this.articulo.proveedor_id)
                         var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.articulo.proveedor_id;
                     else
-                        var url = url + "?" + "proveedor_id="+this.articulo.proveedor_id;
+                    {
+                        $("#contenido-modal-1").html("Complete los parametros de busqueda");
+                        $("#confirmacion-1").modal(function(){show:true});
+
+                    }
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
