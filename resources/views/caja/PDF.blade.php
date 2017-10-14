@@ -76,3 +76,4 @@
         @endif
     @endforeach
 </table>
+<footer>Momento del cierre: {{date_format($caja->created_at,"d/m/Y H:i:s")  }}</footer>

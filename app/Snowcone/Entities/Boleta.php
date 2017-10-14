@@ -8,6 +8,7 @@
 
 namespace App\Snowcone\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -40,5 +41,10 @@ class Boleta extends Model
     public function user()
     {
         return $this->hasOne('App\User','id','user_id');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('H:i:s d/m/Y');
     }
 }

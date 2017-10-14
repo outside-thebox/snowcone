@@ -170,6 +170,9 @@
                 <td>
                     <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
                     <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
+                    @if(in_array(Auth::user()->tipo_usuario_id, array(1)))
+                        <a data-toggle="tooltip" data-placement="top" target="_blank"  title='Control de stock' href="{{route('articulos.index')}}/control/@{{ registro.id }}"><i class='glyphicon glyphicon-search' ></i></a>
+                    @endif
                 </td>
             </tr>
             </tbody>
