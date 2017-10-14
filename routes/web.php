@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('proveedores.exportarConStockPDF', ['uses' => 'ProveedoresController@exportarConStockPDF', 'as' => 'proveedores.exportarConStockPDF']);
     Route::get('sucursales.buscar', ['uses' => 'SucursalesController@buscar', 'as' => 'sucursales.buscar']);
     Route::get('articulosxstock.buscarxstock', ['uses' => 'ArticulosXStockController@buscarxstock', 'as' => 'articulos.buscarxstock']);
+    Route::get('articulosxstock.buscarxstockPrices', ['uses' => 'ArticulosXStockController@buscarxstockPrices', 'as' => 'articulos.buscarxstockPrices']);
     Route::post('presupuesto.buscar', ['uses' => 'PresupuestoController@buscar', 'as' => 'presupuesto.buscar']);
     Route::get('articulos.buscar', ['uses' => 'ArticulosController@buscar', 'as' => 'articulos.buscar']);
     Route::get('articulosxstock.buscarxstockall', ['uses' => 'ArticulosXStockController@buscarxstockall', 'as' => 'articulos.buscarxstockall']);
@@ -75,6 +76,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('boleta.exportarPDF', ['uses' => 'BoletasController@exportarPDF', 'as' => 'boleta.exportarPDF']);
         Route::get('articulosxstock.prices', ['uses' => 'ArticulosXStockController@prices', 'as' => 'articulos.prices']);
         Route::post('articulosxstock.updatePrices', ['uses' => 'ArticulosXStockController@updatePrices', 'as' => 'articulosxstock.updatePrices']);
+        Route::post('articulosxstock.updatetodoPrices', ['uses' => 'ArticulosXStockController@updatetodoPrices', 'as' => 'articulosxstock.updatetodoPrices']);
 
     });
 

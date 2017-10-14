@@ -20,7 +20,7 @@
 
 <table width="100%">
     <tr>
-        <td style="text-align: center; font-size: 20px; font-weight: bold">Helados Gaby</td>
+        <td style="text-align: center; font-size: 20px; font-weight: bold">Helados</td>
     </tr>
 </table>
 <table width="100%" class="letra center" style="margin-top: 20px;">
