@@ -46,6 +46,19 @@ class RepoBoleta  extends Repo{
         return $model;
     }
 
+    public function buscarboletaXArticulo($articulo_id)
+    {
+
+        $model = $this->getModel();
+
+        $model = $model->where('articulo_id',$articulo_id);
+
+        $model = $model->get();
+
+        return $model;
+    }
+
+
     public function validarboleta($proveedor_id, $nro_factura)
     {
 

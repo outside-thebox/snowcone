@@ -50,4 +50,18 @@ class RepoPresupuestoXArticulos extends Repo
 
         return $model->get();
     }
+
+    public function buscarPresuestoXArticulo($articulo_id)
+    {
+        $model = $this->getModel();
+
+        $model = $model->join("presupuestos","presupuestos.id","=","presupuestosxarticulos.presupuesto_id");
+
+        $model = $model->where("estado_id",2);
+
+        $model = $model->where("articulo_id",$articulo_id);
+
+
+        return $model->get();
+    }
 }

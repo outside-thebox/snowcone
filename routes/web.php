@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('sucursal.getData', ['uses' => 'SucursalesController@getData', 'as' => 'sucursal.getData']);
         Route::post("sucursal/activar", array('as' => 'sucursal.activar', 'uses' => 'SucursalesController@activar'));
         Route::post("sucursal/desactivar", array('as' => 'sucursal.desactivar', 'uses' => 'SucursalesController@desactivar'));
+        Route::get('articulos/control/{ID}', ['uses' => 'ArticulosXStockController@control', 'as' => 'articulos/control']);
         Route::resource('sucursales', 'SucursalesController');
     });
 
