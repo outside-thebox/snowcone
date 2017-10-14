@@ -117,25 +117,26 @@ class ArticulosXStockController extends Controller
 
         $boletas = $this->repoBoleta->buscarboletaXArticulo($articulo_id);
 
-        foreach($boletas as $boleta)
-        {
+//        foreach($boletas as $boleta)
+//        {
+//
+//            array_push($listado,$boleta->toArray());
+//        }
 
-            array_push($listado,$boleta->toArray());
-        }
+//        dd($boletas);
 
 
-        $presupuestos = $this->repoPresupuestoXArticulos->buscarPresuestoXArticulo($articulo_id);
+//        $presupuestos = $this->repoPresupuestoXArticulos->buscarPresuestoXArticulo($articulo_id);
+//
+//        foreach($presupuestos as $presupuesto)
+//        {
+//            array_push($listado,$presupuesto->toArray());
+//        }
 
-        foreach($presupuestos as $presupuesto)
-        {
-            array_push($listado,$presupuesto->toArray());
-        }
-
-        $historico = $this->burbuja($listado,count($listado));
-//        dd($historico);
-        return view("articulos.control",compact('articulo',"historico"));
+        return view("articulos.control",compact('articulo',"boletas"));
     }
 
+    /*
     function burbuja($A,$n)
     {
         for($i=1;$i<$n;$i++)
@@ -160,6 +161,6 @@ class ArticulosXStockController extends Controller
         for($i=0;$i<sizeof($VectorB);$i++)
             echo $VectorB[$i]."\n";
 
-    }
+    }*/
 
 }

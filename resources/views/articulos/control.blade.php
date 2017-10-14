@@ -8,35 +8,26 @@
     <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
         <thead>
             <tr>
-                <th style="text-align: center">Ingreso</th>
-                <th style="text-align: center">Egreso</th>
-                <th style="text-align: center">Stock</th>
+                <th style="text-align: center">Boleta</th>
+                <th style="text-align: center">Usuario</th>
+                <th style="text-align: center">Fecha y hora</th>
+                <th style="text-align: center">Total ingresado</th>
             </tr>
         </thead>
-
-        <?php $stock = 0 ?>
-
-        @foreach($historico as $accion)
+        @foreach($boletas as $boleta)
             <tr>
-                @if(isset($accion['nro_factura']))
-                    <td style="text-align: center">
-                        + {{ $accion['cantidad'] }}
-                        <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('boleta.exportarPDF')}}?proveedor_id={{ $accion['proveedor_id'] }}&nro_factura={{ $accion['nro_factura'] }}"><i class='glyphicon glyphicon-print' ></i></a>
-                    </td>
-                    <td style="text-align: center"></td>
-                    <?php $stock = $stock + $accion['cantidad'] ; ?>
-                    <td style="text-align: center">
-                        {{ $stock }}
-                    </td>
-                @else
-                    <td style="text-align: center"></td>
-                    <td style="text-align: center">
-                        - {{ $accion['cantidad'] }}
-                        <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/{{ $accion['presupuesto_id'] }}"><i class='glyphicon glyphicon-print' ></i></a>
-                    </td>
-                    <?php $stock = $stock - $accion['cantidad'] ; ?>
-                    <td style="text-align: center">{{ $stock }}</td>
-                @endif
+                <td style="text-align: center">
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('boleta.exportarPDF')}}?proveedor_id={{ $boleta->proveedor_id }}&nro_factura={{ $boleta->nro_factura }}"><i class='glyphicon glyphicon-print' ></i></a>
+                </td>
+                <td style="text-align: center">
+                    {{ $boleta->user->nombre. " ".$boleta->user->apellido }}
+                </td>
+                <td style="text-align: center">
+                    {{ $boleta->created_at }}
+                </td>
+                <td style="text-align: center">
+                    {{ $boleta->cantidad}}
+                </td>
             </tr>
         @endforeach
     </table>
