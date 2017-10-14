@@ -23,10 +23,16 @@ Class Presupuesto extends Model{
     protected $fillable = ['sucursal_id','user_id','precio_total','cliente','estado_id','deleted_at','created_at','updated_at'];
 
 
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
+//
 //    public function getCreatedAtAttribute()
 //    {
-//        return Carbon::parse($this->attribute['created_at'])->format('H:i:s d/m/Y');
+//        return date_format($this->attributes['created_at'],"d/m/Y H:i:s");
 //    }
+
 
     public function presupuestoxarticulo()
     {

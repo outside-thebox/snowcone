@@ -34,6 +34,11 @@ class CajaCerrada extends Model {
         return Carbon::parse($this->attribute['fecha'])->format('d/m/Y');
     }
 
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
+
     public function presupuesto()
     {
         return $this->hasMany('App\Snowcone\Entities\Presupuesto','caja_cerrada','id');

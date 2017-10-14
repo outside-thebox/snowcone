@@ -76,3 +76,4 @@
         @endif
     @endforeach
 </table>
+<footer>Momento del cierre: {{$caja->created_at}}</footer>

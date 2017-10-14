@@ -57,6 +57,7 @@ class PresupuestoController extends Controller
 
     public function buscar(Request $request)
     {
+//        dd($this->repoPresupuesto->buscar($request)[0]->created_at);
         return $this->repoPresupuesto->buscar($request);
     }
 

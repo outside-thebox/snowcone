@@ -32,13 +32,6 @@ class ArticulosController extends Controller
         return $this->repoArticulos->findAndPaginate($request->all());
     }
 
-
-
-
-
-
-
-
     /**
      * Show the form for creating a new resource.
      *
