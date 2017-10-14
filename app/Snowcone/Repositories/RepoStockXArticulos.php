@@ -91,6 +91,7 @@ class RepoStockXArticulos extends Repo
         $model = $model->orderBy("articulos.cod");
 
         $model = $model->paginate(env('APP_CANT_PAGINATE',10));
+        //$model = $model->get();
 
         return $model;
 
@@ -131,7 +132,6 @@ class RepoStockXArticulos extends Repo
 
     public function update($data)
     {
-
         $record = $this->getModel()->firstOrNew(['id' => $data['id']]);
 
         $record->fill($data);
@@ -147,7 +147,6 @@ class RepoStockXArticulos extends Repo
                 ->join('articulos','articulos.id','=','stockxarticulos.articulo_id')
                 ->where('stockxarticulos.id',$l->id)->first();
 
-//            dd($model);
             if($model->stock < $l->cantidad)
                 return $model;
 

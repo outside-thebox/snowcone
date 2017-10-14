@@ -9,8 +9,10 @@
             data:{
                 articulo : {
                     cod: '',
-                    descripcion: ''
+                    descripcion: '',
+                    proveedor_id:''
                 },
+                proveedores: [],
                 pagina_actual: 0,
                 first: '',
                 prev: '',
@@ -28,13 +30,29 @@
                 }
             },
             methods:{
-                updateStock: function(id)
+                cargarProveedores: function()
                 {
-                    var precio_compra = $("input:text[name=precio_compra_"+id+"]").val();
-                    var precio_sugerido = $("input:text[name=precio_sugerido_"+id+"]").val();
-                    var token = $("input:hidden[name=_token]").val();
+                    var url = "{{ Route('proveedores.all') }}";
 
-                    cargando('sk-falding-circle"','Actualizando');
+                    $.ajax({
+                        url: url,
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data,function(k,v){
+                                vm.proveedores.push({'id':v.id,'descripcion':v.descripcion});
+                            });
+                        }
+                    });
+                },
+                updateStock: function(index)
+                {
+                    var token = $("input:hidden[name=_token]").val(),
+                        precio_compra= $("input:text[name='row[" + index + "][precio_compra]']").val(),
+                        precio_sugerido= $("input:text[name='row[" + index + "][precio_sugerido]']").val(),
+                        id= $("input:hidden[name='row[" + index + "][id]']").val();
+
+                    cargando('sk-circle','Actualizando');
                     $.ajax({
                         url: "{{route('articulosxstock.updatePrices')}}",
                         method: 'POST',
@@ -43,6 +61,7 @@
                             HoldOn.close();
                             $("#contenido-modal-1").html("El registro fue actualizado correctamente");
                             $("#confirmacion-1").modal(function(){show:true});
+                            return vm.buscar();
                         },
                         error: function (respuesta) {
                             HoldOn.close();
@@ -52,14 +71,47 @@
                     });
 
                 },
+                updatetodoStock: function()
+                {
+
+                    var token = $("input:hidden[name=_token]").val();
+                    var datos = $('#frmupprices').serialize();
+
+                    cargando('sk-circle','Actualizando');
+
+                    $.ajax({
+                        url: "{{route('articulosxstock.updatetodoPrices')}}",
+                        method: 'POST',
+                        data: datos+"&_token="+token,
+                        success: function (data) {
+                            HoldOn.close();
+                            $("#contenido-modal-1").html("El registro fue actualizado correctamente");
+                            $("#confirmacion-1").modal(function(){show:true});
+                            return vm.buscar();
+                        },
+                        error: function (respuesta) {
+                            var mensaje = respuesta.responseJSON.descripcion;
+                            $("#contenido-modal-1").html(mensaje);
+                            $("#confirmacion-1").modal(function(){show:true});
+                            HoldOn.close();
+                        }
+                    });
+
+                },
                 buscar: function(url){
                     $("#message-confirmation").addClass("hidden");
-                    if(url == undefined)
-                        var url = "{{route('articulos.buscarxstock')}}" + "?" + "page=1&descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod;
+
+                    if((this.articulo.descripcion.length > 0) || (this.articulo.cod > 0) || (this.articulo.proveedor_id ) )
+                        var url = "{{route('articulos.buscarxstockPrices')}}" + "?"+"descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod+"&proveedor_id="+this.articulo.proveedor_id;
+                    else
+                    {
+                        $("#contenido-modal-1").html("Complete los parametros de busqueda");
+                        $("#confirmacion-1").modal(function(){show:true});
+
+                    }
 
                     var articulo = this.articulo;
                     articulo._token = this.token;
-
                     cargando('sk-circle','Buscando');
                     $.ajax({
                         url: url,
@@ -71,27 +123,7 @@
                         contentType: false,
                         processData: false,
                         success: function (data) {
-                            vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
-                            vm.lista = data.data;
-                            vm.first = "{{route('articulos.buscarxstock')}}" + "?page=1";
-                            vm.next = data.next_page_url;
-                            if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
-                            {
-                                $("#next").addClass("hidden");
-                                $("#first").addClass("hidden");
-                                $("#prev").addClass("hidden");
-                                $("#last").addClass("hidden");
-                            }
-                            else
-                            {
-                                $("#next").removeClass("hidden");
-                                $("#first").removeClass("hidden");
-                                $("#prev").removeClass("hidden");
-                                $("#last").removeClass("hidden");
-                            }
-
-                            vm.prev = data.prev_page_url;
-                            vm.last = "{{route('articulos.buscarxstock')}}" + "?page="+data.last_page;
+                            vm.lista = data;
                             HoldOn.close();
                             vm.busqueda = false;
                         },
@@ -107,8 +139,7 @@
 
             $(".numeros").mask("000000");
             $('[data-toggle="tooltip"]').tooltip();
-
-            vm.buscar();
+            vm.cargarProveedores();
 
         });
 
@@ -133,6 +164,12 @@
         {{ Form::text('cod',null,['class' => 'form-control','placeholder' => 'Cod','v-model' => 'articulo.cod','autofocus']) }}
 
         {{ Form::text('descripcion',null,['class' => 'form-control','placeholder' => 'Descripcion','v-model' => 'articulo.descripcion','autofocus']) }}
+        <div class="form-group ">
+            <select class="form-control" place name="articulo.proveedor_id" v-model="articulo.proveedor_id" required="required">
+                <option value="" selected disabled>Seleccione proveedor</option>
+                <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
+            </select>
+        </div>
 
         {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 
@@ -140,56 +177,60 @@
 
     @include('components.message-confirmation')
 
+
     <div v-show="lista.length > 0">
-        @include('components.buttons_paginate')
-        <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
-            <thead>
-            <tr>
-                <th>Cod</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Sugerido</th>
-                <th>Stock</th>
-                <th>Proveedor</th>
-                <th>Unidad</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody id="table">
-            <tr v-for="registro in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                <td>@{{ registro.cod }}</td>
-                <td>@{{ registro.descripcion }}</td>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="fa fa-usd"></span>
-                            </span>
-                        <input type="text" name="precio_compra_@{{ registro.id }}" value="@{{ registro.precio_compra }}" class="form-control" />
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <span class="fa fa-usd"></span>
-                            </span>
-                        <input type="text" name="precio_sugerido_@{{ registro.id }}" value="@{{ registro.precio_sugerido }}" class="form-control" />
-                    </div>
-                </td>
-                <td v-if="registro.stock != null">
-                    @{{ registro.stock }}
-                </td>
-                <td v-else>
-                    0
-                </td>
-                <td>@{{ registro.proveedor }}</td>
-                <td>@{{ registro.unidad_medida }}</td>
-                <td>
-                    <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(registro.id)"><i class='glyphicon glyphicon-ok' ></i></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <label id="pagina_actual" class="pull-right" >@{{ pagina_actual }}</label>
+        <form name="frmupprices" method="post" id="frmupprices" >
+            {!! Form::button("Actualizar Todo", ['type' => 'submit', 'style' => 'margin-bottom: 10px' ,'class' => 'btn btn-primary pull-right','@click.prevent'=>'updatetodoStock()']) !!}
+            <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
+                <thead>
+                <tr>
+                    <th>Cod</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Sugerido</th>
+                    <th>Stock</th>
+                    <th>Proveedor</th>
+                    <th>Unidad</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="table">
+
+                <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
+                    <input type="hidden" name="row[@{{index}}][id]" value="@{{ registro.id }}" >
+                    <td>@{{ registro.cod }}</td>
+                    <td>@{{ registro.descripcion }}</td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-usd"></span>
+                                </span>
+                            <input type="text"   name="row[@{{index}}][precio_compra]" value="@{{ registro.precio_compra }}" class="form-control" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-usd"></span>
+                                </span>
+                            <input type="text"   name="row[@{{index}}][precio_sugerido]" value="@{{ registro.precio_sugerido }}" class="form-control" />
+                        </div>
+                    </td>
+                    <td v-if="registro.stock != null">
+                        @{{ registro.stock }}
+                    </td>
+                    <td v-else>
+                        0
+                    </td>
+                    <td>@{{ registro.proveedor }}</td>
+                    <td>@{{ registro.unidad_medida }}</td>
+                    <td>
+                        <a data-toggle="tooltip" data-placement="top" style="cursor: pointer" title='Actualizar' @click="updateStock(index)"><i class='glyphicon glyphicon-ok' ></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
 

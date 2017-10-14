@@ -30,7 +30,7 @@
 <table width="100%" class="letra table">
     <tr>
         <td width="60%">SEÑOR/A: {{ $presupuesto->cliente }}</td>
-        <td width="25%">{{ $presupuesto->created_at }}</td>
+        <td width="25%">{{$presupuesto->created_at  }}</td>
         <td width="15%">N° {{ $presupuesto->id }}</td>
     </tr>
 </table>

@@ -45,6 +45,7 @@ class Boleta extends Model
 
     public function getCreatedAtAttribute()
     {
-        return Carbon::parse($this->attributes['created_at'])->format('H:i:s d/m/Y');
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
     }
+
 }

@@ -47,12 +47,30 @@ class ArticulosXStockController extends Controller
         $this->repoStockXArticulos->addRecords($array_missing);
         return $this->repoStockXArticulos->findAndPaginateStock($request->all());
     }
-
+    public function buscarxstockPrices(Request $request)
+    {
+        $array_missing = $this->repoStockXArticulos->getRecordsMissing();
+        $this->repoStockXArticulos->addRecords($array_missing);
+        return $this->repoStockXArticulos->findAll($request->all());
+    }
     public function updatePrices(Request $request)
     {
         $this->repoStockXArticulos->update($request->all());
         return \Response()->json(['success' => true], 200);
     }
+
+    public function updatetodoPrices(Request $request)
+    {
+        foreach ($request['row'] as $key => $item) {
+
+            $this->repoStockXArticulos->update($item);
+        };
+
+        return \Response()->json(['success' => true], 200);
+    }
+
+
+
     public function addBoleta()
     {
         return view("articulos.add_boleta");
@@ -60,6 +78,7 @@ class ArticulosXStockController extends Controller
 
     public function buscarxstockall(Request $request)
     {
+
         return $this->repoStockXArticulos->findAll($request->all());
     }
     public function datosinput(Request $request)
