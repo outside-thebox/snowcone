@@ -262,6 +262,15 @@
                     $("#contenido-pregunta-1").append("<h3>¿Confirma que desea cancelar el presupuesto para <strong>"+cliente+"</strong>?</h2>");
                     $("#pregunta-1").modal(function(){show:true});
                     $("input:hidden[name=id_seleccionado]").val(id);
+                },
+                anularPresupuesto: function(id,cliente)
+                {
+                    $("#pregunta-3").modal(function(){show:true});
+
+                    $("#contenido-pregunta-3").html("");
+                    $("#contenido-pregunta-3").append("<h3>¿Confirma que desea anular el presupuesto para <strong>"+cliente+"</strong>?</h2>");
+                    $("#pregunta-3").modal(function(){show:true});
+                    $("input:hidden[name=id_seleccionado]").val(id);
                 }
             }
         });
@@ -297,6 +306,11 @@
             $("#eliminar-1").click(function(){
                 cancelarPresupuesto(7);
             });
+
+            $("#eliminar-3").click(function(){
+                anularPresupuesto(7);
+            });
+
         });
     </script>
 @endsection
@@ -342,6 +356,7 @@
                                 <span class="label label-primary" v-if="registro.estado_id == 1">@{{ registro.estado.descripcion }}</span>
                                 <span class="label label-success" v-if="registro.estado_id == 2">@{{ registro.estado.descripcion }}</span>
                                 <span class="label label-danger" v-if="registro.estado_id == 3">@{{ registro.estado.descripcion }}</span>
+                                <span class="label label-info" v-if="registro.estado_id == 4">@{{ registro.estado.descripcion }}</span>
                             </td>
                             {{--<td>--}}
                                 {{--<a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' @click="imprimirPresupuesto(registro.id)" ><i class='glyphicon glyphicon-print' ></i></a>--}}
@@ -349,6 +364,7 @@
                             <td>
                                 <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('presupuesto.index') }}/exportarPDF/@{{ registro.id }}"><i class='glyphicon glyphicon-print' ></i></a>
                                 <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Cancelar' v-show="registro.estado_id == 1" @click="cancelarPresupuesto(registro.id,registro.cliente)"><i class='glyphicon glyphicon-trash' ></i></a>
+                                <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Anular' v-show="registro.estado_id == 2" @click="anularPresupuesto(registro.id,registro.cliente)"><i class='glyphicon glyphicon-minus-sign' ></i></a>
                             </td>
                         </tr>
 
@@ -405,6 +421,7 @@
     <a @click="cobrar()" data-toggle="tooltip" data-placement="top"  title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
     @include('components.modal',['id' => 1,'accion' => 'Confirmar'])
     @include('components.modal',['id' => 2,'accion' => 'Confirmar'])
+    @include('components.modal',['id' => 3,'accion' => 'Confirmar'])
 
     {{--<pre> @{{ $data | json }}</pre>--}}
 

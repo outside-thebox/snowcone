@@ -18,8 +18,11 @@ class EstadosSeeder extends Seeder
 //        Estado::create([
 //            'descripcion' => 'Cobrado'
 //        ]);
+//        Estado::create([
+//            'descripcion' => 'Cancelado'
+//        ]);
         Estado::create([
-            'descripcion' => 'Cancelado'
+            'descripcion' => 'Anulado'
         ]);
     }
 }

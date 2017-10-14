@@ -41,7 +41,9 @@
         <td width="15%" class="table">UNITARIO</td>
         <td width="15%" class="table">SUBTOTAL</td>
     </tr>
+    <?php $cantidad_total = 0 ?>
     @foreach($presupuesto->presupuestoxarticulo as $presupuestoxarticulos)
+        <?php $cantidad_total += $presupuestoxarticulos->cantidad ?>
         <tr class="table">
             <td width="45%" class="table">{{ $presupuestoxarticulos->articulo->descripcion }}</td>
             <td width="25%" class="table">{{ $presupuestoxarticulos->cantidad }}</td>
@@ -49,6 +51,11 @@
             <td width="15%" class="table">${{ $presupuestoxarticulos->subtotal }}</td>
         </tr>
     @endforeach
+    <tr class="table">
+        <td width="45%" class="table" style="text-align: right">SU PEDIDO SUMA</td>
+        <td width="25%" class="table">{{ $cantidad_total }}</td>
+        <td width="15%" colspan="2" class="table" style="text-align: left">PRODUCTOS</td>
+    </tr>
 </table>
 <table width="100%" class="letra" style="margin-top: 60px;border: solid black;border-width: 1px 0 0 0;" >
     <tr>

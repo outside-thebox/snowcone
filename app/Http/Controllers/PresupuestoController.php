@@ -72,22 +72,37 @@ class PresupuestoController extends Controller
 
     public function cancelar(Request $request)
     {
+        if($this->repoPresupuesto->isPossible($request->get('id'),1))
+        {
+            $this->devolverStock($request);
+            $this->repoPresupuesto->updateEstado($request->get('id'),3);
+
+        }
+
+    }
+
+    private function devolverStock($request)
+    {
         $id = $request->get('id');
 
         $presupuesto = $this->repoPresupuesto->find($id);
 
         $presupuestoxarticulos = $this->repoPresupuestoXArticulos->presupuestoxarticulos($presupuesto->id);
 
-
         foreach($presupuestoxarticulos as $presupuestoxarticulo)
         {
             $this->repoStockXArticulos->updateStockCancelPresupuesto($presupuestoxarticulo->articulo_id,$presupuestoxarticulo->cantidad);
         }
 
-        $this->repoPresupuesto->updateEstado($id,3);
-
-
     }
 
+    public function anular(Request $request)
+    {
+        if($this->repoPresupuesto->isPossible($request->get('id'),2))
+        {
+            $this->devolverStock($request);
+            $this->repoPresupuesto->updateEstado($request->get('id'), 4);
+        }
+    }
 
 }

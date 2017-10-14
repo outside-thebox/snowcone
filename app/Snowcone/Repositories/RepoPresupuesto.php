@@ -125,4 +125,15 @@ class RepoPresupuesto extends Repo
 
     }
 
+    public function isPossible($presupuesto_id,$estado_id)
+    {
+        $resultado = $this->getModel()->where('id',$presupuesto_id)->where('estado_id',$estado_id)->first();
+
+        if($resultado)
+            return true;
+
+
+        return false;
+    }
+
 }
