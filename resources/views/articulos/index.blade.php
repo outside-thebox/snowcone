@@ -126,7 +126,9 @@
 @section('content')
 
     <h1>Articulos
-        <a href="{!! route('articulos.create')!!}"><button class="btn btn-success pull-right">Agregar</button></a>
+        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
+            <a href="{!! route('articulos.create')!!}"><button class="btn btn-success pull-right">Agregar</button></a>
+        @endif
     </h1>
 
     <div class="form-inline" style="margin-bottom: 10px">
@@ -168,9 +170,11 @@
                 {{--<td>$@{{ registro.precio_compra }}</td>--}}
                 <td>@{{ registro.proveedor.descripcion }}</td>
                 <td>
-                    <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
-                    <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
-                    @if(in_array(Auth::user()->tipo_usuario_id, array(1)))
+                    @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
+                        <a data-toggle="tooltip" data-placement="top"  title='Editar' href="{{route('articulos.index')}}/@{{ registro.id }}/edit"><i class='glyphicon glyphicon-edit' ></i></a>
+                        <a data-toggle="tooltip" data-placement="top"  title='Eliminar' style="cursor: pointer" @click='eliminar(registro.id,registro.descripcion)' ><i class='glyphicon glyphicon-remove' ></i></a>
+                    @endif
+                    @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3,5)))
                         <a data-toggle="tooltip" data-placement="top" target="_blank"  title='Control de stock' href="{{route('articulos.index')}}/control/@{{ registro.id }}"><i class='glyphicon glyphicon-search' ></i></a>
                     @endif
                 </td>
