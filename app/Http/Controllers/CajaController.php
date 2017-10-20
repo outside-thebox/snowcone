@@ -37,7 +37,7 @@ class CajaController
 
     public function buscar()
     {
-        return $this->repoCajaCerrada->all();
+        return $this->repoCajaCerrada->cajasPorDia();
     }
 
     public function cerrarCaja()

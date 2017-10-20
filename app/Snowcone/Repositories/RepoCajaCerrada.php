@@ -43,6 +43,22 @@ class RepoCajaCerrada extends Repo {
         return $model;
     }
 
+    public function cajasPorDia()
+    {
+        $model = $this->getModel();
+
+        $model = $model->where('cajas_cerradas.sucursal_id',env('APP_SUCURSAL',1));
+
+        $model = $model->where("fecha",date("Y-m-d"));
+
+        $model = $model->orderBy("cajas_cerradas.id","desc");
+
+        $model = $model->with('user','presupuesto')->paginate(env('APP_CANT_PAGINATE',10));
+
+
+        return $model;
+    }
+
     public function getTotal($id)
     {
         $model = $this->getModel();

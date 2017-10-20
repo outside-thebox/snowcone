@@ -70,7 +70,7 @@ class RepoUser extends Repo {
 
         $model = $model->where('tipo_usuario_id','<>',1);
 
-        $model = $model->withTrashed()->with('tipo_usuario')->paginate(env('APP_CANT_PAGINATE',10));
+        $model = $model->with('tipo_usuario')->paginate(env('APP_CANT_PAGINATE',10));
 
         return $model;
 
