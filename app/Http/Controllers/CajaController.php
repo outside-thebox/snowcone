@@ -64,7 +64,7 @@ class CajaController
 
 
         $pdf = \PDF::loadView('caja.PDF', compact("caja","sucursal"));
-        return $pdf->download("Caja-".$caja->id.".pdf");
+        return $pdf->stream("Caja-".$caja->id.".pdf");
 
     }
 }

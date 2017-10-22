@@ -132,27 +132,15 @@ class ArticulosXStockController extends Controller
     {
         $articulo = $this->repoArticulos->find($articulo_id);
 
-        $listado = [];
-
         $boletas = $this->repoBoleta->buscarboletaXArticulo($articulo_id);
 
-//        foreach($boletas as $boleta)
-//        {
-//
-//            array_push($listado,$boleta->toArray());
-//        }
+        $presupuestos = $this->repoPresupuestoXArticulos->buscarPresuestoXArticulo($articulo_id);
 
-//        dd($boletas);
+        $stock_actual = $this->repoStockXArticulos->getStockActual($articulo_id);
 
+//        dd($stock_actual);
 
-//        $presupuestos = $this->repoPresupuestoXArticulos->buscarPresuestoXArticulo($articulo_id);
-//
-//        foreach($presupuestos as $presupuesto)
-//        {
-//            array_push($listado,$presupuesto->toArray());
-//        }
-
-        return view("articulos.control",compact('articulo',"boletas"));
+        return view("articulos.control",compact('articulo',"boletas","presupuestos","stock_actual"));
     }
 
     /*
