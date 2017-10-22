@@ -45,7 +45,6 @@
                         contentType: false,
                         processData: false,
                         success: function (data) {
-                            console.log(data);
                             vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                             vm.lista = data.data;
                             vm.first = "{{route('boleta.buscarAgrupadoBoleta')}}" + "?page=1";

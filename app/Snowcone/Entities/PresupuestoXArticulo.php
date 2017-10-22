@@ -7,6 +7,7 @@
  */
 
 namespace App\Snowcone\Entities;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +25,17 @@ Class PresupuestoXArticulo extends Model{
 
     public function articulo()
     {
-        return $this->hasOne('App\Snowcone\Entities\Articulo','id','articulo_id');
+        return $this->belongsTo('App\Snowcone\Entities\Articulo','articulo_id','id')->withTrashed();
     }
+
+    public function presupuesto()
+    {
+        return $this->hasOne('App\Snowcone\Entities\Presupuesto','id','presupuesto_id');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
+
 }

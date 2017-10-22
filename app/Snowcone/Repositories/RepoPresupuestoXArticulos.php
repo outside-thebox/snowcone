@@ -57,10 +57,17 @@ class RepoPresupuestoXArticulos extends Repo
 
         $model = $model->join("presupuestos","presupuestos.id","=","presupuestosxarticulos.presupuesto_id");
 
+//        $model = $model->join("users","presupuestos.user_id","=","users.id");
+
         $model = $model->where("estado_id",2);
 
         $model = $model->where("articulo_id",$articulo_id);
 
+        $model = $model->with("presupuesto.user");
+
+        $model = $model->where("presupuestos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+//        $model = $model->select(['presupuestos.id as id','presupuestosxarticulos.cantidad','presupuestos.created_at','presupuestos.cliente', \DB::raw('concat(users.nombre," ",users.apellido) as nombre')]);
 
         return $model->get();
     }

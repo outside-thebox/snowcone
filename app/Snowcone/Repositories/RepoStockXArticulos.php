@@ -183,4 +183,19 @@ class RepoStockXArticulos extends Repo
 
     }
 
+    public function getStockActual($articulo_id)
+    {
+        $model = $this->getModel();
+
+        $model = $model->where("articulo_id",$articulo_id);
+
+        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+        $model = $model->select(['stock']);
+
+        return $model->first()->stock;
+
+
+    }
+
 }

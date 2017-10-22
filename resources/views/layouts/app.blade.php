@@ -100,7 +100,7 @@
                             <li><a href="{{ route('sucursales.index') }}">Sucursales</a></li>
                         </ul>
                         @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
+                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,5)))
                         <ul class="nav navbar-nav">
                             <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
                         </ul>
