@@ -19,7 +19,7 @@ Class Sucursales extends Model{
     use SoftDeletes;
     use AuditingTrait;
     protected $table = 'sucursales';
-    protected $fillable = ['nombre','direccion','telefono','email','deleted_at','created_at','updated_at'];
+    protected $fillable = ['nombre','direccion','telefono','email','ip','conexion','deleted_at','created_at','updated_at'];
 
 }
 
