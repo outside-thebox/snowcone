@@ -103,6 +103,11 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('caja/exportarPDF/{ID}',['uses' => 'CajaController@exportarPDF','as' => 'caja.exportarPDF']);
     });
 
+    Route::group(['middleware' => 'tipousuarios: 1'], function () {
+        Route::resource('asientoscompras', 'AsientosComprasController');
+
+
+    });
 
 
 });

@@ -125,7 +125,11 @@
                                 <li><a href="{{ route('articulosxstock/traspasoMercaderia') }}">Traspaso de mercaderia</a></li>
                             </ul>
                         {{--@endif--}}
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('asientoscompras.index') }}">Asiento de compras</a></li>
+                            </ul>
                     @endif
+
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
