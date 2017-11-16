@@ -18,5 +18,17 @@ class AsientoCompra extends Model
     use SoftDeletes;
     use AuditingTrait;
 
+    protected $table = 'asiento_compras';
+    protected $fillable = ['id','proveedor_id','sucursal_id','nro_factura','user_id','created_at','updated_at'];
+
+    public function proveedor()
+    {
+        return $this->hasOne('App\Snowcone\Entities\Proveedor','id','proveedor_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->hasOne('App\Snowcone\Entities\Sucursales','id','sucursal_id');
+    }
 
 }

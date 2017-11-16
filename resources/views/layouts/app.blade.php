@@ -126,7 +126,7 @@
                             </ul>
                         {{--@endif--}}
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ route('asientoscompras.index') }}">Asiento de compras</a></li>
+                                <li><a href="{{ route('asientocompras.index') }}">Asiento de compras</a></li>
                             </ul>
                     @endif
 

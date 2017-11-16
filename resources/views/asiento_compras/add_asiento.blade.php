@@ -7,7 +7,8 @@
             data:{
                 form : {
                     proveedor_id:'',
-                    sucursal:'',
+                    sucursal_conexion:'',
+                    sucursal_id:'',
                     nro_factura:''
                 },
                 proveedores: [],
@@ -27,7 +28,6 @@
                 cargarSucursales: function()
                 {
                     var url = "{{ Route('sucursales.all') }}";
-
                     $.ajax({
                         url: url,
                         method: 'get',
@@ -39,16 +39,7 @@
                         }
                     });
                 },
-                totalstock: function(id) {
 
-                var addstock = $("input:text[name=addstock"+id+"]").val();
-                var stock = $("input:text[name=stock"+id+"]").val();
-                var total = parseFloat(addstock) +  parseFloat(stock);
-                console.log(addstock+stock);
-                vm.addstock.push({'id':id,'cantidad':addstock});
-                $("#stocktotal"+id).val(total);
-
-                },
                 cargarProveedores: function()
                 {
                     var url = "{{ Route('proveedores.all') }}";
@@ -64,47 +55,40 @@
                         }
                     });
                 },
-                updateStock: function()
-                {
-                    if(vm.articulo.nro_factura != "")
-                    {
-                        var token = $("input:hidden[name=_token]").val();
-                        var datos = $('#frmaddstock').serialize();
 
-                        cargando('sk-circle','Actualizando');
+                guardarAsientocompra: function(){
 
-                        $.ajax({
-                            url: "{{route('articulosxstock.datosinput')}}",
-                            method: 'POST',
-                            data: datos+"&_token="+token,
-                            success: function (data) {
+                    var token = $("input:hidden[name=_token]").val();
+                    var datos = $('#frmaddasietocompra').serialize();
 
-                                HoldOn.close();
-                                $("#contenido-modal-1").html("El registro fue actualizado correctamente");
-                                $("#confirmacion-1").modal(function(){show:true});
-                                vm.articulo.nro_factura = '';
-                                return vm.buscar();
-
-                            },
-                            error: function (respuesta) {
-                                var mensaje = respuesta.responseJSON.descripcion;
-                                $("#contenido-modal-1").html(mensaje);
-                                $("#confirmacion-1").modal(function(){show:true});
-                                HoldOn.close();
-                            }
-                        });
-                    }
-                    else
-                    {
-                        $("#contenido-modal-1").html("Debe ingresar un nro de boleta");
-                        $("#confirmacion-1").modal(function(){show:true});
-                    }
+                    cargando('sk-circle','Actualizando');
+                    $.ajax({
+                        url: "{{route('asientocompras.store')}}",
+                        method: 'POST',
+                        data: datos+"&_token="+token,
+                        success: function (data) {
+                            HoldOn.close();
+                            location.href = "{{ Route('master',8) }}";
+                        },
+                        error: function () { vm.busqueda = false;
+                            var mensaje = "";
+                            $.each(JSON.parse(jqXHR.responseText),function(code,obj){
+                                mensaje += "<li>"+obj[0]+"</li><br>";
+                            });
+                            $("#contenido-modal-1").html(mensaje);
+                            $("#confirmacion-1").modal(function(){show:true});
+                            HoldOn.close();
+                        }
+                    });
                 },
                 buscar: function(url){
-                    console.log(this.form);
-                    /*$("#message-confirmation").addClass("hidden");
-                    if((this.form.proveedor_id)&&(this.form.sucursal))
-                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.form.proveedor_id+"&conexion="+this.form.sucursal;
+
+                    this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
+                    this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
+
+                    $("#message-confirmation").addClass("hidden");
+                    if((this.form.proveedor_id)&&(this.form.sucursal_conexion))
+                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.form.proveedor_id+"&conexion="+this.form.sucursal_conexion;
                     else
                     {
                         $("#contenido-modal-1").html("Complete los parametros de busqueda");
@@ -120,12 +104,13 @@
                         method: 'GET',
                         dataType: "json",
                         assync: true,
-                        data: articulo,
+                        data: form,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: function (data)
                         {
+
                             vm.lista = data;
                             $('#btntodo').show();
                             HoldOn.close();
@@ -134,7 +119,7 @@
                         error: function (respuesta) {
                             HoldOn.close();
                         }
-                    });*/
+                    });
                 }
             }
         });
@@ -166,9 +151,10 @@
                 </select>
             </div>
             {{ Form::label('sucursal_salida','Sucursal') }}
-            <select class="form-control" name="conexion" v-model="form.sucursal" v-on:change="buscar_salida" >
-                <option v-for="sucursal in sucursales" value="@{{ sucursal.conexion }}" >@{{ sucursal.nombre }}</option>
+            <select class="form-control" name="sucursal" v-model="form.sucursal" >
+                <option v-for="(index, sucursal) in sucursales" value="@{{index }}" >@{{ sucursal.nombre }}</option>
             </select>
+
             {{ Form::button('Buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
         </div>
     </div>
@@ -176,46 +162,31 @@
 
     <div v-show="lista.length > 0">
 
-        <form name="frmaddstock" method="post" id="frmaddstock" >
+        <form name="frmaddasietocompra" method="post" id="frmaddasietocompra" >
             <div class="row" style="margin-bottom: 20px">
                 <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
                     <input class="form-control numeros" type="text" v-model="form.nro_factura" name="nro_factura" value="" >
-                    {!! Form::button("Actualizar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'updateStock()','v-show' => "articulo.nro_factura != ''" ]) !!}
+                    {!! Form::button("Guardar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'guardarAsientocompra()','v-show' => "form.nro_factura != ''" ]) !!}
                 </div>
-                <input type="hidden" name="proveedor_id" v-model="articulo.proveedor_id">
+                <input type="hidden" name="proveedor_id" v-model="form.proveedor_id">
+                <input type="hidden" name="sucursal_id" v-model="form.sucursal_id">
             </div>
             <table class="table responsive table-bordered table-hover table-striped"  >
                 <thead>
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Nuevo Stock</th>
+                    <th>Cantidad</th>
                 </tr>
                 </thead>
                 <tbody id="table">
                 <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                    <input type="hidden" name="row[@{{ index }}][id]"           value="@{{ registro.articulo_id }}" >
-                    <input type="hidden" name="row[@{{ index }}][proveedor_id]" value="@{{ articulo.proveedor_id }}" >
-                    <input type="hidden" name="row[@{{ index }}][nro_factura]"  value="@{{ articulo.nro_factura }}" >
+                    <input type="hidden" name="row[@{{ index }}][articulo_id]" value="@{{ registro.articulo_id }}" >
                     <td>@{{ registro.cod }}</td>
                     <td>@{{ registro.descripcion }}</td>
                     <td>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <span class="fa fa-usd"></span>
-                                </span>
-                            <input type="text" size="5" name="row[@{{ index }}][precio_compra]" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control" />
-                        </div>
-                    </td>
-                    <td>
-                        <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
-                        <input type="hidden" name="row[@{{ index }}][stock]" value="@{{ registro.stock }}" />
-                    </td>
-                    <td>
-                        <input type="number" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
+                        <input type="number" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
                     </td>
                 </tr>
                 </tbody>

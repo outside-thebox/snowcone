@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAsientoComprasTable extends Migration
+class CreateAsientosCompraDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateAsientoComprasTable extends Migration
      */
     public function up()
     {
-        Schema::create('asiento_compras', function (Blueprint $table) {
+        Schema::create('asiento_compra_detalles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('proveedor_id')->unsigned();
-            $table->integer('sucursal_id')->unsigned();
-            $table->integer('nro_factura')->unsigned();
-            $table->integer('user_id');
+            $table->integer('asiento_compra_id')->unsigned();
+            $table->integer('articulo_id')->unsigned();
+            $table->integer('cantidad');
             $table->timestamps();
             $table->softDeletes();
         });
