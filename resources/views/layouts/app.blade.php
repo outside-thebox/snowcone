@@ -104,9 +104,9 @@
                         @if(env('APP_SERVER', 'false'))
                             {{--                        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
                             @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
-                            <ul class="nav navbar-nav">
-                                <li><a href="{{ route('articulosxstock/traspasoMercaderia') }}">Traspaso de mercaderia</a></li>
-                            </ul>
+                            {{--<ul class="nav navbar-nav">--}}
+                                {{--<li><a href="{{ route('articulosxstock/traspasoMercaderia') }}">Traspaso de mercaderia</a></li>--}}
+                            {{--</ul>--}}
                             @endif
                             {{--@endif--}}
                             @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
