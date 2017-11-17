@@ -99,7 +99,7 @@
                     var form = this.form;
                     form._token = this.token;
 
-                    cargando('sk-circle','Buscando');
+                    cargando('sk-circle','Intentando acceder al servidor...');
                     $.ajax({
                         url: url,
                         method: 'GET',
@@ -120,6 +120,8 @@
                         error: function (respuesta) {
                             vm.lista = [];
                             HoldOn.close();
+                            $("#contenido-modal-1").html("<strong>La respuesta tardó demasiado tiempo, puede que el servidor esté apagado o no haya conexión a internet</strong>");
+                            $("#confirmacion-1").modal(function(){show:true});
                         }
                     });
                 }

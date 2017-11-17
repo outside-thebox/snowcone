@@ -55,7 +55,7 @@ return [
         ],
         'mysql_shell' => [
             'driver' => 'mysql',
-            'host' => "10.8.0.10",
+            'host' => "10.8.0.14",
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_SERVER_DATABASE', 'forge'),
             'username' => env('DB_SERVER_USERNAME', 'forge'),
