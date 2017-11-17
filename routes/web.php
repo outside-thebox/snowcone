@@ -45,8 +45,6 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['middleware' => 'tipousuarios: 1'],function() {
 
-        Route::get('sucursal.getData', ['uses' => 'SucursalesController@getData', 'as' => 'sucursal.getData']);
-        Route::get('sucursales.all',['uses' => 'SucursalesController@all','as' => 'sucursales.all']);
         Route::post("sucursal/activar", array('as' => 'sucursal.activar', 'uses' => 'SucursalesController@activar'));
         Route::post("sucursal/desactivar", array('as' => 'sucursal.desactivar', 'uses' => 'SucursalesController@desactivar'));
         Route::resource('sucursales', 'SucursalesController');
@@ -54,6 +52,8 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::group(['middleware' => 'tipousuarios: 1|2'],function() {
 
+        Route::get('sucursal.getData', ['uses' => 'SucursalesController@getData', 'as' => 'sucursal.getData']);
+        Route::get('sucursales.all',['uses' => 'SucursalesController@all','as' => 'sucursales.all']);
         Route::get('tipos_usuarios.getTiposUsuariosWithAdmin', ['uses' => 'TiposUsuariosController@getTiposUsuariosWithAdmin', 'as' => 'tipos_usuarios.getTiposUsuariosWithAdmin']);
         Route::get('tipos_usuarios.getTiposUsuariosWithoutAdmin', ['uses' => 'TiposUsuariosController@getTiposUsuariosWithoutAdmin', 'as' => 'tipos_usuarios.getTiposUsuariosWithoutAdmin']);
         Route::get('tipos_usuarios.all', ['uses' => 'TiposUsuariosController@all', 'as' => 'tipos_usuarios.all']);
