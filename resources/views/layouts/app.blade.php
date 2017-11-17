@@ -120,7 +120,16 @@
                             <li><a href="{{ route('caja.index') }}">Caja</a></li>
                         </ul>
                         @endif
+{{--                        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('articulosxstock/traspasoMercaderia') }}">Traspaso de mercaderia</a></li>
+                            </ul>
+                        {{--@endif--}}
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('asientocompras.index') }}">Asiento de compras</a></li>
+                            </ul>
                     @endif
+
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->

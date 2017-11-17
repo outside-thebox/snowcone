@@ -170,4 +170,11 @@ class ArticulosXStockController extends Controller
 
     }*/
 
+    public function traspasoMercaderia()
+    {
+        return view("traspaso_mercaderia.formulario");
+    }
+
+
+
 }

@@ -18,7 +18,7 @@ class SucursalesController extends Controller
 
     public function index()
     {
-        $sucursales = $this->repoSucursales->all();
+        $sucursales = $this->all();
         return View('sucursales.index',compact('sucursales'));
     }
 
@@ -58,6 +58,13 @@ class SucursalesController extends Controller
         $sucursal = $this->repoSucursales->find(Input::get("sucursal_id"));
         return $sucursal;
     }
+
+    public function all()
+    {
+        return $this->repoSucursales->all();
+
+    }
+
     public function buscar()
     {
         return $this->repoSucursales->findAndPaginate(Input::all());

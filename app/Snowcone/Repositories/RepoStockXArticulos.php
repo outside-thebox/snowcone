@@ -9,13 +9,21 @@ namespace App\Snowcone\Repositories;
 
 
 use App\Snowcone\Entities\StockXArticulo;
+use Illuminate\Support\Facades\DB;
 
 class RepoStockXArticulos extends Repo
 {
 
-    function getModel()
+    function getModel($connection = null)
     {
-        return new StockXArticulo();
+        $model = new StockXArticulo();
+        if($connection)
+        {
+            $model->setConnection($connection);
+            return $model;
+        }
+
+        return $model;
     }
 
     function getRecordsMissing()
@@ -82,6 +90,8 @@ class RepoStockXArticulos extends Repo
 
         $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
 
+
+
 //        $model = $model->with('unidad_medida','proveedor');
 
         $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.id as articulo_id','articulos.descripcion','stockxarticulos.precio_compra'
@@ -99,7 +109,14 @@ class RepoStockXArticulos extends Repo
 
     function findAll(array $datos)
     {
-        $model = $this->getModel();
+
+
+        if(isset($datos['conexion']))
+            $model = $this->getModel($datos['conexion']);
+        else
+            $model = $this->getModel();
+
+
 
         $model = $model->leftJoin("articulos","articulos.id","=","stockxarticulos.articulo_id");
 
@@ -117,11 +134,18 @@ class RepoStockXArticulos extends Repo
         $model = $model->join("proveedores","proveedores.id","=","articulos.proveedor_id");
         $model = $model->join("unidades_medida","unidades_medida.id","=","articulos.unidad_medida_id");
 
-        $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+        if(isset($datos['conexion']))
+        {
+            if($datos['conexion'] == "")
+                $model = $model->where("stockxarticulos.sucursal_id",ENV('APP_SUCURSAL',1));
+        }
+
+        if(isset($datos['stock']))
+            $model = $model->where("stockxarticulos.stock",'>',0);
 
         $model = $model->select(['stockxarticulos.id','articulos.cod','articulos.id as articulo_id','articulos.descripcion','stockxarticulos.precio_compra'
             ,'stockxarticulos.precio_sugerido','stockxarticulos.stock','proveedores.descripcion as proveedor'
-            ,'unidades_medida.descripcion as unidad_medida']);
+            ,'unidades_medida.descripcion as unidad_medida','sucursal_id']);
 
         $model = $model->orderBy("articulos.cod");
         $model = $model->get();

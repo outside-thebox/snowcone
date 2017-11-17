@@ -44,4 +44,9 @@ class RepoSucursales extends Repo {
     {
         $this->getModel()->withTrashed()->find($id)->update(['deleted_at' => null]);
     }
+
+    public function all()
+    {
+        return $this->getModel()->where('id','<>',1)->get();
+    }
 }
