@@ -83,12 +83,13 @@
                 },
                 buscar: function(url){
 
-                    this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
-                    this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
-                    console.log(this.form);
                     $("#message-confirmation").addClass("hidden");
-                    if((this.form.proveedor_id)&&(this.form.sucursal_conexion))
-                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.form.proveedor_id+"&conexion="+this.form.sucursal_conexion;
+                    if((this.form.proveedor_id)&&(this.form.sucursal))
+                    {
+                        this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
+                        this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
+                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id=" + this.form.proveedor_id + "&conexion=" + this.form.sucursal_conexion;
+                    }
                     else
                     {
                         $("#contenido-modal-1").html("Complete los parametros de busqueda");
@@ -117,6 +118,7 @@
                             vm.busqueda = false;
                         },
                         error: function (respuesta) {
+                            vm.lista = [];
                             HoldOn.close();
                         }
                     });
@@ -150,8 +152,9 @@
                     <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
                 </select>
             </div>
-            {{ Form::label('sucursal_salida','Sucursal') }}
+            {{ Form::label('sucursal','Sucursal') }}
             <select class="form-control" name="sucursal" v-model="form.sucursal" >
+                <option selected value="" >Seleccione</option>
                 <option v-for="(index, sucursal) in sucursales" value="@{{index }}" >@{{ sucursal.nombre }}</option>
             </select>
 
