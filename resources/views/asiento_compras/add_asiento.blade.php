@@ -193,7 +193,9 @@
                 <tr v-for="(index, registro)  in lista" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
                     <input type="hidden" name="row[@{{ index }}][articulo_id]" value="@{{ registro.articulo_id }}" >
                     <td>@{{ registro.cod }}</td>
+                    <input type="hidden" name="row[@{{ index }}][cod]" value="@{{ registro.cod }}" >
                     <td>@{{ registro.descripcion }}</td>
+                    <input type="hidden" name="row[@{{ index }}][descripcion]" value="@{{ registro.descripcion }}" >
                     <td>
                         <input type="number" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
                     </td>

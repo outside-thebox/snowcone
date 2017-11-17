@@ -33,6 +33,8 @@ class RepoAsientoCompraDetalles extends Repo
         $data['asiento_compra_id'] = $asiento_compra_id;
         $data['articulo_id'] = $dato['articulo_id'];
         $data['cantidad'] = $dato['cantidad'];
+        $data['cod'] = $dato['cod'];
+        $data['descripcion'] = $dato['descripcion'];
         return $data;
     }
 
@@ -43,7 +45,8 @@ class RepoAsientoCompraDetalles extends Repo
 
         $model = $model->where('asiento_compra_id',$asiento_compra_id);
 
-        $model = $model->with('articulo')->get();
+        //$model = $model->with('articulo')->get();
+        $model = $model->get();
 
         return $model;
     }

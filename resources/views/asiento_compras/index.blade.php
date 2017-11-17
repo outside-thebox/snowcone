@@ -186,8 +186,8 @@
                         </thead>
                         <tbody id="table">
                         <tr v-for="registro in lista_detalle" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
-                            <td>@{{ registro.articulo.cod }}</td>
-                            <td>@{{ registro.articulo.descripcion }}</td>
+                            <td>@{{ registro.cod }}</td>
+                            <td>@{{ registro.descripcion }}</td>
                             <td>@{{ registro.cantidad }}</td>
                         </tr>
                         </tbody>
