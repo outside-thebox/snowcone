@@ -2,123 +2,113 @@
 
 @section('scripts')
 
-    <script>
-
-        vm = new Vue({
-            el: '#main',
-            data:{
-                asiento_compra : {
-                    cod: '',
-                    descripcion: ''
-                },
-                pagina_actual: 0,
-                first: '',
-                prev: '',
-                next: '',
-                last: '',
-                lista: [],
-                busqueda: true,
-                id_seleccionado: 0,
-                token: ''
-
+<script>
+    vm = new Vue({
+        el: '#main',
+        data:{
+            asiento_compra : {
+                cod: '',
+                descripcion: ''
             },
-            watch:{
-                lista:function(){
-                    $('[data-toggle="tooltip"]').tooltip();
-                }
-            },
-            methods:{
-                eliminar: function(id,descripcion)
-                {
-                    $("#pregunta-1").modal(function(){show:true});
+            pagina_actual: 0,
+            first: '',
+            prev: '',
+            next: '',
+            last: '',
+            lista: [],
+            lista_detalle: [],
+            busqueda: true,
+            id_seleccionado: 0,
+            token: ''
 
-                    $("#contenido-pregunta-1").html("");
-                    $("#contenido-pregunta-1").append("<h3>¿Eliminar artículo <strong>"+descripcion+"</strong>?</h2>");
-                    $("#pregunta-1").modal(function(){show:true});
-                    $("input:hidden[name=id_seleccionado]").val(id);
-                },
-                buscar: function(url){
-                    $("#message-confirmation").addClass("hidden");
-                    if(url == undefined)
-                        var url = "{{route('asientocompras.buscar')}}" + "?" + "page=1";
-
-                    var asiento_compra = this.asiento_compra;
-                    asiento_compra._token = this.token;
-
-                    cargando('sk-circle','Buscando');
-                    $.ajax({
-                        url: url,
-                        method: 'GET',
-                        dataType: "json",
-                        assync: true,
-                        data: asiento_compra,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
-                            vm.lista = data.data;
-                            vm.first = "{{route('asientocompras.buscar')}}" + "?page=1";
-                            vm.next = data.next_page_url;
-                            if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
-                            {
-                                $("#next").addClass("hidden");
-                                $("#first").addClass("hidden");
-                                $("#prev").addClass("hidden");
-                                $("#last").addClass("hidden");
-                            }
-                            else
-                            {
-                                $("#next").removeClass("hidden");
-                                $("#first").removeClass("hidden");
-                                $("#prev").removeClass("hidden");
-                                $("#last").removeClass("hidden");
-                            }
-
-                            vm.prev = data.prev_page_url;
-                            vm.last = "{{route('asientocompras.buscar')}}" + "?page="+data.last_page;
-                            HoldOn.close();
-                            vm.busqueda = false;
-                        },
-                        error: function (respuesta) {
-                            HoldOn.close();
-                        }
-                    });
-                }
+        },
+        watch:{
+            lista:function(){
+                $('[data-toggle="tooltip"]').tooltip();
             }
-        });
+        },
+        methods:{
+            detalle: function(id)
+            {
+                var url = "{{route('asientocompradetalles.buscar')}}";
 
-        $(document).ready(function(){
-
-            $("input:text[name=telefono]").mask("00000000000000000000");
-            $('[data-toggle="tooltip"]').tooltip();
-
-            vm.buscar();
-
-            $("#eliminar-1").click(function(){
-                var id = $("input:hidden[name=id_seleccionado]").val();
-                var urlDelete = "{{route('articulos.eliminar')}}";
-                var token = $("input:hidden[name=_token]").val();
-                cargando("sk-folding-cube",'Guardando...');
                 $.ajax({
-                    type: "Post",
-                    url : urlDelete,
-                    data: "id="+id+"&_token="+token,
-                    success: function(respuesta)
-                    {
+                    url: url,
+                    method: 'GET',
+                    data: "id="+id,
+                    success: function (data) {
+                        console.log(data);
+                        vm.lista_detalle = data;
                         HoldOn.close();
-                        $("#pregunta-1").modal("hide");
-                        $("#contenido-modal-1").html("Se ha eliminado el articulo");
-                        $("#confirmacion-1").modal(function(){show:true});
-                        location.href = "{{ Route('master',3) }}";
-
+                    },
+                    error: function (respuesta) {
+                        HoldOn.close();
                     }
                 });
-            });
 
-        });
+                $("#myModalDetalle").modal();
 
-    </script>
+            },
+            buscar: function(url){
+                $("#message-confirmation").addClass("hidden");
+                if(url == undefined)
+                    var url = "{{route('asientocompras.buscar')}}" + "?" + "page=1";
+
+                var asiento_compra = this.asiento_compra;
+                asiento_compra._token = this.token;
+
+                cargando('sk-circle','Buscando');
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: "json",
+                    assync: true,
+                    data: asiento_compra,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
+                        vm.lista = data.data;
+                        vm.first = "{{route('asientocompras.buscar')}}" + "?page=1";
+                        vm.next = data.next_page_url;
+                        if(data.total <= "{{ env('APP_CANT_PAGINATE',10) }}")
+                        {
+                            $("#next").addClass("hidden");
+                            $("#first").addClass("hidden");
+                            $("#prev").addClass("hidden");
+                            $("#last").addClass("hidden");
+                        }
+                        else
+                        {
+                            $("#next").removeClass("hidden");
+                            $("#first").removeClass("hidden");
+                            $("#prev").removeClass("hidden");
+                            $("#last").removeClass("hidden");
+                        }
+
+                        vm.prev = data.prev_page_url;
+                        vm.last = "{{route('asientocompras.buscar')}}" + "?page="+data.last_page;
+                        HoldOn.close();
+                        vm.busqueda = false;
+                    },
+                    error: function (respuesta) {
+                        HoldOn.close();
+                    }
+                });
+            }
+        }
+    });
+
+    $(document).ready(function(){
+
+        $("input:text[name=telefono]").mask("00000000000000000000");
+        $('[data-toggle="tooltip"]').tooltip();
+
+        vm.buscar();
+    });
+
+</script>
 
 
 @endsection
@@ -166,9 +156,7 @@
                 <td>@{{ registro.sucursal.nombre }}</td>
                 <td>@{{ registro.nro_factura }}</td>
                 <td>
-                    @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3,5)))
-                        <a data-toggle="tooltip" data-placement="top" target="_blank"  title='Control de stock' href="{{route('articulos.index')}}/control/@{{ registro.id }}"><i class='glyphicon glyphicon-search' ></i></a>
-                    @endif
+                    <a data-toggle="tooltip" data-placement="top"  title='ver' style="cursor: pointer" @click='detalle(registro.id)' ><i class='glyphicon glyphicon-search' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -176,11 +164,42 @@
         <label id="pagina_actual" class="pull-right" >@{{ pagina_actual }}</label>
     </div>
     <h2 v-show="busqueda == false && lista.length == 0">No se encontraron resultados</h2>
-    <!--<div class="col-md-12">
-        <a href="{!! route('proveedores.exportarPDF')!!}" target="_blank"><button class="btn btn-success pull-right" style="margin-left: 10px">Listado de artículos</button></a>
-        <a href="{!! route('proveedores.exportarListadoClientesPDF')!!}" target="_blank"><button class="btn btn-success pull-right" style="margin-left: 10px">Listado para clientes</button></a>
-        <a href="{!! route('proveedores.exportarConStockPDF')!!}" target="_blank"><button class="btn btn-success pull-right">Listado con stock</button></a>
-    </div>-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalDetalle" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Asiento de compra detalle</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
+                        <thead>
+                        <tr>
+                            <th>Cod</th>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="table">
+                        <tr v-for="registro in lista_detalle" class="@{{ registro.deleted_at ? 'inactivo' : '' }}">
+                            <td>@{{ registro.articulo.cod }}</td>
+                            <td>@{{ registro.articulo.descripcion }}</td>
+                            <td>@{{ registro.cantidad }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     @include('components.modal',['accion' => 'Eliminar','id' => 1])
 
 @endsection

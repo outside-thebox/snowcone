@@ -85,7 +85,7 @@
 
                     this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
                     this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
-
+                    console.log(this.form);
                     $("#message-confirmation").addClass("hidden");
                     if((this.form.proveedor_id)&&(this.form.sucursal_conexion))
                         var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id="+this.form.proveedor_id+"&conexion="+this.form.sucursal_conexion;

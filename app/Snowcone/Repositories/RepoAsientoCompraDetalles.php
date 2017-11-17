@@ -43,7 +43,7 @@ class RepoAsientoCompraDetalles extends Repo
 
         $model = $model->where('asiento_compra_id',$asiento_compra_id);
 
-        $model = $model->get();
+        $model = $model->with('articulo')->get();
 
         return $model;
     }
