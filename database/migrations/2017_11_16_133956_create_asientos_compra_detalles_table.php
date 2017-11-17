@@ -17,6 +17,8 @@ class CreateAsientosCompraDetallesTable extends Migration
             $table->increments('id');
             $table->integer('asiento_compra_id')->unsigned();
             $table->integer('articulo_id')->unsigned();
+            $table->integer('cod');
+            $table->string('descripcion',250);
             $table->integer('cantidad');
             $table->timestamps();
             $table->softDeletes();
