@@ -81,6 +81,10 @@
                         }
                     });
                 },
+                limpiar: function()
+                {
+                    vm.lista = [];
+                },
                 buscar: function(url){
 
                     $("#message-confirmation").addClass("hidden");
@@ -150,12 +154,12 @@
 
             <div class="form-group ">
                 <label for="proveedor_id" class="control-label">Proveedor</label>
-                <select class="form-control" name="form.proveedor_id" v-model="form.proveedor_id" required="required">
+                <select class="form-control" name="form.proveedor_id" v-model="form.proveedor_id" required="required" v-on:change="limpiar">
                     <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
                 </select>
             </div>
             {{ Form::label('sucursal','Sucursal') }}
-            <select class="form-control" name="sucursal" v-model="form.sucursal" >
+            <select class="form-control" name="sucursal" v-model="form.sucursal" v-on:change="limpiar">
                 <option selected value="" >Seleccione</option>
                 <option v-for="(index, sucursal) in sucursales" value="@{{index }}" >@{{ sucursal.nombre }}</option>
             </select>
