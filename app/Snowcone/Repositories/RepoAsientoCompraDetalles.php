@@ -35,6 +35,7 @@ class RepoAsientoCompraDetalles extends Repo
         $data['cantidad'] = $dato['cantidad'];
         $data['cod'] = $dato['cod'];
         $data['descripcion'] = $dato['descripcion'];
+        $data['precio'] = $dato['precio'];
         return $data;
     }
 

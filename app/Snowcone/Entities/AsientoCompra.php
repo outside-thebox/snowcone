@@ -19,7 +19,7 @@ class AsientoCompra extends Model
     use AuditingTrait;
 
     protected $table = 'asiento_compras';
-    protected $fillable = ['id','proveedor_id','sucursal_id','nro_factura','user_id','created_at','updated_at'];
+    protected $fillable = ['id','proveedor_id','sucursal_id','nro_factura','total','user_id','created_at','updated_at'];
 
     public function proveedor()
     {
