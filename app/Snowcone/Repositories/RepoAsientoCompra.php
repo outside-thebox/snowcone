@@ -69,7 +69,7 @@ class RepoAsientoCompra extends Repo
         if(isset($datos['sucursal_id']))
             $model = $model->where('sucursal_id',$datos['sucursal_id']);
         if(isset($datos['fecha']))
-            $model = $model->where('created_at',$datos['fecha']);
+            $model = $model->whereDate('created_at', '=', $datos['fecha']);
 
         $model = $model->with('sucursal','proveedor')->paginate(env('APP_CANT_PAGINATE',10));
 
