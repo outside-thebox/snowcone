@@ -80,7 +80,6 @@
                 $("#myModalDetalle").modal();
             },
             buscar: function(url){
-                console.log(this.asiento_compra)
                 $("#message-confirmation").addClass("hidden");
                 if(url == undefined)
                     var url = "{{route('asientocompras.buscar')}}" + "?" + "page=1&proveedor_id="+this.asiento_compra.proveedor_id+"&sucursal_id="+this.asiento_compra.sucursal_id+"&fecha="+this.asiento_compra.fecha;
