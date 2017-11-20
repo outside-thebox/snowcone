@@ -50,6 +50,7 @@ class RepoAsientoCompra extends Repo
         $data['sucursal_id'] = $dato['sucursal_id'];
         $data['proveedor_id'] = $dato['proveedor_id'];
         $data['nro_factura'] = $dato['nro_factura'];
+        $data['total'] = $dato['total'];
         $data['user_id'] = \Auth::user()->id;
         return $data;
     }
@@ -62,6 +63,13 @@ class RepoAsientoCompra extends Repo
     public function findAndPaginate(array $datos)
     {
         $model = $this->getModel();
+
+        if(isset($datos['proveedor_id']))
+            $model = $model->where('proveedor_id',$datos['proveedor_id']);
+        if(isset($datos['sucursal_id']))
+            $model = $model->where('sucursal_id',$datos['sucursal_id']);
+        if(isset($datos['fecha']))
+            $model = $model->whereDate('created_at', '=', $datos['fecha']);
 
         $model = $model->with('sucursal','proveedor')->paginate(env('APP_CANT_PAGINATE',10));
 

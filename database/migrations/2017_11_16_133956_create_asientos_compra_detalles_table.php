@@ -20,6 +20,8 @@ class CreateAsientosCompraDetallesTable extends Migration
             $table->integer('cod');
             $table->string('descripcion',250);
             $table->integer('cantidad');
+            $table->decimal('precio',10,2);
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -9,7 +9,8 @@
                     proveedor_id:'',
                     sucursal_conexion:'',
                     sucursal_id:'',
-                    nro_factura:''
+                    nro_factura:'',
+                    total:''
                 },
                 proveedores: [],
                 sucursales: [],
@@ -176,6 +177,8 @@
                 <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
                     <input class="form-control numeros" type="text" v-model="form.nro_factura" name="nro_factura" value="" >
+                    <label for="nro_factura" class="control-label">Total Factura</label>
+                    <input class="form-control numeros" type="text" v-model="form.total" name="total" value="" >
                     {!! Form::button("Guardar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'guardarAsientocompra()','v-show' => "form.nro_factura != ''" ]) !!}
                 </div>
                 <input type="hidden" name="proveedor_id" v-model="form.proveedor_id">
@@ -186,6 +189,7 @@
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
+                    <th>Precio</th>
                     <th>Cantidad</th>
                 </tr>
                 </thead>
@@ -196,6 +200,10 @@
                     <input type="hidden" name="row[@{{ index }}][cod]" value="@{{ registro.cod }}" >
                     <td>@{{ registro.descripcion }}</td>
                     <input type="hidden" name="row[@{{ index }}][descripcion]" value="@{{ registro.descripcion }}" >
+                    <td>
+                        <input type="number" maxlength="5" size="5" id="precio" name="row[@{{ index }}][precio]" />
+                    </td>
+
                     <td>
                         <input type="number" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
                     </td>
