@@ -158,11 +158,11 @@
         {{ method_field('PUT') }}
 
         <select class="form-control" name="sucursal" v-model="asiento_compra.proveedor_id" >
-            <option selected value="" >Seleccione</option>
+            <option selected value="" >Proveedores</option>
             <option v-for=" proveedor in proveedores" value="@{{proveedor.id }}" >@{{ proveedor.descripcion }}</option>
         </select>
         <select class="form-control" name="sucursal" v-model="asiento_compra.sucursal_id" >
-                <option selected value="" >Seleccione</option>
+                <option selected value="" >Sucursales</option>
                 <option v-for=" sucursal in sucursales" value="@{{sucursal.id }}" >@{{ sucursal.nombre }}</option>
         </select>
 
