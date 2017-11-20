@@ -240,7 +240,7 @@
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
-                    <th>Subtotal</th>
+                    <th>Precio unitario</th>
                     <th>Cantidad</th>
                 </tr>
                 </thead>
