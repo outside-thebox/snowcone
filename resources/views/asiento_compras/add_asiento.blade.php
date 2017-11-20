@@ -2,6 +2,18 @@
 
 @section('scripts')
     <script>
+        function calcularTotal()
+        {
+            vm.form.total = 0;
+            for (var key in vm.precios) {
+                if(vm.precios[key])
+                {
+                    vm.form.total += parseFloat(vm.precios[key]) * parseInt(vm.cantidades[key]);
+                }
+            }
+
+        }
+
         vm = new Vue({
             el: '#main',
             data:{
@@ -16,6 +28,7 @@
                 sucursales: [],
                 lista: [],
                 precios: [],
+                cantidades: [],
                 precio_total: 0,
                 busqueda: true,
                 id_seleccionado: 0,
@@ -28,13 +41,11 @@
                 },
                 precios:function()
                 {
-                    vm.form.total = 0;
-                    for (var key in vm.precios) {
-                        if(vm.precios[key])
-                        {
-                            vm.form.total += parseFloat(vm.precios[key]);
-                        }
-                    }
+                    calcularTotal();
+                },
+                cantidades:function()
+                {
+                    calcularTotal();
                 }
             },
             methods:{
@@ -229,7 +240,7 @@
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
-                    <th>Precio</th>
+                    <th>Subtotal</th>
                     <th>Cantidad</th>
                 </tr>
                 </thead>
@@ -250,7 +261,7 @@
                     </td>
 
                     <td>
-                        <input type="number" class="form-control" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
+                        <input type="number" class="form-control" maxlength="5" size="5" value="0" id="cantidad" name="row[@{{ index }}][cantidad]" v-model="cantidades[index]" />
                     </td>
                 </tr>
                 </tbody>
