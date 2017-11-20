@@ -18,7 +18,8 @@ class Controller extends BaseController
         4 => 'presupuesto.index',
         5 => 'caja.index',
         6 => 'presupuesto.index',
-        7 => 'caja.index'
+        7 => 'caja.index',
+        8 => 'asientocompras.index'
     ];
 
 

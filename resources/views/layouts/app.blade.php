@@ -90,35 +90,52 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     @if (!Auth::guest())
+
                         @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('users.index') }}">Usuarios</a></li>
-                        </ul>
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('users.index') }}">Usuarios</a></li>
+                            </ul>
                         @endif
                         @if(in_array(Auth::user()->tipo_usuario_id, array(1)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('sucursales.index') }}">Sucursales</a></li>
-                        </ul>
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('sucursales.index') }}">Sucursales</a></li>
+                            </ul>
                         @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,5)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
-                        </ul>
-                        @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('articulos.prices') }}">Stock artículos</a></li>
-                        </ul>
-                        @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3,4)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
-                        </ul>
-                        @endif
-                        @if(in_array(Auth::user()->tipo_usuario_id, array(1,3,2,5)))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ route('caja.index') }}">Caja</a></li>
-                        </ul>
+                        @if(env('APP_SERVER', 'false'))
+                            {{--                        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
+                            {{--<ul class="nav navbar-nav">--}}
+                                {{--<li><a href="{{ route('articulosxstock/traspasoMercaderia') }}">Traspaso de mercaderia</a></li>--}}
+                            {{--</ul>--}}
+                            @endif
+                            {{--@endif--}}
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('asientocompras.index') }}">Asiento de compras</a></li>
+                            </ul>
+                            @endif
+
+                        @else
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,5)))
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('articulos.index') }}">Artículos</a></li>
+                            </ul>
+                            @endif
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('articulos.prices') }}">Stock artículos</a></li>
+                            </ul>
+                            @endif
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3,4)))
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('presupuesto.index') }}">Presupuesto</a></li>
+                            </ul>
+                            @endif
+                            @if(in_array(Auth::user()->tipo_usuario_id, array(1,3,2,5)))
+                            <ul class="nav navbar-nav">
+                                <li><a href="{{ route('caja.index') }}">Caja</a></li>
+                            </ul>
+                            @endif
                         @endif
                     @endif
                     <!-- Right Side Of Navbar -->

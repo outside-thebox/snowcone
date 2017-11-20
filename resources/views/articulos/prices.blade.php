@@ -12,6 +12,8 @@
                     descripcion: '',
                     proveedor_id:''
                 },
+                sucursales:[],
+                conexion: '',
                 proveedores: [],
                 pagina_actual: 0,
                 first: '',
@@ -41,6 +43,21 @@
                         success: function (data) {
                             $.each(data,function(k,v){
                                 vm.proveedores.push({'id':v.id,'descripcion':v.descripcion});
+                            });
+                        }
+                    });
+                },
+                cargarSucursales: function()
+                {
+                    var url = "{{ Route('sucursales.all') }}";
+
+                    $.ajax({
+                        url: url,
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            $.each(data,function(k,v){
+                                vm.sucursales.push({'id':v.id,'nombre':v.nombre,'ip': v.ip,'conexion': v.conexion});
                             });
                         }
                     });
@@ -102,7 +119,7 @@
                     $("#message-confirmation").addClass("hidden");
 
                     if((this.articulo.descripcion.length > 0) || (this.articulo.cod > 0) || (this.articulo.proveedor_id ) )
-                        var url = "{{route('articulos.buscarxstockPrices')}}" + "?"+"descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod+"&proveedor_id="+this.articulo.proveedor_id;
+                        var url = "{{route('articulos.buscarxstockPrices')}}" + "?"+"descripcion="+this.articulo.descripcion+"&cod="+this.articulo.cod+"&proveedor_id="+this.articulo.proveedor_id+"&conexion="+this.conexion;
                     else
                     {
                         $("#contenido-modal-1").html("Complete los parametros de busqueda");
@@ -140,6 +157,7 @@
             $(".numeros").mask("000000");
             $('[data-toggle="tooltip"]').tooltip();
             vm.cargarProveedores();
+            vm.cargarSucursales();
 
         });
 
@@ -170,7 +188,11 @@
                 <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
             </select>
         </div>
-
+{{--        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
+        <select class="form-control" name="conexion" v-model="conexion" >
+            <option v-for="sucursal in sucursales" value="@{{ sucursal.conexion }}" >@{{ sucursal.nombre }}</option>
+        </select>
+        {{--@endif--}}
         {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 
     </div>
