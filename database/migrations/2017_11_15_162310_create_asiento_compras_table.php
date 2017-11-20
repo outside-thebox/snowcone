@@ -18,6 +18,7 @@ class CreateAsientoComprasTable extends Migration
             $table->integer('proveedor_id')->unsigned();
             $table->integer('sucursal_id')->unsigned();
             $table->integer('nro_factura')->unsigned();
+            $table->decimal('total',10,2);
             $table->integer('user_id');
             $table->timestamps();
             $table->softDeletes();

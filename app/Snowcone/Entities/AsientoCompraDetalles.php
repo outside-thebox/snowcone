@@ -21,7 +21,7 @@ class AsientoCompraDetalles extends Model
     use AuditingTrait;
 
     protected $table = 'asiento_compra_detalles';
-    protected $fillable = ['id','asiento_compra_id','articulo_id','cod','descripcion','cantidad','created_at','updated_at'];
+    protected $fillable = ['id','asiento_compra_id','articulo_id','cod','descripcion','cantidad','precio','created_at','updated_at'];
 
 //    public function articulo()
 //    {
