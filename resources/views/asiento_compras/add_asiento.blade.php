@@ -10,11 +10,13 @@
                     sucursal_conexion:'',
                     sucursal_id:'',
                     nro_factura:'',
-                    total:''
+                    total:0
                 },
                 proveedores: [],
                 sucursales: [],
                 lista: [],
+                precios: [],
+                precio_total: 0,
                 busqueda: true,
                 id_seleccionado: 0,
                 token: ''
@@ -23,6 +25,16 @@
             watch:{
                 lista:function(){
                     $('[data-toggle="tooltip"]').tooltip();
+                },
+                precios:function()
+                {
+                    vm.form.total = 0;
+                    for (var key in vm.precios) {
+                        if(vm.precios[key])
+                        {
+                            vm.form.total += parseFloat(vm.precios[key]);
+                        }
+                    }
                 }
             },
             methods:{
@@ -133,12 +145,32 @@
             }
         });
 
+        function calcularPrecioTotal()
+        {
+//            $('.calcular_precio_total').each(function(index,item){
+//                var name = "row["+index+"][precio]";
+//                var selector = "input:text[name="+name+"]";
+//                console.log(selector);
+//                console.log($(selector).val());
+//            });
+        }
+
         $(document).ready(function(){
 
             $(".numeros").mask("000000");
             $('[data-toggle="tooltip"]').tooltip();
             vm.cargarSucursales();
             vm.cargarProveedores();
+
+            $("form").keypress(function(e) {
+                if (e.which == 13) {
+                    return false;
+                }
+            });
+
+
+
+
         });
     </script>
 
@@ -170,15 +202,23 @@
     </div>
     @include('components.message-confirmation')
 
+    {{--<pre>--}}
+    {{--@{{ $data | json }}--}}
+    {{--</pre>--}}
     <div v-show="lista.length > 0">
 
-        <form name="frmaddasietocompra" method="post" id="frmaddasietocompra" >
+        <form name="frmaddasietocompra" method="post" id="frmaddasietocompra">
             <div class="row" style="margin-bottom: 20px">
                 <div class="form-inline col-md-12">
                     <label for="nro_factura" class="control-label">Numero de Factura</label>
-                    <input class="form-control numeros" type="text" v-model="form.nro_factura" name="nro_factura" value="" >
+                    <input class="form-control numeros" type="text" v-model="form.nro_factura" name="nro_factura" id="nro_factura" value="" >
                     <label for="nro_factura" class="control-label">Total Factura</label>
-                    <input class="form-control numeros" type="text" v-model="form.total" name="total" value="" >
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="fa fa-usd"></span>
+                        </span>
+                        <input class="form-control numeros" type="text" v-model="form.total" name="total" value="" readonly>
+                    </div>
                     {!! Form::button("Guardar Todo", ['type' => 'submit', 'class' => 'btn btn-primary pull-right','@click.prevent'=>'guardarAsientocompra()','v-show' => "form.nro_factura != ''" ]) !!}
                 </div>
                 <input type="hidden" name="proveedor_id" v-model="form.proveedor_id">
@@ -201,11 +241,16 @@
                     <td>@{{ registro.descripcion }}</td>
                     <input type="hidden" name="row[@{{ index }}][descripcion]" value="@{{ registro.descripcion }}" >
                     <td>
-                        <input type="number" maxlength="5" size="5" id="precio" name="row[@{{ index }}][precio]" />
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="fa fa-usd"></span>
+                            </span>
+                            <input type="number" class="calcular_precio_total form-control" maxlength="5" size="5" id="precio" v-model="precios[index]" name="row[@{{ index }}][precio]" />
+                        </div>
                     </td>
 
                     <td>
-                        <input type="number" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
+                        <input type="number" class="form-control" maxlength="5" size="5" id="cantidad" name="row[@{{ index }}][cantidad]" />
                     </td>
                 </tr>
                 </tbody>
