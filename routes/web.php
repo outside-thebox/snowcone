@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('traspaso-mercaderia',['uses' => 'ArticulosXStockController@traspasoMercaderia','as' => 'articulosxstock/traspasoMercaderia']);
     Route::get('asientocompras.buscar', ['uses' => 'AsientosComprasController@buscar', 'as' => 'asientocompras.buscar']);
     Route::get('asientocompradetalles.buscar', ['uses' => 'AsientoCompraDetallesController@buscar', 'as' => 'asientocompradetalles.buscar']);
+    Route::get('asientocompras.exportarPDF',['uses' => 'AsientosComprasController@exportarPDF','as' => 'asientocompras.exportarPDF']);
+    Route::get('asientocompras.exportardetallePDF', ['uses' => 'AsientosComprasController@exportardetallePDF', 'as' => 'asientocompras.exportardetallePDF']);
 
     Route::group(['middleware' => 'tipousuarios: 1'],function() {
 
