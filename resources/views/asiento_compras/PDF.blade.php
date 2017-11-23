@@ -24,13 +24,13 @@
     /*}*/
 
 </style>
-<table width="100%" class="letra table">
+<table width="100%" class=" table">
     <tr>
-        <td width="60%">Sucursal: {{ $sucursal }}</td>
+        <td width="60%"><strong>Sucursal: </strong>{{ $sucursal }}</td>
     </tr>
     <tr>
-        <td width="25%">Proveedor: {{ $proveedor}}</td>
-        <td width="15%">Fecha {{ $fecha }}</td>
+        <td width="25%"><strong>Proveedor:</strong> {{ $proveedor}}</td>
+        <td width="15%"><strong>Fecha</strong> {{ $fecha }}</td>
     </tr>
 </table>
 

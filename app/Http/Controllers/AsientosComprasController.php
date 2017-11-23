@@ -64,7 +64,7 @@ class AsientosComprasController extends Controller
             $proveedor = 'Todos';
         if($data['sucursal_id']) {
             $sucursal  = $this->repoSucursales->find($data['sucursal_id']);
-            $sucursal = $sucursal->descripcion;
+            $sucursal = $sucursal->nombre;
         }
         else
             $sucursal = 'Todos';
