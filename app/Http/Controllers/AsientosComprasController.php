@@ -79,8 +79,9 @@ class AsientosComprasController extends Controller
     {
         $data = $request->all();
         $id = $data['id'];
+        $asiento = $this->repoAsientoCompra->find($id);
         $asientosdetalle = $this->repoAsientoCompraDetalles->buscarxasiento($id);
-        $pdf = \PDF::loadView('asiento_compras.detallePDF', compact("asientosdetalle","id"));
+        $pdf = \PDF::loadView('asiento_compras.detallePDF', compact("asientosdetalle","id",'asiento'));
         return $pdf->stream("Asientocomprasdetalle-".$id.".pdf");
 
     }

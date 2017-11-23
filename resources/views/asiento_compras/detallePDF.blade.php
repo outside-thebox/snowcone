@@ -11,21 +11,35 @@
     .center{
         text-align: center;
     }
-
+    .textoaling{
+        text-align: left;
+    }
     .table{
         border: solid black;
         border-width: 0 0 1px 0;
     }
+    .borde{
+        outline: thin solid;
+    }
 
 </style>
 
-<table width="100%" class="letra table">
+<table class="textoaling">
     <tr>
-        <td >Nro Asiento de Compra: {{ $id }}</td>
+        <th>Asiento de Compra nro:</th>
+        <td>{{ $id }}</td>
+    </tr>
+    <tr>
+        <th>Nro Factura:</th>
+        <td>{{ $asiento->nro_factura }}</td>
+    </tr>
+    <tr>
+        <th>Proveedor:</th>
+        <td>{{ $asiento->proveedor->descripcion }}</td>
     </tr>
 </table>
-<table width="100%" class="letra center" style="margin-top: 20px;">
-    <tr class="table">
+<table width="100%" class="center" style="margin-top: 20px;">
+    <tr class="letra borde table">
         <td>Cod</td>
         <th>Descripcion</th>
         <th>Cantidad</th>
@@ -33,14 +47,25 @@
         <th>Subtotal</th>
     </tr>
     @foreach($asientosdetalle as $registro)
-        <tr class="table">
+        <tr>
             <td>{{ $registro->cod }}</td>
-            <td>{{ $registro->descripcion }}</td>
+            <td class="textoaling">{{ $registro->descripcion }}</td>
             <td>{{ $registro->cantidad }}</td>
             <td>$ {{ $registro->precio }}</td>
             <td>$ {{ $registro->precio * $registro->cantidad }}</td>
 
         </tr>
     @endforeach
+
+    <tr class="borde">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="letra">Total</td>
+        <td>$ {{ $asiento->total }}</td>
+
+    </tr>
+
 </table>
+
 
