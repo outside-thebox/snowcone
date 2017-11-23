@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::post("users/reset_password", array('as' => 'users.reset_password', 'uses' => 'UsersController@resetPassword'));
         Route::post("users/desactivar", array('as' => 'users.desactivar', 'uses' => 'UsersController@desactivar'));
         Route::resource('users', 'UsersController');
+        Route::resource('ajustestock', 'AjusteStockController');
     });
 
     Route::group(['middleware' => 'tipousuarios: 1|2|3'],function() {
