@@ -26,16 +26,13 @@
 
 <table class="textoaling">
     <tr>
-        <th>Asiento de Compra nro:</th>
-        <td>{{ $id }}</td>
+        <td><strong>Asiento de Compra nro:</strong> {{ $id }}</td>
     </tr>
     <tr>
-        <th>Nro Factura:</th>
-        <td>{{ $asiento->nro_factura }}</td>
+        <td><strong>Nro Factura:</strong> {{ $asiento->nro_factura }}</td>
     </tr>
     <tr>
-        <th>Proveedor:</th>
-        <td>{{ $asiento->proveedor->descripcion }}</td>
+        <td><strong>Proveedor:</strong> {{ $asiento->proveedor->descripcion }}</td>
     </tr>
 </table>
 <table width="100%" class="center" style="margin-top: 20px;">
@@ -53,7 +50,6 @@
             <td>{{ $registro->cantidad }}</td>
             <td>$ {{ $registro->precio }}</td>
             <td>$ {{ $registro->precio * $registro->cantidad }}</td>
-
         </tr>
     @endforeach
 
@@ -63,7 +59,6 @@
         <td></td>
         <td class="letra">Total</td>
         <td>$ {{ $asiento->total }}</td>
-
     </tr>
 
 </table>
