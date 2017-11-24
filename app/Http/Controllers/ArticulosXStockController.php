@@ -83,8 +83,8 @@ class ArticulosXStockController extends Controller
     }
     public function datosinput(Request $request)
     {
-        $cont =0;
-//        dd($request->all());
+        $cont=0;
+        dd($request->all());
         if(!$this->repoBoleta->validarboleta($request['proveedor_id'],$request['nro_factura'])) {
             foreach ($request['row'] as $key => $item) {
                 if ($item['addstock'] > 0) {
@@ -169,6 +169,15 @@ class ArticulosXStockController extends Controller
             echo $VectorB[$i]."\n";
 
     }*/
+
+    public function update(Request $request)
+    {
+        $data = json_decode($request->get('data'))[0];
+
+        $this->repoStockXArticulos->updateStockRemoto($data);
+    }
+
+
 
     public function traspasoMercaderia()
     {

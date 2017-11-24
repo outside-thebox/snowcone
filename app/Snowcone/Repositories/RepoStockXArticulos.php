@@ -222,4 +222,18 @@ class RepoStockXArticulos extends Repo
 
     }
 
+    public function updateStockRemoto($data)
+    {
+        $model = $this->getModel($data->conexion);
+
+
+        $stockxarticulo = $model->find($data->stockxarticulos_id);
+        $stockxarticulo->stock = $data->stock;
+        $stockxarticulo->precio_compra = $data->precio_compra;
+        $stockxarticulo->precio_sugerido = $data->precio_sugerido;
+
+
+        $stockxarticulo->save();
+    }
+
 }

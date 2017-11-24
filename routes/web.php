@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('proveedores.exportarConStockPDF', ['uses' => 'ProveedoresController@exportarConStockPDF', 'as' => 'proveedores.exportarConStockPDF']);
     Route::get('sucursales.buscar', ['uses' => 'SucursalesController@buscar', 'as' => 'sucursales.buscar']);
     Route::get('articulosxstock.buscarxstock', ['uses' => 'ArticulosXStockController@buscarxstock', 'as' => 'articulos.buscarxstock']);
+    Route::post('articulosxstock.updateData', ['uses' => 'ArticulosXStockController@update', 'as' => 'articulosxstock.updateData']);
     Route::get('articulosxstock.buscarxstockPrices', ['uses' => 'ArticulosXStockController@buscarxstockPrices', 'as' => 'articulos.buscarxstockPrices']);
     Route::post('presupuesto.buscar', ['uses' => 'PresupuestoController@buscar', 'as' => 'presupuesto.buscar']);
     Route::get('articulos.buscar', ['uses' => 'ArticulosController@buscar', 'as' => 'articulos.buscar']);
