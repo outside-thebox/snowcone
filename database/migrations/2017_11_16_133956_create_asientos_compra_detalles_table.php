@@ -34,6 +34,6 @@ class CreateAsientosCompraDetallesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('asiento_compra_detalles');
     }
 }

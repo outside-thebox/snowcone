@@ -228,9 +228,9 @@ class RepoStockXArticulos extends Repo
 
 
         $stockxarticulo = $model->find($data->stockxarticulos_id);
-        $stockxarticulo->stock = $data->stock;
-        $stockxarticulo->precio_compra = $data->precio_compra;
-        $stockxarticulo->precio_sugerido = $data->precio_sugerido;
+        $stockxarticulo->stock = $data->stock_nuevo;
+        $stockxarticulo->precio_compra = $data->precio_compra_nuevo;
+        $stockxarticulo->precio_sugerido = $data->precio_sugerido_nuevo;
 
 
         $stockxarticulo->save();

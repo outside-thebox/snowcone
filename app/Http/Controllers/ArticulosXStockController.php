@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Snowcone\Repositories\RepoAjusteStock;
 use App\Snowcone\Repositories\RepoArticulos;
 use App\Snowcone\Repositories\RepoBoleta;
 use App\Snowcone\Repositories\RepoPresupuestoXArticulos;
@@ -21,19 +22,15 @@ class ArticulosXStockController extends Controller
     private $repoStockXArticulos;
     private $repoBoleta;
     private $repoPresupuestoXArticulos;
+    private $repoAjusteStock;
 
-    /**
-     * ArticulosXStockController constructor.
-     * @param RepoStockXArticulos $repoStockXArticulos
-     * @param RepoBoleta $repoBoleta
-     * @param RepoArticulos $repoArticulos
-     */
-    public function __construct(RepoStockXArticulos $repoStockXArticulos, RepoBoleta $repoBoleta, RepoArticulos $repoArticulos,RepoPresupuestoXArticulos $repoPresupuestoXArticulos)
+    public function __construct(RepoStockXArticulos $repoStockXArticulos, RepoBoleta $repoBoleta, RepoArticulos $repoArticulos,RepoPresupuestoXArticulos $repoPresupuestoXArticulos, RepoAjusteStock $repoAjusteStock)
     {
         $this->repoStockXArticulos = $repoStockXArticulos;
         $this->repoBoleta = $repoBoleta;
         $this->repoArticulos = $repoArticulos;
         $this->repoPresupuestoXArticulos = $repoPresupuestoXArticulos;
+        $this->repoAjusteStock = $repoAjusteStock;
     }
 
     public function prices()
@@ -175,6 +172,17 @@ class ArticulosXStockController extends Controller
         $data = json_decode($request->get('data'))[0];
 
         $this->repoStockXArticulos->updateStockRemoto($data);
+
+        $data = (array)$data;
+        $data['id'] = '';
+        $data['user_id'] = \Auth::user()->id;
+
+        $this->repoAjusteStock->createOrUpdate($data,$data['conexion']);
+
+        $this->repoAjusteStock->createOrUpdate($data);
+
+
+
     }
 
 

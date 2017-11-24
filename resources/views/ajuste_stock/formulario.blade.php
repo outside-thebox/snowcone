@@ -9,6 +9,8 @@
                 sucursales: [],
                 sucursal: '',
                 lista: [],
+                articulos_ids: [],
+                codigos_articulos: [],
                 articulos: [],
                 stockxarticulos: [],
                 precios_compra: [],
@@ -18,6 +20,7 @@
                 stocks: [],
                 stocks_anteriores: [],
                 id_seleccionado: '',
+                sucursal_seleccionada: '',
                 token: ''
             },
             methods:{
@@ -91,7 +94,7 @@
                     mensaje += "</table>";
 
 //                    console.log(precio_compra_anterior,precio_compra,precio_sugerido,stock);
-                    $("#pregunta-1").modal(function(){show:true});
+//                    $("#pregunta-1").modal(function(){show:true});
 
                     $("#contenido-pregunta-1").html("");
                     $("#contenido-pregunta-1").append(mensaje);
@@ -106,6 +109,8 @@
 
             $(".numeros").mask("9999999");
 
+            $(".precios").mask("99999999,99");
+
             vm.cargarSucursales();
 
             $("#eliminar-1").click(function(){
@@ -113,24 +118,31 @@
                 var data = [];
                 var element = vm.id_seleccionado;
                 data.push({'stockxarticulos_id' : vm.stockxarticulos[element],
-                    'precio_compra' : vm.precios_compra[element],
+                    'sucursal_id' : vm.sucursal_seleccionada[element],
+                    'cod' : vm.codigos_articulos[element],
+                    'articulo_id' : vm.articulos_ids[element],
+                    'descripcion' : vm.articulos[element],
+                    'precio_compra_nuevo' : vm.precios_compra[element],
                     'precio_compra_anterior' : vm.precios_compra_anteriores[element],
-                    'precio_sugerido' : vm.precios_sugeridos[element],
+                    'precio_sugerido_nuevo' : vm.precios_sugeridos[element],
                     'precio_sugerido_anterior' : vm.precios_sugeridos_anteriores[element],
-                    'stock' : vm.stocks[element],
+                    'stock_nuevo' : vm.stocks[element],
                     'stock_anterior' : vm.stocks_anteriores[element],
                     'conexion' : vm.sucursal
                 });
                 var url = "{{route('articulosxstock.updateData')}}";
 
-                cargando('sk-circle','Actualizando...');
+                cargando('sk-circle','Guardando...');
                 $.ajax({
                     url: url,
                     method: 'POST',
                     data: "data="+JSON.stringify(data)+"&_token="+vm.token,
                     assync: true,
                     success: function (data) {
+                        vm.buscar();
+                        $("#pregunta-1").modal("hide");
                         HoldOn.close();
+                        cargando('sk-circle','Recargando...');
                     },
                     error: function (respuesta) {
                         HoldOn.close();
@@ -182,7 +194,10 @@
             <tr v-for="(index, registro)  in lista">
 
                 <td>
+                    <input type="hidden" name="codigos_articulos[@{{ index }}]" v-model="codigos_articulos[index]" value="@{{ registro.cod }}">
+                    <input type="hidden" name="articulos_ids[@{{ index }}]" v-model="articulos_ids[index]" value="@{{ registro.articulo_id }}">
                     <input type="hidden" name="stockxarticulos[@{{ index }}]" v-model="stockxarticulos[index]" value="@{{ registro.id }}">
+                    <input type="hidden" name="sucursal_seleccionada[@{{ index }}]" v-model="sucursal_seleccionada[index]" value="@{{ registro.sucursal_id }}">
                     @{{ registro.cod }}
                 </td>
                 <td>
@@ -198,7 +213,7 @@
                         <span class="input-group-addon">
                             <span class="fa fa-usd"></span>
                         </span>
-                        <input class="form-control" maxlength="5" size="8" v-model="precios_compra[index]" name="row[@{{ index }}][precio]" value="@{{ registro.precio_compra }}" />
+                        <input class="form-control precios" maxlength="8" size="8" v-model="precios_compra[index]" name="row[@{{ index }}][precio]" value="@{{ registro.precio_compra }}" />
                     </div>
                 </td>
                 <td>
@@ -210,7 +225,7 @@
                         <span class="input-group-addon">
                             <span class="fa fa-usd"></span>
                         </span>
-                        <input class="form-control" maxlength="5" size="8" v-model="precios_sugeridos[index]" name="row[@{{ index }}][precio]" value="@{{ registro.precio_sugerido }}" />
+                        <input class="form-control precios" maxlength="8" size="8" v-model="precios_sugeridos[index]" name="row[@{{ index }}][precio]" value="@{{ registro.precio_sugerido }}" />
                     </div>
                 </td>
                 <td v-if="registro.stock != null">

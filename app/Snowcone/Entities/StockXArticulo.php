@@ -31,5 +31,24 @@ Class StockXArticulo extends Model{
         return $this->hasOne('App\Snowcone\Entities\Sucursal','id','sucursal_id');
     }
 
+    public function getPrecioCompraAttribute()
+    {
+        return str_replace(".",",",$this->attributes['precio_compra']);
+    }
+
+    public function getPrecioSugeridoAttribute()
+    {
+        return str_replace(".",",",$this->attributes['precio_sugerido']);
+    }
+
+    public function setPrecioCompraAttribute($value)
+    {
+        $this->attributes['precio_compra'] = floatval(str_replace(",",".",$value));
+    }
+
+    public function setPrecioSugeridoAttribute($value)
+    {
+        $this->attributes['precio_sugerido'] = floatval(str_replace(",",".",$value));
+    }
 
 }
