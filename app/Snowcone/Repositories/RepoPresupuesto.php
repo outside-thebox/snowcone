@@ -32,7 +32,7 @@ class RepoPresupuesto extends Repo
         $data['id'] = '';
         $data['sucursal_id'] = env('APP_SUCURSAL',1);
         $data['cliente'] = $cliente;
-        $data['precio_total'] = $precio_total;
+        $data['precio_total'] = floatval(str_replace(",",".",$precio_total));
         $data['user_id'] = \Auth::user()->id;
 
         return $data;
@@ -52,6 +52,7 @@ class RepoPresupuesto extends Repo
     {
         $presupuesto = $this->createOrUpdate($this->prepareData($cliente,$precio_total));
 
+//        dd($presupuesto);
         foreach($lista as $l)
         {
             $data = $this->getRepoPresupuestoXArticulos()->prepareData($presupuesto['id'],$l);

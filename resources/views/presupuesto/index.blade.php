@@ -119,10 +119,11 @@
                         item.nombre = vm.articulo_seleccionado.descripcion;
                         item.cantidad = vm.presupuesto.cant;
                         item.precio_unitario = vm.articulo_seleccionado.precio_compra;
-                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_compra) * parseFloat(vm.presupuesto.cant)).toFixed(2);
+                        item.subtotal = (parseFloat(vm.articulo_seleccionado.precio_compra.replace(',','.')) * parseFloat(vm.presupuesto.cant));
                         vm.lista_presupuesto.push(item);
-                        vm.precio_total = ((parseFloat(vm.precio_total))+(parseFloat(item.subtotal)));
-
+                        console.log(vm.precio_total,item.subtotal);
+                        vm.precio_total = ((parseFloat(vm.precio_total.toString().replace(',','.')))+(parseFloat(item.subtotal)));
+                        vm.precio_total = vm.precio_total.toString().replace(".",",");
                         vm.presupuesto.cod = '';
                         vm.presupuesto.cant = 1;
                         $("#cant").val(1);
@@ -136,9 +137,10 @@
                 },
                 eliminar: function(item)
                 {
+                    console.log(vm.precio_total,item.subtotal);
                     vm.lista_ingresados.$remove(item.cod);
                     vm.lista_presupuesto.$remove(item);
-                    vm.precio_total = ((parseFloat(vm.precio_total))-(parseFloat(item.subtotal)));
+                    vm.precio_total = ((parseFloat(vm.precio_total.replace(",",".")))-(parseFloat(item.subtotal)));
                     vm.buscar();
 
                 },

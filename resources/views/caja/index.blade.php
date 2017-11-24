@@ -40,42 +40,6 @@
                 presupuestosxarticulos:[],
                 precio_total: '',
                 boton_cobrar: false
-//                lista_presupuestos:[{"nro_presupuesto":"13","cliente":"Lucas Matias Sisi","total":"650","fecha":"",
-//                    "estado":{"cod":"0","descripcion":"No Cobrado"},
-//                    "articulos":[
-//                        {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-//                        {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-//                        {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-//                    ]},
-//                    {"nro_presupuesto":"1351","cliente":"Lucas","total":"650","fecha":"",
-//                        "estado":{"cod":"0","descripcion":"No Cobrado"},
-//                        "articulos":[
-//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-//                        ]},
-//                    {"nro_presupuesto":"1310","cliente":"Carlos","total":"650","fecha":"",
-//                        "estado":{"cod":"1","descripcion":"Cobrado"},
-//                        "articulos":[
-//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-//                        ]},
-//                    {"nro_presupuesto":"1300","cliente":"Juan","total":"650","fecha":"",
-//                        "estado":{"cod":"1","descripcion":"Cobrado"},
-//                        "articulos":[
-//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-//                        ]},
-//                    {"nro_presupuesto":"1388","cliente":"Pedro","total":"650","fecha":"",
-//                        "estado":{"cod":"1","descripcion":"Cobrado"},
-//                        "articulos":[
-//                            {"id":"1","cod":"1","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"5","precio_sugerido":"35"},
-//                            {"id":"30","cod":"30","descripcion":"38279 Spencer Corners","cantidad":"3","precio_sugerido":"95"},
-//                            {"id":"20","cod":"40","descripcion":"180 Jordy CourtGoodwinhaven, NC 86083","cantidad":"4","precio_sugerido":"70"},
-//                        ]},
-//                ],
             },
             watch:{
                 lista:function(){
@@ -164,10 +128,11 @@
                 },
                 pagar:function () {
                     cargando('sk-circle','Buscando');
-                    //console.log(vm.presupuesto_seleccionado.total);
                     //vm.caja.supago = '';
-                    if(parseFloat(vm.caja.supago) >= parseFloat(vm.presupuesto_seleccionado.precio_total) ){
-                        vm.caja.vuelto = (vm.caja.supago - vm.presupuesto_seleccionado.precio_total).toFixed(2);
+                    if(parseFloat(vm.caja.supago) >= parseFloat(vm.presupuesto_seleccionado.precio_total.toString().replace(',','.')) ){
+                        console.log(vm.caja.supago,vm.presupuesto_seleccionado.precio_total);
+                        vm.caja.vuelto = (vm.caja.supago - parseFloat(vm.presupuesto_seleccionado.precio_total.toString().replace(',','.')));
+                        vm.caja.vuelto = vm.caja.vuelto.toString().replace('.',',');
 //                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.cod = '1';
 //                        vm.lista_presupuestos[vm.presupuesto_seleccionado.key].estado.descripcion = 'Cobrado';
                         console.log(vm.presupuesto_seleccionado);

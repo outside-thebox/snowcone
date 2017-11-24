@@ -155,6 +155,7 @@
         $(document).ready(function(){
 
             $(".numeros").mask("000000");
+            $(".precios").mask("99999999,99");
             $('[data-toggle="tooltip"]').tooltip();
             vm.cargarProveedores();
             vm.cargarSucursales();
@@ -189,10 +190,11 @@
             </select>
         </div>
 {{--        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
-        <select class="form-control" name="conexion" v-model="conexion" >
-            <option v-for="sucursal in sucursales" value="@{{ sucursal.conexion }}" >@{{ sucursal.nombre }}</option>
-        </select>
-        {{--@endif--}}
+        @if(env('APP_SERVER', false))
+            <select class="form-control" name="conexion" v-model="conexion" >
+                <option v-for="sucursal in sucursales" value="@{{ sucursal.conexion }}" >@{{ sucursal.nombre }}</option>
+            </select>
+        @endif
         {{ Form::button('buscar',['class' => 'btn btn-info', '@click.prevent'=>'buscar()','autofocus' ]) }}
 
     </div>
@@ -227,7 +229,7 @@
                             <span class="input-group-addon">
                                 <span class="fa fa-usd"></span>
                                 </span>
-                            <input type="text"   name="row[@{{index}}][precio_compra]" value="@{{ registro.precio_compra }}" class="form-control" />
+                            <input type="text"   name="row[@{{index}}][precio_compra]" value="@{{ registro.precio_compra }}" class="form-control precios" />
                         </div>
                     </td>
                     <td>
@@ -235,7 +237,7 @@
                             <span class="input-group-addon">
                                 <span class="fa fa-usd"></span>
                                 </span>
-                            <input type="text"   name="row[@{{index}}][precio_sugerido]" value="@{{ registro.precio_sugerido }}" class="form-control" />
+                            <input type="text"   name="row[@{{index}}][precio_sugerido]" value="@{{ registro.precio_sugerido }}" class="form-control precios" />
                         </div>
                     </td>
                     <td v-if="registro.stock != null">

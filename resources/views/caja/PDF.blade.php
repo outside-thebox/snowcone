@@ -38,7 +38,7 @@
         <td >Correspondiente a la heladeria: {{ $sucursal->nombre }}</td>
     </tr>
     <tr>
-        <td>TOTAL EN PESOS: ${{ $caja->total }}</td>
+        <td>TOTAL EN PESOS: ${{ str_replace(".",",",$caja->total) }}</td>
     </tr>
     <tr>
         <td>TOTAL DE PRESUPUESTOS COBRADOS: {{ $caja->cantidad }}</td>

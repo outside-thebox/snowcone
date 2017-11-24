@@ -126,9 +126,16 @@
         $(document).ready(function(){
 
             $(".numeros").mask("000000");
+            $(".precios").mask("99999999,99");
             $('[data-toggle="tooltip"]').tooltip();
 
             vm.cargarProveedores();
+
+            $("form").keypress(function(e) {
+                if (e.which == 13) {
+                    return false;
+                }
+            });
         });
     </script>
 
@@ -187,15 +194,15 @@
                             <span class="input-group-addon">
                                 <span class="fa fa-usd"></span>
                                 </span>
-                            <input type="text" size="5" name="row[@{{ index }}][precio_compra]" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control" />
+                            <input type="text" size="5" name="row[@{{ index }}][precio_compra]" id="precio_compra" value="@{{ registro.precio_compra }}" class="form-control precios" />
                         </div>
                     </td>
                     <td>
-                        <input type="text" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
+                        <input type="text" class="form-control" maxlength="5" size="5" name="stock@{{ registro.id }}" value="@{{ registro.stock }}" disabled />
                         <input type="hidden" name="row[@{{ index }}][stock]" value="@{{ registro.stock }}" />
                     </td>
                     <td>
-                        <input type="number" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
+                        <input type="number" class="form-control" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
                     </td>
                 </tr>
                 </tbody>

@@ -117,6 +117,12 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             vm.cargarProveedores();
+
+            $("form").keypress(function(e) {
+                if (e.which == 13) {
+                    return false;
+                }
+            });
         });
     </script>
 
@@ -182,7 +188,7 @@
                         <input type="hidden" name="row[@{{ index }}][stock]" value="@{{ registro.stock }}" />
                     </td>
                     <td>
-                        <input type="number" maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]" />
+                        <input type="number" class="form-control"  maxlength="5" size="5"  id="addstock" name="row[@{{ index }}][addstock]"/>
                     </td>
                 </tr>
                 </tbody>

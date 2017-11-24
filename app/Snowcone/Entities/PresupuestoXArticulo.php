@@ -38,4 +38,23 @@ Class PresupuestoXArticulo extends Model{
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
     }
 
+    public function getPrecioUnitarioAttribute()
+    {
+        return str_replace(".",",",$this->attributes['precio_unitario']);
+    }
+
+    public function setPrecioUnitarioAttribute($value)
+    {
+        $this->attributes['precio_unitario'] = floatval(str_replace(",",".",$value));
+    }
+
+    public function getSubtotalAttribute()
+    {
+        return str_replace(".",",",$this->attributes['subtotal']);
+    }
+
+    public function setSubtotalAttribute($value)
+    {
+        $this->attributes['subtotal'] = floatval(str_replace(",",".",$value));
+    }
 }

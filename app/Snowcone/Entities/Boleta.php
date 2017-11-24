@@ -48,4 +48,14 @@ class Boleta extends Model
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
     }
 
+
+    public function getPrecioCompraAttribute()
+    {
+        return str_replace(".",",",$this->attributes['precio_compra']);
+    }
+
+    public function setPrecioCompraAttribute($value)
+    {
+        $this->attributes['precio_compra'] = floatval(str_replace(",",".",$value));
+    }
 }

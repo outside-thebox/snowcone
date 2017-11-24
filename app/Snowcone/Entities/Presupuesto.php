@@ -23,6 +23,16 @@ Class Presupuesto extends Model{
     protected $fillable = ['sucursal_id','user_id','precio_total','cliente','estado_id','deleted_at','created_at','updated_at'];
 
 
+    public function getPrecioTotalAttribute()
+    {
+        return str_replace(".",",",$this->attributes['precio_total']);
+    }
+
+    public function setPrecioTotalAttribute($value)
+    {
+        $this->attributes['precio_total'] = floatval(str_replace(",",".",$value));
+    }
+
     public function getCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');

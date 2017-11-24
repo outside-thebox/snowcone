@@ -116,6 +116,7 @@ class RepoStockXArticulos extends Repo
         else
             $model = $this->getModel();
 
+//        dd($model);
 
 
         $model = $model->leftJoin("articulos","articulos.id","=","stockxarticulos.articulo_id");

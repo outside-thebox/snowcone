@@ -38,6 +38,8 @@ class PresupuestoController extends Controller
         $data = $request->all();
         $lista = json_decode($data['lista']);
 
+
+//        dd($data);
         if(is_object($model = $this->repoStockXArticulos->validateStock($lista)))
             return \Response()->json(['success' => false,'id' => $model->id,'descripcion' => $model->descripcion],404);
 
