@@ -7,6 +7,7 @@
  */
 
 namespace App\Snowcone\Entities;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +31,12 @@ Class AjusteStock extends Model{
     {
         return $this->belongsTo('App\User')->withTrashed();
     }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
+
 
 
 }

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Snowcone\Repositories\RepoAjusteStock;
 use Illuminate\Http\Request;
 
 class AjusteStockController extends Controller
 {
 
-    public function __construct()
-    {
+    private $repoAjusteStock;
 
+    public function __construct(RepoAjusteStock $repoAjusteStock)
+    {
+        $this->repoAjusteStock = $repoAjusteStock;
     }
 
     /**
@@ -19,8 +22,13 @@ class AjusteStockController extends Controller
      */
     public function index()
     {
-        return View('ajuste_stock.formulario');
+        return View('ajuste_stock.index');
         //
+    }
+
+    public function buscar(Request $request)
+    {
+        return $this->repoAjusteStock->findAndPaginate($request->all());
     }
 
     /**
@@ -30,7 +38,7 @@ class AjusteStockController extends Controller
      */
     public function create()
     {
-        //
+        return View('ajuste_stock.formulario');
     }
 
     /**

@@ -146,6 +146,7 @@
 
 @section('content')
 
+
     <h1>Asiento de Compras
         @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,3)))
             <a href="{!! route('asientocompras.create')!!}"><button class="btn btn-success pull-right">Agregar</button></a>

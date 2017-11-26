@@ -33,4 +33,19 @@ class RepoAjusteStock extends Repo
         $entity->save();
         return $entity;
     }
+
+    public function findAndPaginate(array $datos)
+    {
+        $model = $this->getModel();
+
+        if(isset($datos['sucursal_id']))
+            $model = $model->where('sucursal_id',$datos['sucursal_id']);
+        if(isset($datos['fecha']))
+            $model = $model->whereDate('created_at', '=', $datos['fecha']);
+
+        $model = $model->with('sucursal','user')->paginate(env('APP_CANT_PAGINATE',10));
+
+        return $model;
+
+    }
 }

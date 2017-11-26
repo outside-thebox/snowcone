@@ -20,7 +20,7 @@
                 stocks: [],
                 stocks_anteriores: [],
                 id_seleccionado: '',
-                sucursal_seleccionada: '',
+                sucursal_seleccionada: [],
                 token: ''
             },
             methods:{
@@ -139,10 +139,17 @@
                     data: "data="+JSON.stringify(data)+"&_token="+vm.token,
                     assync: true,
                     success: function (data) {
+                        console.log(element);
+//                        vm.precios_compra_anteriores[element] = vm.precios_compra[element];
+//                        vm.precios_sugeridos_anteriores[element] = vm.precios_sugeridos[element];
+//                        vm.stocks_anteriores[element] = vm.stocks[element];
+//                        vm.$forceUpdate();
                         vm.buscar();
-                        $("#pregunta-1").modal("hide");
                         HoldOn.close();
-                        cargando('sk-circle','Recargando...');
+                        cargando('sk-circle','Actualizando...');
+                        $("#pregunta-1").modal("hide");
+                        $("#contenido-modal-1").html("<strong>El cambio de stock se guardó correctamente</strong>");
+                        $("#confirmacion-1").modal(function(){show:true});
                     },
                     error: function (respuesta) {
                         HoldOn.close();

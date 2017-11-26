@@ -65,6 +65,8 @@ Route::group(['middleware' => 'auth'],function(){
         Route::post("users/desactivar", array('as' => 'users.desactivar', 'uses' => 'UsersController@desactivar'));
         Route::resource('users', 'UsersController');
         Route::resource('ajustestock', 'AjusteStockController');
+        Route::get('ajustestock.buscar', ['uses' => 'AjusteStockController@buscar', 'as' => 'ajuste_stock.buscar']);
+
     });
 
     Route::group(['middleware' => 'tipousuarios: 1|2|3'],function() {

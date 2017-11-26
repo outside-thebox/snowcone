@@ -179,7 +179,7 @@ class ArticulosXStockController extends Controller
 
         $this->repoAjusteStock->createOrUpdate($data);
 
-        $this->repoAjusteStock->createOrUpdate($data,$data[]);
+        $this->repoAjusteStock->createOrUpdate($data,$data['conexion']);
 
 
     }
