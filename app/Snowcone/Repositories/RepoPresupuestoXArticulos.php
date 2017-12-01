@@ -71,4 +71,21 @@ class RepoPresupuestoXArticulos extends Repo
 
         return $model->get();
     }
+
+    public function buscarPresupuestosSinCobrar()
+    {
+
+        $model = $this->getModel();
+
+        $model = $model->join("presupuestos","presupuestos.id","=","presupuestosxarticulos.presupuesto_id");
+
+        $model = $model->where("estado_id",1);
+
+        $model = $model->where("presupuestos.sucursal_id",ENV('APP_SUCURSAL',1));
+
+        return $model->get(['articulo_id','cantidad']);
+
+    }
+
+
 }

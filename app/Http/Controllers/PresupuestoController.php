@@ -51,6 +51,16 @@ class PresupuestoController extends Controller
     {
         $this->repoPresupuesto->updateEstado($request['id'],$request['estado_id']);
 
+        $presupuestosxarticulos = $this->repoPresupuestoXArticulos->presupuestoxarticulos($request['id']);
+
+//        dd($presupuestosxarticulos);
+
+        foreach($presupuestosxarticulos as $presupuestoxarticulos)
+        {
+            $this->repoStockXArticulos->updateStock($presupuestoxarticulos->articulo_id,$presupuestoxarticulos->cantidad);
+        }
+
+
         return \Response()->json(['success' => true], 200);
 
     }
@@ -75,7 +85,7 @@ class PresupuestoController extends Controller
     {
         if($this->repoPresupuesto->isPossible($request->get('id'),1))
         {
-            $this->devolverStock($request);
+//            $this->devolverStock($request);
             $this->repoPresupuesto->updateEstado($request->get('id'),3);
 
         }

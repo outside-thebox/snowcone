@@ -22,12 +22,6 @@ class ArticulosXStockController extends Controller
     private $repoBoleta;
     private $repoPresupuestoXArticulos;
 
-    /**
-     * ArticulosXStockController constructor.
-     * @param RepoStockXArticulos $repoStockXArticulos
-     * @param RepoBoleta $repoBoleta
-     * @param RepoArticulos $repoArticulos
-     */
     public function __construct(RepoStockXArticulos $repoStockXArticulos, RepoBoleta $repoBoleta, RepoArticulos $repoArticulos,RepoPresupuestoXArticulos $repoPresupuestoXArticulos)
     {
         $this->repoStockXArticulos = $repoStockXArticulos;
@@ -45,7 +39,26 @@ class ArticulosXStockController extends Controller
     {
         $array_missing = $this->repoStockXArticulos->getRecordsMissing();
         $this->repoStockXArticulos->addRecords($array_missing);
-        return $this->repoStockXArticulos->findAndPaginateStock($request->all());
+        $stockxarticulos = $this->repoStockXArticulos->findAndPaginateStock($request->all());
+
+        $presupuestosSinCobrar = $this->repoPresupuestoXArticulos->buscarPresupuestosSinCobrar();
+
+        foreach($presupuestosSinCobrar as $presupuestoSinCobrar)
+        {
+            foreach($stockxarticulos as $stockxarticulo)
+            {
+                if($presupuestoSinCobrar->articulo_id == $stockxarticulo->articulo_id)
+                {
+                    $stockxarticulo->stock = $stockxarticulo->stock - $presupuestoSinCobrar->cantidad;
+//                    break;
+                }
+            }
+        }
+
+
+        return $stockxarticulos;
+
+
     }
     public function buscarxstockPrices(Request $request)
     {
