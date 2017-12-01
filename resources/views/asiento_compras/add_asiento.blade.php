@@ -240,8 +240,8 @@
                 <tr>
                     <th>Cod</th>
                     <th>Descripción</th>
-                    <th>Precio unitario</th>
                     <th>Cantidad</th>
+                    <th>Precio unitario</th>
                 </tr>
                 </thead>
                 <tbody id="table">
@@ -252,16 +252,15 @@
                     <td>@{{ registro.descripcion }}</td>
                     <input type="hidden" name="row[@{{ index }}][descripcion]" value="@{{ registro.descripcion }}" >
                     <td>
+                        <input type="number" class="form-control" max = "5" maxlength="5" size="5" value="0" id="cantidad" name="row[@{{ index }}][cantidad]" v-model="cantidades[index]" />
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <span class="fa fa-usd"></span>
                             </span>
                             <input type="number" class="calcular_precio_total form-control" maxlength="5" size="5" id="precio" v-model="precios[index]" name="row[@{{ index }}][precio]" />
                         </div>
-                    </td>
-
-                    <td>
-                        <input type="number" class="form-control" maxlength="5" size="5" value="0" id="cantidad" name="row[@{{ index }}][cantidad]" v-model="cantidades[index]" />
                     </td>
                 </tr>
                 </tbody>
