@@ -189,8 +189,7 @@
                 <option v-for="proveedor in proveedores" value="@{{ proveedor.id }}" >@{{ proveedor.descripcion }}</option>
             </select>
         </div>
-{{--        @if($_SERVER['SERVER_ADDR'] == env("IP_SERVER_INTERNET","174.138.57.62"))--}}
-        @if(env('APP_SERVER', false))
+        @if(ENV('APP_SERVER',FALSE) == TRUE)
             <select class="form-control" name="conexion" v-model="conexion" >
                 <option v-for="sucursal in sucursales" value="@{{ sucursal.conexion }}" >@{{ sucursal.nombre }}</option>
             </select>

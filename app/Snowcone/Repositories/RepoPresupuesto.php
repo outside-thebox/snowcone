@@ -58,7 +58,7 @@ class RepoPresupuesto extends Repo
             $data = $this->getRepoPresupuestoXArticulos()->prepareData($presupuesto['id'],$l);
             $this->getRepoPresupuestoXArticulos()->createOrUpdate($data);
 
-            $this->getRepoStockXArticulos()->updateStock($l->id,$l);
+//            $this->getRepoStockXArticulos()->updateStock($l->id,$l);
         }
 
         return $presupuesto->id;
@@ -115,12 +115,12 @@ class RepoPresupuesto extends Repo
 //        dd($presupuestos_sin_cancelar);
         foreach($presupuestos_sin_cancelar as $presupuesto_sin_cancelar)
         {
-            $presupuesto = $this->find($presupuesto_sin_cancelar->id);
-            $presupuestoxarticulos = $this->getRepoPresupuestoXArticulos()->presupuestoxarticulos($presupuesto->id);
-            foreach($presupuestoxarticulos as $presupuestoxarticulo)
-            {
-                $this->getRepoStockXArticulos()->updateStockCancelPresupuesto($presupuestoxarticulo->articulo_id,$presupuestoxarticulo->cantidad);
-            }
+//            $presupuesto = $this->find($presupuesto_sin_cancelar->id);
+//            $presupuestoxarticulos = $this->getRepoPresupuestoXArticulos()->presupuestoxarticulos($presupuesto->id);
+//            foreach($presupuestoxarticulos as $presupuestoxarticulo)
+//            {
+//                $this->getRepoStockXArticulos()->updateStockCancelPresupuesto($presupuestoxarticulo->articulo_id,$presupuestoxarticulo->cantidad);
+//            }
             $this->updateEstado($presupuesto_sin_cancelar->id,3);
         }
 

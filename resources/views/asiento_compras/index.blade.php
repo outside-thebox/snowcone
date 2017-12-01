@@ -79,6 +79,9 @@
 
                 $("#myModalDetalle").modal();
             },
+            exportarPDF: function () {
+                var win = window.open("{{ Route('asientocompras.exportarPDF') }}?proveedor_id="+this.asiento_compra.proveedor_id+"&sucursal_id="+this.asiento_compra.sucursal_id+"&fecha="+this.asiento_compra.fecha, '_blank');
+            },
             buscar: function(url){
                 $("#message-confirmation").addClass("hidden");
                 if(url == undefined)
@@ -98,6 +101,8 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
+
+
                         vm.pagina_actual = 'Página '+ data.current_page + ' de '+ data.last_page + '. Cantidad de registros: ' + data.total;
                         vm.lista = data.data;
                         vm.first = "{{route('asientocompras.buscar')}}" + "?page=1";
@@ -177,6 +182,8 @@
 
     <div v-show="lista.length > 0">
         @include('components.buttons_paginate')
+        {{--<a href="{{ Route('asientocompras.exportarPDF') }}"><button class="btn btn-success pull-right">Exportar</button></a>--}}
+        {{ Form::button('Listado PDF',['class' => 'btn btn-info pull-right', '@click.prevent'=>'exportarPDF()','autofocus' ]) }}
         <table class="table responsive table-bordered table-hover table-striped" style="margin-top: 10px" >
             <thead>
             <tr>
@@ -197,6 +204,7 @@
                 <td>$ @{{ registro.total }}</td>
                 <td>
                     <a data-toggle="tooltip" data-placement="top"  title='ver' style="cursor: pointer" @click='detalle(registro.id)' ><i class='glyphicon glyphicon-search' ></i></a>
+                    <a data-toggle="tooltip" target="_blank" data-placement="top" style="cursor: pointer" title='Imprimir' href="{{ Route('asientocompras.exportardetallePDF')}}?id=@{{ registro.id }}"><i class='glyphicon glyphicon-print' ></i></a>
                 </td>
             </tr>
             </tbody>
@@ -221,8 +229,8 @@
                             <th>Cod</th>
                             <th>Descripcion</th>
                             <th>Cantidad</th>
-                            <th>Precio</th>
-
+                            <th>PrecioUnitario</th>
+                            <th>Subtotal</th>
                         </tr>
                         </thead>
                         <tbody id="table">
@@ -231,6 +239,7 @@
                             <td>@{{ registro.descripcion }}</td>
                             <td>@{{ registro.cantidad }}</td>
                             <td>$ @{{ registro.precio }}</td>
+                            <td>$ @{{ registro.precio * registro.cantidad }}</td>
                         </tr>
                         </tbody>
                     </table>
