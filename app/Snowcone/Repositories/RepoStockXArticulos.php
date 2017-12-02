@@ -172,6 +172,18 @@ class RepoStockXArticulos extends Repo
                 ->join('articulos','articulos.id','=','stockxarticulos.articulo_id')
                 ->where('stockxarticulos.id',$l->id)->first();
 
+            $repoPresupuestoxArticulos = new RepoPresupuestoXArticulos();
+            $presupuestosSinCobrar = $repoPresupuestoxArticulos->buscarPresupuestosSinCobrar();
+
+            foreach($presupuestosSinCobrar as $presupuestoSinCobrar)
+            {
+                if($presupuestoSinCobrar->articulo_id == $l->articulo_id)
+                {
+                    $model->stock = $model->stock - $presupuestoSinCobrar->cantidad;
+                }
+            }
+
+
             if($model->stock < $l->cantidad)
                 return $model;
 

@@ -184,6 +184,7 @@
                         {
                             $("#contenido-modal-1").html("No hay stock suficiente para el artículo " + respuesta.responseJSON.descripcion);
                             $("#confirmacion-1").modal(function(){show:true});
+                            HoldOn.close();
 
                         }
 
