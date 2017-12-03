@@ -82,7 +82,7 @@
                             }
 
                             vm.prev = data.prev_page_url;
-                            vm.last = "{{route('articulos.buscar')}}" + "?page="+data.last_page;
+                            vm.last = "{{route('articulos.buscarxstock')}}" + "?page="+data.last_page;
                             HoldOn.close();
                             vm.busqueda = false;
                         },
