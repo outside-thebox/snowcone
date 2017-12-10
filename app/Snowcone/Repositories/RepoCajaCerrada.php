@@ -68,7 +68,7 @@ class RepoCajaCerrada extends Repo {
 
         $model = $model->where('cajas_cerradas.sucursal_id',env('APP_SUCURSAL',1));
 
-//        $model = $model->where("fecha",date("Y-m-d"));
+        $model = $model->where("fecha",date("Y-m-d"));
 
         $model = $model->orderBy("cajas_cerradas.id","desc");
 
