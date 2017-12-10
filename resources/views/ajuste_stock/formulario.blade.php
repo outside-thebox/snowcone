@@ -40,7 +40,7 @@
                     });
                 },
                 buscar: function(url){
-                    var url = "{{route('articulos.buscarxstockPrices')}}" + "?"+"stock=true&conexion="+this.sucursal;
+                    var url = "{{route('articulos.buscarxstockPrices')}}" + "?"+"conexion="+this.sucursal;
 
                     cargando('sk-circle','Intentando acceder al servidor...');
                     $.ajax({

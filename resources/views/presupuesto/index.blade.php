@@ -92,7 +92,6 @@
                     });
                 },
                 add: function () {
-//                    console.log("hola");
                     vm.error = false;
                     if(vm.articulo_seleccionado.stock < vm.presupuesto.cant)
                     {
@@ -106,7 +105,11 @@
                         document.getElementById("cant").focus();
                         vm.error2 = true;
                     }
-
+                    else if(!$.isNumeric(vm.presupuesto.cant))
+                    {
+                        document.getElementById("cant").focus();
+                        vm.error2 = true;
+                    }
                     else if(vm.articulo_seleccionado != null)
                     {
                         var item = {};
@@ -127,6 +130,8 @@
                         vm.presupuesto.cod = '';
                         vm.presupuesto.cant = 1;
                         $("#cant").val(1);
+                        vm.error = false;
+                        vm.error2 = false;
 
                         vm.buscar();
 
