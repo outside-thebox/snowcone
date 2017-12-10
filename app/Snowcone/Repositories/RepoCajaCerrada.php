@@ -11,9 +11,16 @@ use App\Snowcone\Entities\CajaCerrada;
 
 class RepoCajaCerrada extends Repo {
 
-    function getModel()
+    function getModel($connection = null)
     {
-        return new CajaCerrada();
+        $model = new CajaCerrada();
+        if($connection)
+        {
+            $model->setConnection($connection);
+            return $model;
+        }
+
+        return $model;
     }
 
     public function prepareData()
@@ -29,11 +36,23 @@ class RepoCajaCerrada extends Repo {
 
     }
 
-    public function all()
+    public function find($id,$connection=null)
     {
-        $model = $this->getModel();
+        return $this->getModel($connection)->withTrashed()->find($id);
+    }
 
-        $model = $model->where('cajas_cerradas.sucursal_id',env('APP_SUCURSAL',1));
+    public function buscar($datos)
+    {
+//        dd($datos);
+        if(isset($datos['conexion']))
+            $model = $this->getModel($datos['conexion']);
+        else
+            $model = $this->getModel();
+
+        if($datos['fecha'])
+            $model = $model->where('cajas_cerradas.fecha',$datos['fecha']);
+
+//        $model = $model->where('cajas_cerradas.sucursal_id',env('APP_SUCURSAL',1));
 
         $model = $model->orderBy("cajas_cerradas.id","desc");
 
@@ -49,7 +68,7 @@ class RepoCajaCerrada extends Repo {
 
         $model = $model->where('cajas_cerradas.sucursal_id',env('APP_SUCURSAL',1));
 
-        $model = $model->where("fecha",date("Y-m-d"));
+//        $model = $model->where("fecha",date("Y-m-d"));
 
         $model = $model->orderBy("cajas_cerradas.id","desc");
 
@@ -59,13 +78,14 @@ class RepoCajaCerrada extends Repo {
         return $model;
     }
 
-    public function getTotal($id)
+    public function getTotal($id,$connection=null)
     {
-        $model = $this->getModel();
+        $model = $this->getModel($connection);
 
         $model = $model->join("presupuestos","presupuestos.caja_cerrada","=","cajas_cerradas.id");
 
-        $model = $model->where('presupuestos.sucursal_id',env('APP_SUCURSAL',1));
+        if($connection == null)
+            $model = $model->where('presupuestos.sucursal_id',env('APP_SUCURSAL',1));
 
         $model = $model->where("presupuestos.caja_cerrada",$id);
 
@@ -75,13 +95,14 @@ class RepoCajaCerrada extends Repo {
 
     }
 
-    public function getCantidad($id)
+    public function getCantidad($id,$connection=null)
     {
-        $model = $this->getModel();
+        $model = $this->getModel($connection);
 
         $model = $model->join("presupuestos","presupuestos.caja_cerrada","=","cajas_cerradas.id");
 
-        $model = $model->where('presupuestos.sucursal_id',env('APP_SUCURSAL',1));
+        if($connection == null)
+            $model = $model->where('presupuestos.sucursal_id',env('APP_SUCURSAL',1));
 
         $model = $model->where("presupuestos.caja_cerrada",$id);
 

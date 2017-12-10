@@ -68,6 +68,9 @@ Route::group(['middleware' => 'auth'],function(){
         Route::resource('users', 'UsersController');
         Route::resource('ajustestock', 'AjusteStockController');
         Route::get('ajustestock.buscar', ['uses' => 'AjusteStockController@buscar', 'as' => 'ajuste_stock.buscar']);
+        Route::get('cierres-caja', ['uses' => 'CajaController@cierres_caja_master', 'as' => 'caja.cierres-caja']);
+        Route::get('caja-all', ['uses' => 'CajaController@all', 'as' => 'caja.all']);
+        Route::get('caja/exportarPDF/{ID}/{SUCURSAL}',['uses' => 'CajaController@exportarPDF','as' => 'caja.exportarPDF']);
 
     });
 

@@ -119,6 +119,11 @@
                                 <li><a href="{{ route('ajustestock.index') }}">Ajuste de stock</a></li>
                             </ul>
                             @endif
+                                @if(in_array(Auth::user()->tipo_usuario_id, array(1,2)))
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="{{ route('caja.cierres-caja') }}">Cierres de cajas</a></li>
+                                    </ul>
+                                @endif
 
                         @else
                             @if(in_array(Auth::user()->tipo_usuario_id, array(1,2,5)))

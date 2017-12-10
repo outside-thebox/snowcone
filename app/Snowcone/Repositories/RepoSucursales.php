@@ -49,4 +49,6 @@ class RepoSucursales extends Repo {
     {
         return $this->getModel()->where('id','<>',1)->get();
     }
+
+
 }
