@@ -91,9 +91,14 @@ class RepoPresupuesto extends Repo
     public function updateEstado($id, $estado_id)
     {
         $presupuesto = $this->createOrUpdate(['id' => $id]);
-        $presupuesto->estado_id = $estado_id;
+        if($presupuesto->estado_id != $estado_id)
+        {
+            $presupuesto->estado_id = $estado_id;
+            $presupuesto->save();
+            return true;
+        }
+        return false;
 
-        $presupuesto->save();
 
     }
 

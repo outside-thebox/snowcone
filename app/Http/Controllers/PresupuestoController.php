@@ -51,16 +51,15 @@ class PresupuestoController extends Controller
 
     public function updateEstado(Request $request)
     {
-        $this->repoPresupuesto->updateEstado($request['id'],$request['estado_id']);
-
-        $presupuestosxarticulos = $this->repoPresupuestoXArticulos->presupuestoxarticulos($request['id']);
-
-//        dd($presupuestosxarticulos);
-
-        foreach($presupuestosxarticulos as $presupuestoxarticulos)
+        if($this->repoPresupuesto->updateEstado($request['id'],$request['estado_id']))
         {
-            $this->repoStockXArticulos->updateStock($presupuestoxarticulos->articulo_id,$presupuestoxarticulos->cantidad);
+            $presupuestosxarticulos = $this->repoPresupuestoXArticulos->presupuestoxarticulos($request['id']);
+            foreach($presupuestosxarticulos as $presupuestoxarticulos)
+            {
+                $this->repoStockXArticulos->updateStock($presupuestoxarticulos->articulo_id,$presupuestoxarticulos->cantidad);
+            }
         }
+
 
 
         return \Response()->json(['success' => true], 200);
