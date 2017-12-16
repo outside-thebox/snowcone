@@ -175,24 +175,25 @@
                 },
                 cobrar: function(){
 
+                    vm.boton_cobrar = false;
+                    cargando('sk-circle','Actualizando');
                     var lista_presupuesto = this.presupuesto_seleccionado;
                     lista_presupuesto._token = this.token;
                     lista_presupuesto.estado_id = 2;
-                    cargando('sk-circle','Actualizando');
                     $.ajax({
                         url: "{{ Route('presupuesto.updateEstado') }}",
                         method: 'POST',
                         data: "id="+vm.presupuesto_seleccionado.id+"&estado_id="+2+"&_token="+this.token,
                         dataType: "json",
                         success: function (data) {
-                            location.href = "{{ Route('master',5) }}";
+                             location.href = "{{ Route('master',5) }}";
 
                         },
                         error: function(respuesta)
                         {
                             $("#contenido-modal-1").html("No hay stock suficiente para el artículo " + respuesta.responseJSON.descripcion);
                             $("#confirmacion-1").modal(function(){show:true});
-
+                            vm.boton_cobrar = true;
                         }
 
                     });
@@ -383,7 +384,7 @@
             </div>
         </div>
     </div>
-    <a @click="cobrar()" data-toggle="tooltip" data-placement="top"  title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
+    <a @click="cobrar()" data-toggle="tooltip" data-placement="top" title='Pagar' class="btn btn-primary pull-right" v-show="boton_cobrar">Cobrar</a>
     @include('components.modal',['id' => 1,'accion' => 'Confirmar'])
     @include('components.modal',['id' => 2,'accion' => 'Confirmar'])
     @include('components.modal',['id' => 3,'accion' => 'Confirmar'])
