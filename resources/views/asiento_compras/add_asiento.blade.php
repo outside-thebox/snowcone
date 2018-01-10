@@ -112,46 +112,48 @@
                 buscar: function(url){
 
                     $("#message-confirmation").addClass("hidden");
-                    if((this.form.proveedor_id)&&(this.form.sucursal))
-                    {
-                        this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
-                        this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
-                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id=" + this.form.proveedor_id + "&conexion=" + this.form.sucursal_conexion;
-                    }
-                    else
+                    if((this.form.proveedor_id == "")||(this.form.sucursal == ""))
                     {
                         $("#contenido-modal-1").html("Complete los parametros de busqueda");
                         $("#confirmacion-1").modal(function(){show:true});
                     }
+                    else if((this.form.proveedor_id)&&(this.form.sucursal))
+                    {
+                        this.form.sucursal_conexion = vm.sucursales[this.form.sucursal].conexion;
+                        this.form.sucursal_id = vm.sucursales[this.form.sucursal].id;
+                        var url = "{{route('articulos.buscarxstockall')}}" + "?" + "proveedor_id=" + this.form.proveedor_id + "&conexion=" + this.form.sucursal_conexion;
 
-                    var form = this.form;
-                    form._token = this.token;
+                        var form = this.form;
+                        form._token = this.token;
 
-                    cargando('sk-circle','Intentando acceder al servidor...');
-                    $.ajax({
-                        url: url,
-                        method: 'GET',
-                        dataType: "json",
-                        assync: true,
-                        data: form,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (data)
-                        {
+                        cargando('sk-circle','Intentando acceder al servidor...');
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            dataType: "json",
+                            assync: true,
+                            data: form,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (data)
+                            {
 
-                            vm.lista = data;
-                            $('#btntodo').show();
-                            HoldOn.close();
-                            vm.busqueda = false;
-                        },
-                        error: function (respuesta) {
-                            vm.lista = [];
-                            HoldOn.close();
-                            $("#contenido-modal-1").html("<strong>La respuesta tardó demasiado tiempo, puede que el servidor esté apagado o no haya conexión a internet</strong>");
-                            $("#confirmacion-1").modal(function(){show:true});
-                        }
-                    });
+                                vm.lista = data;
+                                $('#btntodo').show();
+                                HoldOn.close();
+                                vm.busqueda = false;
+                            },
+                            error: function (respuesta) {
+                                vm.lista = [];
+                                HoldOn.close();
+                                $("#contenido-modal-1").html("<strong>La respuesta tardó demasiado tiempo, puede que el servidor esté apagado o no haya conexión a internet</strong>");
+                                $("#confirmacion-1").modal(function(){show:true});
+                            }
+                        });
+                    }
+
+                    
                 }
             }
         });
