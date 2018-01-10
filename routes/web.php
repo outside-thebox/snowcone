@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('cierres-caja', ['uses' => 'CajaController@cierres_caja_master', 'as' => 'caja.cierres-caja']);
         Route::get('caja-all', ['uses' => 'CajaController@all', 'as' => 'caja.all']);
         Route::get('caja/exportarPDF/{ID}/{SUCURSAL}',['uses' => 'CajaController@exportarPDF','as' => 'caja.exportarPDF']);
+        Route::resource('asientocompras', 'AsientosComprasController');
+        Route::resource('asientocompradetalles', 'AsientoCompraDetallesController');
 
     });
 
@@ -114,9 +116,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('caja/exportarPDF/{ID}',['uses' => 'CajaController@exportarPDF','as' => 'caja.exportarPDF']);
     });
 
-    Route::group(['middleware' => 'tipousuarios: 1'], function () {
-        Route::resource('asientocompras', 'AsientosComprasController');
-        Route::resource('asientocompradetalles', 'AsientoCompraDetallesController');
+    Route::group(['middleware' => 'tipousuarios: 1|2'], function () {
     });
 
 
